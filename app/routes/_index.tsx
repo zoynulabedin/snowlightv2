@@ -1168,11 +1168,16 @@ export default function HomePage() {
       {/* AudioPlayer Modal */}
       {previewAudio && (
         <AudioPlayer
-          src={previewAudio.src}
-          coverImage={previewAudio.coverImage}
+          src={previewAudio.audioUrl || ""}
+          coverImage={
+            previewAudio.coverImage || previewAudio.album?.coverImage || ""
+          }
           title={previewAudio.title}
-          artist={previewAudio.artist}
-          album={previewAudio.album}
+          artist={(previewAudio.artists ?? [])
+            .map((a) => a.artist?.stageName || a.artist?.name)
+            .join(", ")}
+          album={previewAudio.album?.title || ""}
+          id={previewAudio.id}
           onClose={() => setPreviewAudio(null)}
         />
       )}
