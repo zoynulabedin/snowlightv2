@@ -151,7 +151,7 @@ export default function Layout({ children, sidebarAlbums = [] }: LayoutProps) {
         <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
             <div>
-              <h3 className="font-bold text-red-600 mb-4">Bugs!</h3>
+              <h3 className="font-bold text-red-600 mb-4">Snowlight!</h3>
               <p className="text-gray-600">
                 음악으로 연결되는 세상, Snowlight!
               </p>
@@ -211,7 +211,7 @@ export default function Layout({ children, sidebarAlbums = [] }: LayoutProps) {
                   </button>
                 </li>
                 <li>
-                  <span>전화상담: 1588-1234</span>
+                  <span>전화상담: +447488818495</span>
                 </li>
               </ul>
             </div>
