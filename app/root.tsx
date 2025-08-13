@@ -11,7 +11,6 @@ import "./tailwind.css";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import { AuthProvider } from "./contexts/AuthContext";
-import AudioPlayer from "./components/AudioPlayer";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -49,10 +48,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     <Document>
       <AuthProvider>
         <LanguageProvider>
-          <PlayerProvider>
-            {children}
-            <AudioPlayer />
-          </PlayerProvider>
+          <PlayerProvider>{children}</PlayerProvider>
         </LanguageProvider>
       </AuthProvider>
     </Document>

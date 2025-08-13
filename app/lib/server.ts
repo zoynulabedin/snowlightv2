@@ -6,6 +6,21 @@ const prisma = new PrismaClient();
 export async function getAlbumById(id: string) {
   return await prisma.album.findUnique({
     where: { id },
+    include: {
+      songs: {
+        include: {
+          artists: { include: { artist: true } },
+          album: true,
+          uploadedBy: true,
+          videos: true,
+          favorites: true,
+          playlistItems: true,
+          uploads: true,
+        },
+      },
+      artists: { include: { artist: true } },
+      favorites: true,
+    },
   });
 }
 
@@ -22,8 +37,18 @@ export async function getLatestAlbums(limit = 8) {
       orderBy: { createdAt: "desc" },
       take: limit,
       include: {
-        artists: {
-          include: { artist: true },
+        artists: { include: { artist: true } },
+        favorites: true,
+        songs: {
+          include: {
+            artists: { include: { artist: true } },
+            album: true,
+            uploadedBy: true,
+            videos: true,
+            favorites: true,
+            playlistItems: true,
+            uploads: true,
+          },
         },
       },
     });
@@ -66,6 +91,8 @@ export async function getLatestAlbums(limit = 8) {
         genre: album.genre,
         plays: album.plays,
         likes: album.likes,
+        favorites: album.favorites,
+        songs: album.songs,
       };
     });
   } catch (error) {
@@ -77,31 +104,20 @@ export async function getLatestAlbums(limit = 8) {
 // Get most played songs for chart
 export async function getChartSongs(limit = 20) {
   try {
-    const songs = await prisma.song.findMany({
+    return await prisma.song.findMany({
       where: { isPublished: true, isApproved: true },
       orderBy: { plays: "desc" },
       take: limit,
       include: {
-        artists: {
-          include: { artist: true },
-        },
+        artists: { include: { artist: true } },
+        album: true,
+        uploadedBy: true,
+        videos: true,
+        favorites: true,
+        playlistItems: true,
+        uploads: true,
       },
     });
-
-    return songs.map((song, index) => ({
-      id: song.id,
-      rank: index + 1,
-      change: Math.random() > 0.5 ? 1 : Math.random() > 0.5 ? -1 : 0,
-      title: song.title,
-      artist: song.artists
-        .map((sa) => sa.artist.stageName || sa.artist.name)
-        .join(", "),
-      album: song.albumId ? "Album" : "Single",
-      imageUrl:
-        song.coverImage ||
-        `https://via.placeholder.com/40x40/4ecdc4/ffffff?text=${index + 1}`,
-      audioUrl: song.audioUrl,
-    }));
   } catch (error) {
     console.error("Error fetching chart songs:", error);
     return [];
@@ -116,13 +132,22 @@ export async function getLatestVideos(limit = 6) {
       orderBy: { createdAt: "desc" },
       take: limit,
       include: {
-        artists: {
-          include: { artist: true },
+        artists: { include: { artist: true } },
+        song: {
+          include: {
+            artists: { include: { artist: true } },
+            album: true,
+            uploadedBy: true,
+            videos: true,
+            favorites: true,
+            playlistItems: true,
+            uploads: true,
+          },
         },
       },
     });
 
-    return videos.map((video, index) => ({
+    return videos.map((video) => ({
       id: video.id,
       title: video.title,
       artist: video.artists
@@ -132,15 +157,17 @@ export async function getLatestVideos(limit = 6) {
         ? `${Math.floor(video.duration / 60)}:${(video.duration % 60)
             .toString()
             .padStart(2, "0")}`
-        : "3:45",
-      rating: "전체 관람가",
-      imageUrl:
-        video.thumbnailUrl ||
-        `https://via.placeholder.com/200x120/45b7d1/ffffff?text=Video${
-          index + 1
-        }`,
-      views: Math.floor(Math.random() * 1000000),
+        : "-",
+      thumbnailUrl: video.thumbnailUrl,
       videoUrl: video.videoUrl,
+      views: video.views,
+      likes: video.likes,
+      isFeatured: video.isFeatured,
+      isPublished: video.isPublished,
+      isApproved: video.isApproved,
+      createdAt: video.createdAt,
+      song: video.song,
+      artists: video.artists,
     }));
   } catch (error) {
     console.error("Error fetching latest videos:", error);
@@ -181,9 +208,13 @@ export async function getFeaturedSongs(limit = 8) {
       orderBy: { createdAt: "desc" },
       take: limit,
       include: {
-        artists: {
-          include: { artist: true },
-        },
+        artists: { include: { artist: true } },
+        album: true,
+        uploadedBy: true,
+        videos: true,
+        favorites: true,
+        playlistItems: true,
+        uploads: true,
       },
     });
 
@@ -196,6 +227,13 @@ export async function getFeaturedSongs(limit = 8) {
         song.coverImage ||
         `https://via.placeholder.com/150x150/96ceb4/ffffff?text=PD${index + 1}`,
       trackCount: 1,
+      artists: song.artists,
+      albumData: song.album,
+      uploadedBy: song.uploadedBy,
+      videos: song.videos,
+      favorites: song.favorites,
+      playlistItems: song.playlistItems,
+      uploads: song.uploads,
     }));
   } catch (error) {
     console.error("Error fetching featured songs:", error);
@@ -207,27 +245,227 @@ export async function getFeaturedSongs(limit = 8) {
 export async function getSidebarAlbums(limit = 15) {
   try {
     const albums = await prisma.album.findMany({
-      where: { isPublished: true, isApproved: true },
       orderBy: { createdAt: "desc" },
       take: limit,
-      select: {
-        id: true,
-        title: true,
-        coverImage: true,
+      include: {
         artists: {
           include: { artist: { select: { name: true, stageName: true } } },
+        },
+        favorites: true,
+        songs: {
+          include: {
+            artists: { include: { artist: true } },
+            album: true,
+            uploadedBy: true,
+            videos: true,
+            favorites: true,
+            playlistItems: true,
+            uploads: true,
+          },
         },
       },
     });
 
-    return albums.map((album) => ({
-      id: album.id,
-      title: album.title,
-      coverImage: album.coverImage,
-      artists: album.artists,
-    }));
+    return albums;
   } catch (error) {
     console.error("Error fetching sidebar albums:", error);
+    return [];
+  }
+}
+
+// Add song to playlist
+export async function addSongToPlaylist({
+  userId,
+  playlistId,
+  songId,
+}: {
+  userId: string;
+  playlistId: string;
+  songId: string;
+}) {
+  try {
+    // Check if already exists
+    const exists = await prisma.playlistItem.findFirst({
+      where: { playlistId, songId },
+    });
+    if (exists) return { error: "이미 플레이리스트에 있습니다." };
+    // Add to playlist
+    await prisma.playlistItem.create({
+      data: {
+        playlistId,
+        songId,
+        position: 0, // You may want to set position properly
+      },
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Error adding song to playlist:", error);
+    return { error: "플레이리스트 추가 실패" };
+  }
+}
+
+// Toggle song in playlist (add/remove)
+export async function toggleSongInPlaylist({
+  userId,
+  playlistId,
+  songId,
+}: {
+  userId: string;
+  playlistId: string;
+  songId: string;
+}) {
+  try {
+    const exists = await prisma.playlistItem.findFirst({
+      where: { playlistId, songId },
+    });
+    if (exists) {
+      await prisma.playlistItem.delete({ where: { id: exists.id } });
+      return { removed: true };
+    } else {
+      await prisma.playlistItem.create({
+        data: { playlistId, songId, userId, position: 0 },
+      });
+      return { added: true };
+    }
+  } catch (error) {
+    console.error("Error toggling song in playlist:", error);
+    return { error: "플레이리스트 토글 실패" };
+  }
+}
+
+// Download song (returns song info for download)
+export async function getSongDownloadInfo(songId: string) {
+  try {
+    const song = await prisma.song.findUnique({
+      where: { id: songId },
+      select: { id: true, title: true, audioUrl: true },
+    });
+    if (!song) return { error: "노래를 찾을 수 없습니다." };
+    return song;
+  } catch (error) {
+    console.error("Error getting song download info:", error);
+    return { error: "다운로드 정보 조회 실패" };
+  }
+}
+
+// Add song to favorites
+export async function addSongToFavorite({
+  userId,
+  songId,
+}: {
+  userId: string;
+  songId: string;
+}) {
+  try {
+    // Check if already exists
+    const exists = await prisma.favorite.findFirst({
+      where: { userId, songId },
+    });
+    if (exists) return { error: "이미 즐겨찾기에 있습니다." };
+    await prisma.favorite.create({
+      data: { userId, songId },
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Error adding song to favorite:", error);
+    return { error: "즐겨찾기 추가 실패" };
+  }
+}
+
+// Toggle song favorite (add/remove)
+export async function toggleSongFavorite({
+  userId,
+  songId,
+}: {
+  userId: string;
+  songId: string;
+}) {
+  try {
+    const exists = await prisma.favorite.findFirst({
+      where: { userId, songId },
+    });
+    if (exists) {
+      await prisma.favorite.delete({ where: { id: exists.id } });
+      return { removed: true };
+    } else {
+      await prisma.favorite.create({ data: { userId, songId } });
+      return { added: true };
+    }
+  } catch (error) {
+    console.error("Error toggling song favorite:", error);
+    return { error: "즐겨찾기 토글 실패" };
+  }
+}
+
+// Find favorites by userId
+export async function findFavoritesByUserId(userId: string) {
+  try {
+    return await prisma.favorite.findMany({ where: { userId } });
+  } catch (error) {
+    console.error("Error finding favorites by userId:", error);
+    return [];
+  }
+}
+
+// More actions placeholder (extend as needed)
+export async function songMoreActions({
+  songId,
+  userId,
+}: {
+  songId: string;
+  userId: string;
+}) {
+  // Implement custom logic for 'more' actions
+  return { success: true, message: "더보기 기능은 곧 제공됩니다." };
+}
+
+// Reusable function: get all playlists for a user
+export async function getUserPlaylists(userId: string) {
+  try {
+    return await prisma.playlist.findMany({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (error) {
+    console.error("Error fetching user playlists:", error);
+    return [];
+  }
+}
+
+// Reusable function: get playlist by id
+export async function getPlaylistById(playlistId: string) {
+  try {
+    return await prisma.playlist.findUnique({
+      where: { id: playlistId },
+      include: { items: true },
+    });
+  } catch (error) {
+    console.error("Error fetching playlist by id:", error);
+    return null;
+  }
+}
+
+// Reusable function: get playlist items for a playlist
+export async function getPlaylistItems(playlistId: string) {
+  try {
+    return await prisma.playlistItem.findMany({
+      where: { playlistId },
+      orderBy: { position: "asc" },
+    });
+  } catch (error) {
+    console.error("Error fetching playlist items:", error);
+    return [];
+  }
+}
+
+// Find playlist items by userId
+export async function findPlaylistItemsByUserId(userId: string) {
+  try {
+    return await prisma.playlistItem.findMany({
+      where: { userId },
+    });
+  } catch (error) {
+    console.error("Error finding playlist items by userId:", error);
     return [];
   }
 }

@@ -1,16 +1,16 @@
 import { useState, useRef, useEffect } from "react";
-import { 
-  Play, 
-  Pause, 
-  Volume2, 
-  VolumeX, 
-  Maximize, 
+import {
+  Play,
+  Pause,
+  Volume2,
+  VolumeX,
+  Maximize,
   Minimize,
   Settings,
   SkipBack,
   SkipForward,
   RotateCcw,
-  X
+  X,
 } from "lucide-react";
 
 interface VideoPlayerProps {
@@ -21,7 +21,13 @@ interface VideoPlayerProps {
   autoPlay?: boolean;
 }
 
-export default function VideoPlayer({ videoUrl, title, isVisible, onClose, autoPlay = false }: VideoPlayerProps) {
+export default function VideoPlayer({
+  videoUrl,
+  title,
+  isVisible,
+  onClose,
+  autoPlay = false,
+}: VideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(autoPlay);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -32,11 +38,16 @@ export default function VideoPlayer({ videoUrl, title, isVisible, onClose, autoP
   const [isLoading, setIsLoading] = useState(true);
   const [playbackRate, setPlaybackRate] = useState(1);
   const [showSettings, setShowSettings] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const controlsTimeoutRef = useRef<NodeJS.Timeout>();
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -48,34 +59,20 @@ export default function VideoPlayer({ videoUrl, title, isVisible, onClose, autoP
     const handleCanPlay = () => setIsLoading(false);
     const handleEnded = () => setIsPlaying(false);
 
-    video.addEventListener('timeupdate', updateTime);
-    video.addEventListener('loadedmetadata', updateDuration);
-    video.addEventListener('loadstart', handleLoadStart);
-    video.addEventListener('canplay', handleCanPlay);
-    video.addEventListener('ended', handleEnded);
+    video.addEventListener("timeupdate", updateTime);
+    video.addEventListener("loadedmetadata", updateDuration);
+    video.addEventListener("loadstart", handleLoadStart);
+    video.addEventListener("canplay", handleCanPlay);
+    video.addEventListener("ended", handleEnded);
 
     return () => {
-      video.removeEventListener('timeupdate', updateTime);
-      video.removeEventListener('loadedmetadata', updateDuration);
-      video.removeEventListener('loadstart', handleLoadStart);
-      video.removeEventListener('canplay', handleCanPlay);
-      video.removeEventListener('ended', handleEnded);
+      video.removeEventListener("timeupdate", updateTime);
+      video.removeEventListener("loadedmetadata", updateDuration);
+      video.removeEventListener("loadstart", handleLoadStart);
+      video.removeEventListener("canplay", handleCanPlay);
+      video.removeEventListener("ended", handleEnded);
     };
   }, []);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    video.src = videoUrl;
-    video.load();
-    
-    if (autoPlay) {
-      video.play().catch(() => {
-        setIsPlaying(false);
-      });
-    }
-  }, [videoUrl, autoPlay]);
 
   const togglePlay = () => {
     if (!videoRef.current) return;
@@ -94,7 +91,7 @@ export default function VideoPlayer({ videoUrl, title, isVisible, onClose, autoP
     const rect = progressRef.current.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
     const newTime = (clickX / rect.width) * duration;
-    
+
     videoRef.current.currentTime = newTime;
     setCurrentTime(newTime);
   };
@@ -137,7 +134,7 @@ export default function VideoPlayer({ videoUrl, title, isVisible, onClose, autoP
 
   const skipTime = (seconds: number) => {
     if (!videoRef.current) return;
-    
+
     const newTime = Math.max(0, Math.min(duration, currentTime + seconds));
     videoRef.current.currentTime = newTime;
     setCurrentTime(newTime);
@@ -145,7 +142,7 @@ export default function VideoPlayer({ videoUrl, title, isVisible, onClose, autoP
 
   const changePlaybackRate = (rate: number) => {
     if (!videoRef.current) return;
-    
+
     videoRef.current.playbackRate = rate;
     setPlaybackRate(rate);
     setShowSettings(false);
@@ -153,7 +150,7 @@ export default function VideoPlayer({ videoUrl, title, isVisible, onClose, autoP
 
   const resetVideo = () => {
     if (!videoRef.current) return;
-    
+
     videoRef.current.currentTime = 0;
     setCurrentTime(0);
   };
@@ -162,20 +159,22 @@ export default function VideoPlayer({ videoUrl, title, isVisible, onClose, autoP
     const hours = Math.floor(time / 3600);
     const minutes = Math.floor((time % 3600) / 60);
     const seconds = Math.floor(time % 60);
-    
+
     if (hours > 0) {
-      return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      return `${hours}:${minutes.toString().padStart(2, "0")}:${seconds
+        .toString()
+        .padStart(2, "0")}`;
     }
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
   const handleMouseMove = () => {
     setShowControls(true);
-    
+
     if (controlsTimeoutRef.current) {
       clearTimeout(controlsTimeoutRef.current);
     }
-    
+
     controlsTimeoutRef.current = setTimeout(() => {
       if (isPlaying) {
         setShowControls(false);
@@ -183,11 +182,15 @@ export default function VideoPlayer({ videoUrl, title, isVisible, onClose, autoP
     }, 3000);
   };
 
-  if (!isVisible) return null;
+  // Only render video if videoUrl is a non-empty string
+  if (!isVisible || !isClient) return null;
+
+  const isValidVideoUrl =
+    typeof videoUrl === "string" && videoUrl.trim() !== "";
 
   return (
-    <div className="fixed inset-0 bg-black z-50 flex items-center justify-center">
-      <div 
+    <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center">
+      <div
         ref={containerRef}
         className="relative w-full h-full max-w-6xl max-h-full bg-black"
         onMouseMove={handleMouseMove}
@@ -202,11 +205,28 @@ export default function VideoPlayer({ videoUrl, title, isVisible, onClose, autoP
         </button>
 
         {/* Video Element */}
-        <video
-          ref={videoRef}
-          className="w-full h-full object-contain"
-          onClick={togglePlay}
-        />
+        {isValidVideoUrl ? (
+          <video
+            ref={videoRef}
+            className="w-full h-full object-contain"
+            onClick={togglePlay}
+            src={videoUrl}
+            autoPlay={autoPlay}
+            controls={false}
+          >
+            <track
+              kind="captions"
+              srcLang="en"
+              label="English captions"
+              src=""
+              default
+            />
+          </video>
+        ) : (
+          <div className="flex items-center justify-center h-full text-white text-lg">
+            지원되지 않는 비디오 형식이거나 소스가 없습니다.
+          </div>
+        )}
 
         {/* Loading Spinner */}
         {isLoading && (
@@ -216,18 +236,20 @@ export default function VideoPlayer({ videoUrl, title, isVisible, onClose, autoP
         )}
 
         {/* Controls Overlay */}
-        <div 
+        <div
           className={`absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 transition-opacity duration-300 ${
-            showControls ? 'opacity-100' : 'opacity-0'
+            showControls ? "opacity-100" : "opacity-0"
           }`}
         >
           {/* Title */}
           <div className="absolute top-4 left-4 right-16">
-            <h2 className="text-white text-lg font-semibold truncate">{title}</h2>
+            <h2 className="text-white text-lg font-semibold truncate">
+              {title}
+            </h2>
           </div>
 
           {/* Center Play Button */}
-          {!isPlaying && !isLoading && (
+          {!isPlaying && !isLoading && isValidVideoUrl && (
             <div className="absolute inset-0 flex items-center justify-center">
               <button
                 onClick={togglePlay}
@@ -241,14 +263,16 @@ export default function VideoPlayer({ videoUrl, title, isVisible, onClose, autoP
           {/* Bottom Controls */}
           <div className="absolute bottom-0 left-0 right-0 p-4">
             {/* Progress Bar */}
-            <div 
+            <div
               ref={progressRef}
               className="w-full h-2 bg-white/30 rounded-full cursor-pointer mb-4 hover:h-3 transition-all"
               onClick={handleProgressClick}
             >
-              <div 
+              <div
                 className="h-full bg-bugs-pink rounded-full transition-all duration-100"
-                style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                style={{
+                  width: `${duration ? (currentTime / duration) * 100 : 0}%`,
+                }}
               />
             </div>
 
@@ -288,7 +312,10 @@ export default function VideoPlayer({ videoUrl, title, isVisible, onClose, autoP
                 </button>
 
                 <div className="flex items-center space-x-2">
-                  <button onClick={toggleMute} className="p-2 text-white hover:bg-white/20 rounded-md">
+                  <button
+                    onClick={toggleMute}
+                    className="p-2 text-white hover:bg-white/20 rounded-md"
+                  >
                     {isMuted || volume === 0 ? (
                       <VolumeX className="w-5 h-5" />
                     ) : (
@@ -323,13 +350,17 @@ export default function VideoPlayer({ videoUrl, title, isVisible, onClose, autoP
 
                   {showSettings && (
                     <div className="absolute bottom-12 right-0 bg-black/80 backdrop-blur-sm rounded-lg p-2 min-w-32">
-                      <div className="text-white text-sm font-medium mb-2">재생 속도</div>
+                      <div className="text-white text-sm font-medium mb-2">
+                        재생 속도
+                      </div>
                       {[0.5, 0.75, 1, 1.25, 1.5, 2].map((rate) => (
                         <button
                           key={rate}
                           onClick={() => changePlaybackRate(rate)}
                           className={`block w-full text-left px-2 py-1 text-sm rounded hover:bg-white/20 transition-colors ${
-                            playbackRate === rate ? 'text-bugs-pink' : 'text-white'
+                            playbackRate === rate
+                              ? "text-bugs-pink"
+                              : "text-white"
                           }`}
                         >
                           {rate}x
@@ -357,4 +388,3 @@ export default function VideoPlayer({ videoUrl, title, isVisible, onClose, autoP
     </div>
   );
 }
-

@@ -1,147 +1,138 @@
-import { json, type LoaderFunctionArgs } from '@remix-run/node';
-import { useLoaderData, Link } from '@remix-run/react';
-import { useState } from 'react';
-import { Play, Heart, MessageCircle, Share2, Facebook, Link as LinkIcon, Download, Plus, MoreHorizontal, Volume2 } from 'lucide-react';
-import { useLanguage } from '~/contexts/LanguageContext';
-import { usePlayer } from '~/contexts/PlayerContext';
-import { db } from '~/lib/db';
-import Layout from '~/components/Layout';
+import { json, type LoaderFunctionArgs } from "@remix-run/node";
+import { useLoaderData, Link } from "@remix-run/react";
+import { useState } from "react";
+import {
+  Play,
+  Heart,
+  MessageCircle,
+  Facebook,
+  Link as LinkIcon,
+  Download,
+  Plus,
+  MoreHorizontal,
+  Volume2,
+} from "lucide-react";
+
+import { usePlayer } from "~/contexts/PlayerContext";
+import { db } from "~/lib/db";
+import Layout from "~/components/Layout";
+import AudioPlayer from "~/components/AudioPlayer";
+import VideoPlayer from "~/components/VideoPlayer";
+import { getSidebarAlbums } from "../lib/server";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const songId = params.id;
-  
-  if (!songId) {
-    throw new Response('Song not found', { status: 404 });
-  }
 
+  if (!songId) {
+    throw new Response("Song not found", { status: 404 });
+  }
+  const sidebarAlbums = await getSidebarAlbums(15);
   try {
     // Try to get song from database first
-    let song = await db.song.findUnique({
+    const song = await db.song.findUnique({
       where: { id: songId },
       include: {
         artists: {
-          include: { artist: true }
+          include: { artist: true },
         },
         album: {
           include: {
             artists: {
-              include: { artist: true }
-            }
-          }
-        }
-      }
+              include: { artist: true },
+            },
+          },
+        },
+      },
     });
 
+    const placeholderImg = "https://placehold.co/600x400";
     // If no song found in database, create mock data based on songId
     if (!song) {
-      const mockSongs = [
-        {
-          id: 1,
-          title: "Supernova",
-          artists: [{ artist: { name: "aespa(에스파)" } }],
-          album: { title: "Armageddon" },
-          genre: "K-POP",
-          duration: 215,
-          coverImage: "https://via.placeholder.com/300x300/ff6b6b/ffffff?text=Supernova",
-          audioUrl: "/sample-audio.mp3",
-          likes: 1234,
-          description: "aespa의 강력한 신곡 'Supernova'는 우주적 스케일의 사랑을 그린 곡입니다.",
-          createdAt: new Date().toISOString()
-        },
-        {
-          id: 2,
-          title: "How Sweet",
-          artists: [{ artist: { name: "NewJeans(뉴진스)" } }],
-          album: { title: "How Sweet" },
-          genre: "K-POP",
-          duration: 198,
-          coverImage: "https://via.placeholder.com/300x300/4ecdc4/ffffff?text=How+Sweet",
-          audioUrl: "/sample-audio.mp3",
-          likes: 987,
-          description: "NewJeans의 달콤한 매력이 담긴 'How Sweet'입니다.",
-          createdAt: new Date().toISOString()
-        },
-        {
-          id: 3,
-          title: "클락션 (Klaxon)",
-          artists: [{ artist: { name: "(여자)아이들" } }],
-          album: { title: "클락션 (Klaxon)" },
-          genre: "K-POP",
-          duration: 203,
-          coverImage: "https://via.placeholder.com/300x300/45b7d1/ffffff?text=Klaxon",
-          audioUrl: "/sample-audio.mp3",
-          likes: 756,
-          description: "(여자)아이들의 강렬한 에너지가 담긴 '클락션'입니다.",
-          createdAt: new Date().toISOString()
-        }
-      ];
-
-      const mockSong = mockSongs.find(s => s.id === parseInt(songId)) || mockSongs[0];
-      song = mockSong as any;
+      // Remove sample/mock data, return not found
+      throw new Response("Song not found", { status: 404 });
+    } else {
+      if (!song.coverImage) song.coverImage = placeholderImg;
+      if (!song.duration) song.duration = 0;
+      if (!song.audioUrl) song.audioUrl = "";
     }
 
     // Get related videos (mock data for now)
     const videos = [
       {
-        id: 1,
+        id: "v1",
         title: `${song.title} (Music Video)`,
         artists: song.artists,
         duration: 180,
-        thumbnailUrl: song.coverImage,
-        createdAt: new Date().toISOString()
+        thumbnailUrl: song.coverImage || placeholderImg,
+        videoUrl:
+          "https://res.cloudinary.com/dsp05t7kx/video/upload/v1755014244/bugs-music/video/1755014242719_s30.mp4",
+        createdAt: new Date().toISOString(),
       },
       {
-        id: 2,
+        id: "v2",
         title: `${song.title} (Performance Video)`,
         artists: song.artists,
         duration: 200,
-        thumbnailUrl: song.coverImage,
-        createdAt: new Date().toISOString()
-      }
+        thumbnailUrl: song.coverImage || placeholderImg,
+        videoUrl:
+          "https://res.cloudinary.com/dsp05t7kx/video/upload/v1755014244/bugs-music/video/1755014242719_s30.mp4",
+        createdAt: new Date().toISOString(),
+      },
     ];
 
-    return json({ song, videos });
+    return json({ song, videos, sidebarAlbums });
   } catch (error) {
-    console.error('Error loading song:', error);
-    throw new Response('Internal Server Error', { status: 500 });
+    console.error("Error loading song:", error);
+    throw new Response("Internal Server Error", { status: 500 });
   }
 }
 
 export default function SongDetails() {
-  const { song, videos } = useLoaderData<typeof loader>();
-  const { t } = useLanguage();
+  const { song, videos, sidebarAlbums } = useLoaderData<typeof loader>();
   const { playTrack } = usePlayer();
   const [liked, setLiked] = useState(false);
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState("");
+  const [selectedVideo, setSelectedVideo] = useState<(typeof videos)[0] | null>(
+    null
+  );
+
+  const placeholderImg = "https://placehold.co/600x400";
+
+  if (!song) return <div>노래 정보를 찾을 수 없습니다.</div>;
 
   const handlePlay = () => {
     playTrack({
       id: song.id,
       title: song.title,
-      artist: song.artists.map(a => a.artist.name).join(', '),
-      audioUrl: song.audioUrl,
-      coverImage: song.coverImage,
-      duration: song.duration
+      artist: song.artists.map((a) => a.artist.name).join(", "),
+      audioUrl: song.audioUrl || "",
+      coverImage: song.coverImage || placeholderImg,
+      duration: song.duration || 0,
     });
   };
 
   const formatDuration = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    return `${mins.toString().padStart(2, "0")}:${secs
+      .toString()
+      .padStart(2, "0")}`;
   };
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit'
-    }).replace(/\. /g, '.').replace('.', '');
+    return date
+      .toLocaleDateString("ko-KR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      })
+      .replace(/\. /g, ".")
+      .replace(".", "");
   };
 
   return (
-    <Layout>
+    <Layout sidebarAlbums={sidebarAlbums}>
       <div className="min-h-screen bg-gray-50">
         {/* Header Section */}
         <div className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white">
@@ -150,7 +141,7 @@ export default function SongDetails() {
               {/* Album Cover */}
               <div className="flex-shrink-0">
                 <img
-                  src={song.coverImage}
+                  src={song.coverImage || placeholderImg}
                   alt={song.title}
                   className="w-64 h-64 object-cover rounded-lg shadow-lg"
                 />
@@ -159,7 +150,7 @@ export default function SongDetails() {
               {/* Song Information */}
               <div className="flex-1">
                 <h1 className="text-4xl font-bold mb-4">{song.title}</h1>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                   <div>
                     <div className="mb-2">
@@ -167,25 +158,34 @@ export default function SongDetails() {
                       <span className="ml-2 font-medium">
                         {song.artists.map((artist, index) => (
                           <span key={artist.artistId || index}>
-                            <Link to={`/artist/${artist.artist.name}`} className="hover:underline">
+                            <Link
+                              to={`/artist/${artist.artist.name}`}
+                              className="hover:underline"
+                            >
                               {artist.artist.name}
                             </Link>
-                            {index < song.artists.length - 1 && ', '}
+                            {index < song.artists.length - 1 && ", "}
                           </span>
                         ))}
                       </span>
                     </div>
                     <div className="mb-2">
                       <span className="text-gray-200">유형:</span>
-                      <span className="ml-2">{song.album ? '앨범' : '싱글'}</span>
+                      <span className="ml-2">
+                        {song.album ? "앨범" : "싱글"}
+                      </span>
                     </div>
                     <div className="mb-2">
                       <span className="text-gray-200">장르:</span>
-                      <span className="ml-2 bg-pink-600 px-2 py-1 rounded text-xs">{song.genre}</span>
+                      <span className="ml-2 bg-pink-600 px-2 py-1 rounded text-xs">
+                        {song.genre}
+                      </span>
                     </div>
                     <div className="mb-2">
                       <span className="text-gray-200">스타일:</span>
-                      <span className="ml-2 bg-purple-600 px-2 py-1 rounded text-xs">{song.genre}</span>
+                      <span className="ml-2 bg-purple-600 px-2 py-1 rounded text-xs">
+                        {song.genre}
+                      </span>
                     </div>
                   </div>
                   <div>
@@ -203,12 +203,18 @@ export default function SongDetails() {
                     </div>
                     <div className="mb-2">
                       <span className="text-gray-200">재생 시간:</span>
-                      <span className="ml-2">{formatDuration(song.duration)}</span>
+                      <span className="ml-2">
+                        {formatDuration(song.duration || 0)}
+                      </span>
                     </div>
                     <div className="mb-2">
                       <span className="text-gray-200">고음질:</span>
-                      <span className="ml-2 bg-blue-600 px-2 py-1 rounded text-xs">FLAC 16bit</span>
-                      <span className="ml-1 bg-yellow-600 px-2 py-1 rounded text-xs">하이 레졸루션</span>
+                      <span className="ml-2 bg-blue-600 px-2 py-1 rounded text-xs">
+                        FLAC 16bit
+                      </span>
+                      <span className="ml-1 bg-yellow-600 px-2 py-1 rounded text-xs">
+                        하이 레졸루션
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -220,23 +226,25 @@ export default function SongDetails() {
                   <button
                     onClick={() => setLiked(!liked)}
                     className={`flex items-center space-x-2 w-full px-4 py-2 rounded-lg transition-colors ${
-                      liked ? 'bg-pink-600' : 'bg-white/20 hover:bg-white/30'
+                      liked ? "bg-pink-600" : "bg-white/20 hover:bg-white/30"
                     }`}
                   >
-                    <Heart className={`w-4 h-4 ${liked ? 'fill-current' : ''}`} />
+                    <Heart
+                      className={`w-4 h-4 ${liked ? "fill-current" : ""}`}
+                    />
                     <span>좋아 {song.likes + (liked ? 1 : 0)}</span>
                   </button>
-                  
+
                   <button className="flex items-center space-x-2 w-full px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors">
                     <MessageCircle className="w-4 h-4" />
                     <span>0개</span>
                   </button>
-                  
+
                   <button className="flex items-center space-x-2 w-full px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors">
                     <MessageCircle className="w-4 h-4" />
                     <span>쓰기</span>
                   </button>
-                  
+
                   <div className="border-t border-white/20 pt-3">
                     <p className="text-xs text-gray-200 mb-2">공유</p>
                     <div className="flex space-x-2">
@@ -262,10 +270,18 @@ export default function SongDetails() {
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold">수록곡 (1)</h2>
                 <div className="flex space-x-2">
-                  <button className="px-3 py-1 bg-pink-100 text-pink-600 rounded text-sm">전체</button>
-                  <button className="px-3 py-1 bg-blue-100 text-blue-600 rounded text-sm">재생목록에 추가</button>
-                  <button className="px-3 py-1 bg-green-100 text-green-600 rounded text-sm">내 앨범에 담기</button>
-                  <button className="px-3 py-1 bg-purple-100 text-purple-600 rounded text-sm">다운로드</button>
+                  <button className="px-3 py-1 bg-pink-100 text-pink-600 rounded text-sm">
+                    전체
+                  </button>
+                  <button className="px-3 py-1 bg-blue-100 text-blue-600 rounded text-sm">
+                    재생목록에 추가
+                  </button>
+                  <button className="px-3 py-1 bg-green-100 text-green-600 rounded text-sm">
+                    내 앨범에 담기
+                  </button>
+                  <button className="px-3 py-1 bg-purple-100 text-purple-600 rounded text-sm">
+                    다운로드
+                  </button>
                 </div>
               </div>
 
@@ -293,13 +309,33 @@ export default function SongDetails() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                       <input type="checkbox" className="rounded" />
-                      <span className="w-8 text-center font-bold text-pink-600">1</span>
-                      <span className="bg-pink-100 text-pink-600 px-2 py-1 rounded text-xs">[타이틀곡]</span>
+                      <span className="w-8 text-center font-bold text-pink-600">
+                        1
+                      </span>
+                      <span className="bg-pink-100 text-pink-600 px-2 py-1 rounded text-xs">
+                        [타이틀곡]
+                      </span>
                       <div>
                         <div className="font-medium">{song.title}</div>
                         <div className="text-sm text-gray-600">
-                          {song.artists.map(a => a.artist.name).join(', ')}
+                          {song.artists.map((a) => a.artist.name).join(", ")}
                         </div>
+                        {/* AudioPlayer for song preview */}
+                        <AudioPlayer
+                          src={
+                            song.audioUrl && song.audioUrl !== ""
+                              ? song.audioUrl
+                              : ""
+                          }
+                          coverImage={song.coverImage || placeholderImg}
+                          title={song.title}
+                          artist={song.artists
+                            .map((a) => a.artist.name)
+                            .join(", ")}
+                          album={song.album?.title || ""}
+                          duration={song.duration || 0}
+                          id={song.id}
+                        />
                       </div>
                     </div>
                     <div className="flex items-center space-x-3">
@@ -338,10 +374,16 @@ export default function SongDetails() {
               <h3 className="text-lg font-bold mb-4">앨범 소개</h3>
               <div className="text-gray-700 leading-relaxed">
                 <p className="mb-4">
-                  {song.description || `${song.artists.map(a => a.artist.name).join(', ')}가 새로운 싱글앨범 "${song.title}"로 돌아왔다.`}
+                  {song.description ||
+                    `${song.artists
+                      .map((a) => a.artist.name)
+                      .join(", ")}가 새로운 싱글앨범 &quot;${
+                      song.title
+                    }&quot;로 돌아왔다.`}
                 </p>
                 <p className="mb-4">
-                  "{song.title}"는 사랑하는 사람의 아픔을 지켜보며 느끼는 복잡한 감정을 섬세하게 그려낸 곡이다.
+                  &quot;{song.title}&quot;는 사랑하는 사람의 아픔을 지켜보며
+                  느끼는 복잡한 감정을 섬세하게 그려낸 곡이다.
                 </p>
                 <div className="mt-6 p-4 bg-gray-50 rounded-lg">
                   <h4 className="font-medium mb-2">[Credit]</h4>
@@ -359,47 +401,86 @@ export default function SongDetails() {
           </div>
 
           {/* Videos Section */}
-          {videos.length > 0 && (
-            <div className="bg-white rounded-lg shadow-sm mb-8">
-              <div className="p-6">
-                <h3 className="text-lg font-bold mb-4">영상</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {videos.map((video) => (
-                    <div key={video.id} className="group cursor-pointer">
-                      <div className="relative">
-                        <img
-                          src={video.thumbnailUrl}
-                          alt={video.title}
-                          className="w-full h-32 object-cover rounded-lg"
-                        />
-                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors rounded-lg flex items-center justify-center">
-                          <Play className="w-8 h-8 text-white" />
+          {videos.length > 0 &&
+            videos.some(
+              (video) => video.artists && video.artists.length > 0
+            ) && (
+              <div className="bg-white rounded-lg shadow-sm mb-8">
+                <div className="p-6">
+                  <h3 className="text-lg font-bold mb-4">영상</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {videos
+                      .filter(
+                        (video) => video.artists && video.artists.length > 0
+                      )
+                      .map((video) => (
+                        <div key={video.id} className="group cursor-pointer">
+                          <div className="relative">
+                            <button
+                              type="button"
+                              className="w-full h-32 object-cover rounded-lg p-0 border-none bg-transparent focus:outline-none"
+                              aria-label={`영상 재생: ${video.title}`}
+                            >
+                              <img
+                                src={video.thumbnailUrl || placeholderImg}
+                                alt={video.title}
+                                className="w-full h-32 object-cover rounded-lg pointer-events-none"
+                                tabIndex={-1}
+                                aria-hidden="true"
+                              />
+                            </button>
+                            <div
+                              role="button"
+                              tabIndex={0}
+                              onClick={() => setSelectedVideo(video)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                  setSelectedVideo(video);
+                                }
+                              }}
+                              className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors rounded-lg flex items-center justify-center"
+                            >
+                              <Play className="w-8 h-8 text-white" />
+                            </div>
+                            <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
+                              {formatDuration(video.duration)}
+                            </div>
+                          </div>
+                          <div className="mt-2">
+                            <h4 className="font-medium text-sm line-clamp-2">
+                              {video.title}
+                            </h4>
+                            <p className="text-xs text-gray-600 mt-1">
+                              {video.artists
+                                .map((a) => a.artist.name)
+                                .join(", ")}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-1">
+                              {formatDate(video.createdAt)}
+                            </p>
+                          </div>
                         </div>
-                        <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
-                          {formatDuration(video.duration)}
-                        </div>
-                      </div>
-                      <div className="mt-2">
-                        <h4 className="font-medium text-sm line-clamp-2">{video.title}</h4>
-                        <p className="text-xs text-gray-600 mt-1">
-                          {video.artists.map(a => a.artist.name).join(', ')}
-                        </p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {formatDate(video.createdAt)}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
+                      ))}
+                  </div>
+                  {/* VideoPlayer Modal */}
+                  {selectedVideo && (
+                    <VideoPlayer
+                      videoUrl={selectedVideo.videoUrl || ""}
+                      title={selectedVideo.title || ""}
+                      isVisible={!!selectedVideo}
+                      onClose={() => setSelectedVideo(null)}
+                      autoPlay={true}
+                    />
+                  )}
                 </div>
               </div>
-            </div>
-          )}
+            )}
 
           {/* Comments Section */}
           <div className="bg-white rounded-lg shadow-sm">
             <div className="p-6">
               <h3 className="text-lg font-bold mb-4">한마디 (0)</h3>
-              
+
               <div className="mb-6">
                 <textarea
                   value={comment}
@@ -414,7 +495,9 @@ export default function SongDetails() {
                     <span>음악 첨부</span>
                   </button>
                   <div className="flex items-center space-x-4">
-                    <span className="text-sm text-gray-500">{comment.length}/300</span>
+                    <span className="text-sm text-gray-500">
+                      {comment.length}/300
+                    </span>
                     <button className="px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700 transition-colors">
                       등록
                     </button>
@@ -423,9 +506,15 @@ export default function SongDetails() {
               </div>
 
               <div className="flex space-x-4 mb-4">
-                <button className="px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm">등록순</button>
-                <button className="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded text-sm">호감순</button>
-                <button className="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded text-sm">답글순</button>
+                <button className="px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm">
+                  등록순
+                </button>
+                <button className="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded text-sm">
+                  호감순
+                </button>
+                <button className="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded text-sm">
+                  답글순
+                </button>
               </div>
 
               <div className="text-center py-12 text-gray-500">
@@ -439,4 +528,3 @@ export default function SongDetails() {
     </Layout>
   );
 }
-

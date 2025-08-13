@@ -6,7 +6,7 @@ export interface Track {
   artist: string;
   album?: string;
   duration?: number;
-  coverUrl?: string;
+  coverImage?: string;
   audioUrl: string;
   imageUrl?: string;
 }
@@ -133,7 +133,7 @@ export const mockTracks: Track[] = [
     artist: "사우스 카니발(South Carnival)",
     album: "서우젯소리",
     duration: 332, // 5:32
-    coverUrl:
+    coverImage:
       "https://via.placeholder.com/300x300/ff1493/ffffff?text=서우젯소리",
     audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav", // Demo audio
   },
@@ -143,7 +143,7 @@ export const mockTracks: Track[] = [
     artist: "HUNTR/X",
     album: "KPop Demon Hunters",
     duration: 245, // 4:05
-    coverUrl: "https://via.placeholder.com/300x300/ff1493/ffffff?text=Golden",
+    coverImage: "https://via.placeholder.com/300x300/ff1493/ffffff?text=Golden",
     audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
   },
   {
@@ -152,7 +152,7 @@ export const mockTracks: Track[] = [
     artist: "BLACKPINK",
     album: "뛰어(JUMP)",
     duration: 198, // 3:18
-    coverUrl: "https://via.placeholder.com/300x300/ff1493/ffffff?text=JUMP",
+    coverImage: "https://via.placeholder.com/300x300/ff1493/ffffff?text=JUMP",
     audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
   },
 ];
