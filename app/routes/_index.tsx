@@ -129,15 +129,9 @@ export async function loader({ request }: { request: Request }) {
       .find((c) => c.trim().startsWith("auth-token="))
       ?.split("=")[1];
 
-    if (!token) {
-      return redirect("/login");
-    }
+    const user = await validateSession(token ?? "");
 
     // Validate session
-    const user = await validateSession(token);
-    if (!user || !user.id) {
-      return redirect("/login");
-    }
 
     // Fetch playlist items and favorites for user
     const [
@@ -156,12 +150,12 @@ export async function loader({ request }: { request: Request }) {
       getFeaturedArtists(6),
       getFeaturedSongs(8),
       getSidebarAlbums(15),
-      findPlaylistItemsByUserId(user.id),
-      findFavoritesByUserId(user.id),
+      findPlaylistItemsByUserId(user?.id ?? ""),
+      findFavoritesByUserId(user?.id ?? ""),
     ]);
 
     return json({
-      user: { id: user.id },
+      user: user ? { id: user.id } : null,
       latestAlbums: Array.isArray(latestAlbums)
         ? latestAlbums.filter(Boolean)
         : [],
@@ -1098,7 +1092,8 @@ export default function HomePage() {
             {pdAlbums.filter(Boolean).map(
               (album) =>
                 album && (
-                  <div
+                  <Link
+                    to={`/album/${album?.id}`}
                     key={album.id}
                     className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
                   >
@@ -1119,7 +1114,7 @@ export default function HomePage() {
                         <span>{album.trackCount}곡</span>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 )
             )}
           </div>

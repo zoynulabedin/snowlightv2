@@ -57,6 +57,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const page = pageParam ? parseInt(pageParam, 10) : 1;
   const pageSize = 10;
   const albumRaw = params.id ? await getAlbumById(params.id) : null;
+  console.log(albumRaw);
   let album: Album | null = null;
   if (albumRaw) {
     const totalSongs = Array.isArray(albumRaw.songs)
