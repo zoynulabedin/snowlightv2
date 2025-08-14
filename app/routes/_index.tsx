@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { json, redirect } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import {
   Link,
   useLoaderData,
@@ -8,7 +8,6 @@ import {
 } from "@remix-run/react";
 import {
   Play,
-  MoreHorizontal,
   Plus,
   Download,
   Heart,
@@ -17,14 +16,28 @@ import {
   Check,
   Loader2,
   Heart as HeartFilled,
+  ChevronRight,
+  Video,
 } from "lucide-react";
 import { usePlayer } from "~/contexts/PlayerContext";
 
 import Layout from "~/components/Layout";
 import type { SidebarAlbum } from "~/components/Layout";
-import type { PlaylistItem, Favorite } from "~/types";
+import type { Playlist as PlaylistBase } from "~/types";
+
+// Extend Playlist type to include songs property
+type Playlist = PlaylistBase & {
+  songs: TrackWithCover[];
+};
+
+// Define Favorite type locally
+type Favorite = {
+  songId: string | number;
+  // Add other fields if needed
+};
 import AudioPlayer from "~/components/AudioPlayer";
 import VideoPlayer from "~/components/VideoPlayer";
+import DownloadDropdown from "../components/DownloadDropdown";
 
 interface Album {
   id: string | number;
@@ -111,14 +124,15 @@ import {
   getFeaturedArtists,
   getFeaturedSongs,
   getSidebarAlbums,
-  addSongToPlaylist,
   getSongDownloadInfo,
-  addSongToFavorite,
   songMoreActions,
   findPlaylistItemsByUserId,
   findFavoritesByUserId,
 } from "~/lib/server";
 import { validateSession } from "../lib/auth";
+import MenuDropdown from "../components/MenuDropdown";
+import VideoMenuDropdown from "../components/VideoMenuDropdown";
+import { downloadMedia } from "../lib/utils";
 
 export async function loader({ request }: { request: Request }) {
   try {
@@ -222,7 +236,7 @@ export const action = async ({ request }: { request: Request }) => {
       const result = await getSongDownloadInfo(songId);
       return json(result);
     }
-    case "more": {
+    case "More": {
       if (!userId || !songId)
         return json({ error: "Missing data" }, { status: 400 });
       const result = await songMoreActions({ userId, songId });
@@ -244,7 +258,7 @@ interface LoaderData {
   pdAlbums: PdAlbum[];
   knowledgeContent: KnowledgeContent;
   sidebarAlbums: SidebarAlbum[];
-  playlistItems: PlaylistItem[];
+  playlistItems: Playlist[];
   favorites: Favorite[];
 }
 
@@ -252,7 +266,6 @@ export default function HomePage() {
   const data = useLoaderData<LoaderData>();
   const { playTrack } = usePlayer();
   const revalidator = useRevalidator();
-  console.log(data);
 
   // Use data from loader
   const latestAlbums = Array.isArray(data.latestAlbums)
@@ -276,33 +289,6 @@ export default function HomePage() {
     ? data.pdAlbums.filter(Boolean)
     : [];
 
-  const getNumberColor = (rank: number) => {
-    const colors = [
-      "bg-red-500", // 1
-      "bg-orange-500", // 2
-      "bg-yellow-500", // 3
-      "bg-green-500", // 4
-      "bg-blue-500", // 5
-      "bg-indigo-500", // 6
-      "bg-purple-500", // 7
-      "bg-pink-500", // 8
-    ];
-    return colors[rank - 1] || "bg-gray-500";
-  };
-
-  const handlePlay = (track: Album | TrackWithCover) => {
-    playTrack({
-      id: track.id?.toString() || "1",
-      title: track.title,
-      artist: track.artist,
-      audioUrl:
-        "audioUrl" in track && track.audioUrl
-          ? track.audioUrl
-          : "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3",
-      imageUrl: track.imageUrl,
-    });
-  };
-
   const fetcher = useFetcher();
   const userId = data.user?.id || "";
 
@@ -316,12 +302,13 @@ export default function HomePage() {
   // Add modal state for audio/video preview
   const [previewAudio, setPreviewAudio] = useState<TrackWithCover | null>(null);
   const [previewVideo, setPreviewVideo] = useState<Video | null>(null);
-  console.log(previewAudio);
   // Helper: check if song is in playlist or favorites
   const isSongInPlaylist = (songId: string | number) => {
     return Array.isArray(data.playlistItems)
-      ? (data.playlistItems as PlaylistItem[]).some(
-          (item) => item.songId === songId
+      ? (data.playlistItems as Playlist[]).some(
+          (item) =>
+            Array.isArray(item.songs) &&
+            item.songs.some((song) => song.id === songId)
         )
       : false;
   };
@@ -353,9 +340,7 @@ export default function HomePage() {
   };
 
   // Toggle favorite
-  const handleToggleFavorite = async (
-    song: (typeof chartSongs)[number] | null
-  ) => {
+  const handleToggleFavorite = async (song: TrackWithCover) => {
     if (!song) return;
     setLoadingSongId(song.id);
     setLoadingType("favorite");
@@ -373,7 +358,7 @@ export default function HomePage() {
     setLoadingType(null);
   };
 
-  const handleDownload = (song: (typeof chartSongs)[number] | null) => {
+  const handleDownload = (song: TrackWithCover) => {
     if (!song) return;
     fetcher.submit(
       {
@@ -388,7 +373,7 @@ export default function HomePage() {
     if (!song) return;
     fetcher.submit(
       {
-        actionType: "more",
+        actionType: "More",
         userId,
         songId: song.id,
       },
@@ -408,12 +393,9 @@ export default function HomePage() {
 
   // 앨범 슬라이더 상태
   const [albumPage, setAlbumPage] = useState(0);
-  const albumsPerPage = 4; // Show 4 albums per page (matches lg:grid-cols-4)
+  const albumsPerPage = 14; // Show 14 albums per page (7 columns x 2 rows)
   const totalAlbumPages = Math.ceil(filteredAlbums.length / albumsPerPage);
-  const pagedAlbums = filteredAlbums.slice(
-    albumPage * albumsPerPage,
-    albumPage * albumsPerPage + albumsPerPage
-  );
+
   // 슬라이드 애니메이션 상태
   const [isSliding, setIsSliding] = useState(false);
   const [slideDirection, setSlideDirection] = useState<"left" | "right" | null>(
@@ -473,39 +455,44 @@ export default function HomePage() {
 
   return (
     <Layout sidebarAlbums={data.sidebarAlbums as SidebarAlbum[]}>
-      <div className="space-y-8 p-6">
+      <div className="space-y-8 min-w-max">
         {/* Section 1: Hero - Latest Albums */}
-        <section>
+        <section className="bg-slate-300 p-10">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-gray-900">최신 앨범</h2>
-            <div className="flex space-x-2">
-              {["전체", "국내", "해외"].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setAlbumTab(tab as "전체" | "국내" | "해외")}
-                  className={`px-3 py-1 text-sm rounded flex items-center gap-1 ${
-                    albumTab === tab
-                      ? "bg-purple-600 text-white"
-                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                  }`}
-                >
-                  {tab === "전체" && <MoreHorizontal className="w-4 h-4" />}
-                  {tab === "국내" && <Heart className="w-4 h-4" />}
-                  {tab === "해외" && <Eye className="w-4 h-4" />}
-                  {tab}
-                </button>
-              ))}
+            <div className="flex items-center justify-start gap-10">
+              <h2 className="text-lg font-bold text-gray-900">최신 노래</h2>
+              <div className="flex space-x-2">
+                {["전체", "국내", "해외"].map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setAlbumTab(tab as "전체" | "국내" | "해외")}
+                    className={`px-3 cursor-pointer py-1 text-sm rounded-none flex items-center gap-1 ${
+                      albumTab === tab
+                        ? "border-b-2 border-b-red-600 bg-transparent  text-gray-700"
+                        : "bg-transparent text-gray-700 hover:bg-gray-300"
+                    }`}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
             </div>
+            <Link
+              className="flex gap-1 items-center hover:text-Snowlight-red"
+              to="/latest-musice"
+            >
+              더보기 <ChevronRight className="w-3 h3" />
+            </Link>
           </div>
 
-          {filteredAlbums.length > 0 ? (
+          {filteredChartSongs.length > 0 ? (
             <div className="relative">
               {/* Slider Controls */}
               <button
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white bg-opacity-80 rounded-full p-2 shadow hover:bg-opacity-100 transition disabled:opacity-40"
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-slate-500 bg-opacity-50 rounded-md  text-white py-6 shadow hover:bg-opacity-100 transition disabled:opacity-40 cursor-pointer"
                 onClick={() => handleAlbumNav("left")}
                 disabled={albumPage === 0 || isSliding}
-                aria-label="이전 앨범"
+                aria-label="이전 곡"
                 style={{ left: "-2rem" }}
               >
                 <svg
@@ -522,10 +509,10 @@ export default function HomePage() {
                 </svg>
               </button>
               <button
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white bg-opacity-80 rounded-full p-2 shadow hover:bg-opacity-100 transition disabled:opacity-40"
+                className="absolute cursor-pointer right-0 top-1/2 -translate-y-1/2 z-10 bg-slate-500 bg-opacity-50 rounded-md  text-white py-6 shadow hover:bg-opacity-100 transition disabled:opacity-40"
                 onClick={() => handleAlbumNav("right")}
                 disabled={albumPage >= totalAlbumPages - 1 || isSliding}
-                aria-label="다음 앨범"
+                aria-label="다음 곡"
                 style={{ right: "-2rem" }}
               >
                 <svg
@@ -542,11 +529,11 @@ export default function HomePage() {
                 </svg>
               </button>
               <div
-                className={`overflow-hidden relative h-auto`}
+                className={`overflow-hidden relative h-auto shrink-0`}
                 style={{ minHeight: "220px" }}
               >
                 <div
-                  className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 transition-transform duration-350 ease-in-out ${
+                  className={`grid grid-cols-7 md:grid-cols-5  grid-rows-2  gap-4 transition-transform duration-350 ease-in-out ${
                     isSliding && slideDirection === "left"
                       ? "-translate-x-16 opacity-60"
                       : isSliding && slideDirection === "right"
@@ -554,81 +541,76 @@ export default function HomePage() {
                       : "translate-x-0 opacity-100"
                   }`}
                 >
-                  {pagedAlbums.filter(Boolean).map(
-                    (album) =>
-                      album && (
+                  {filteredChartSongs
+                    .slice(
+                      albumPage * albumsPerPage,
+                      albumPage * albumsPerPage + albumsPerPage
+                    )
+                    .map((song) =>
+                      song ? (
                         <div
-                          key={String(album.id)}
-                          className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow group"
+                          key={String(song.id)}
+                          className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow group relative shrink-0 min-w-[250px]"
                         >
                           <div className="relative">
                             <img
                               src={
-                                album?.coverImage ||
-                                `https://placehold.co/600x400`
+                                song.coverImage ||
+                                song.album?.coverImage ||
+                                "https://placehold.co/600x400"
                               }
-                              alt={album.title}
+                              alt={song.title}
                               className="w-full h-40 object-cover"
                               loading="lazy"
                             />
-                            {album.rank && (
-                              <div
-                                className={`absolute top-2 left-2 ${getNumberColor(
-                                  album.rank
-                                )} text-white text-sm font-bold w-6 h-6 rounded-full flex items-center justify-center`}
-                              >
-                                {album.rank}
-                              </div>
-                            )}
-                            {/* Album details on hover */}
+                            {/* Song details on hover */}
                             <div className="absolute inset-0 bg-black bg-opacity-80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col justify-center items-center p-4 text-white">
                               <button
-                                onClick={() => handlePlay(album as Album)}
+                                onClick={() => setPreviewAudio(song)}
                                 className="w-12 h-12 bg-white bg-opacity-90 rounded-full flex items-center justify-center hover:bg-opacity-100 transition-all duration-200 mb-2"
                               >
                                 <Play className="w-6 h-6 text-gray-800 ml-1" />
                               </button>
-                              {album.description && (
-                                <p className="text-xs text-center line-clamp-3 mt-2">
-                                  {album.description}
-                                </p>
-                              )}
-                              {album.genre && (
-                                <p className="text-xs mt-1">
-                                  장르: {album.genre}
-                                </p>
-                              )}
-                              {album.plays && album.plays > 0 && (
-                                <p className="text-xs mt-1">
-                                  Plays: {album.plays.toLocaleString()}
-                                </p>
-                              )}
+                              <p className="text-xs text-center line-clamp-3 mt-2">
+                                {song.title}
+                              </p>
+                              <p className="text-xs mt-1">{song.artist}</p>
                             </div>
                           </div>
-                          <div className="p-3">
+                          <div className="p-3 flex justify-between items-start">
                             <Link
-                              to={`/album/${album.id}`}
+                              to={`/song/${song.id}`}
                               className="text-sm font-medium text-gray-900 hover:text-pink-600 hover:underline truncate block"
                             >
-                              {album.title}
+                              {song.title}
                             </Link>
-                            <p className="text-xs text-gray-600 truncate"></p>
                             <p className="text-xs text-gray-600 truncate">
-                              {album.artist}
+                              {song.artist}
                             </p>
                             <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
+                              <span>{song.album?.title || ""}</span>
                               <span>
-                                {album.releaseDate?.split("T")[0] ||
-                                  album.releaseDate}
+                                {song.album?.releaseDate?.split("T")[0] ||
+                                  song.album?.releaseDate}
                               </span>
-                              <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded">
-                                {album.albumType || "ALBUM"}
-                              </span>
+                            </div>
+
+                            <div className="z-10">
+                              <MenuDropdown
+                                song={song}
+                                isFavorite={isSongFavorite(song.id)}
+                                isPlaylist={isSongInPlaylist(song.id)}
+                                loadingSongId={loadingSongId}
+                                loadingType={loadingType}
+                                onToggleFavorite={handleToggleFavorite}
+                                onDownload={handleDownload}
+                                onMore={handleMore}
+                              />
                             </div>
                           </div>
                         </div>
-                      )
-                  )}
+                      ) : null
+                    )}
                 </div>
               </div>
               {/* Page indicator (optional) */}
@@ -640,207 +622,336 @@ export default function HomePage() {
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-10 text-gray-500">
-              <p className="text-lg">앨범이 없습니다</p>
+              <p className="text-lg">노래가 없습니다</p>
               <p className="text-sm mt-2">다른 필터를 시도해보세요</p>
             </div>
           )}
         </section>
 
         {/* Section 2: Chart */}
-        <section>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-gray-900">노래 차트</h2>
-            <div className="flex space-x-2">
-              {["전체", "국내", "해외"].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setChartTab(tab as "전체" | "국내" | "해외")}
-                  className={`px-3 py-1 text-sm rounded flex items-center gap-1 ${
-                    chartTab === tab
-                      ? "bg-purple-600 text-white"
-                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                  }`}
-                >
-                  {tab === "전체" && <MoreHorizontal className="w-4 h-4" />}
-                  {tab === "국내" && <Heart className="w-4 h-4" />}
-                  {tab === "해외" && <Eye className="w-4 h-4" />}
-                  {tab}
-                </button>
-              ))}
+        <section className="p-10 flex gap-5">
+          <div>
+            <div className="flex items-center justify-between mb-4 border-b-2 border-b-slate-700 py-1">
+              <h2 className="text-lg font-bold text-gray-900">노래 차트</h2>
+              <Link className="flex items-center gap-1" to="/snowlight-songs">
+                More <ChevronRight className="w-3 h-3" />
+              </Link>
             </div>
-          </div>
 
-          <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-            <table className="w-full">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    순위
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    노래
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    앨범
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    재생
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    플레이리스트에 추가
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {filteredChartSongs.filter(Boolean).map(
-                  (song, idx) =>
-                    song && (
-                      <tr key={song.id || idx} className="hover:bg-gray-50">
-                        <td className="px-4 py-4 whitespace-nowrap">
-                          <span className="text-sm font-medium text-gray-900">
-                            {idx + 1}
-                          </span>
-                        </td>
-                        <td className="px-4 py-4 whitespace-nowrap">
-                          <div className="flex items-center space-x-3">
-                            <img
-                              src={
-                                song.coverImage ||
-                                song.album?.coverImage ||
-                                "https://placehold.co/50x50"
-                              }
-                              alt={song.title}
-                              className="w-10 h-10 rounded object-cover"
-                            />
-                            <div>
-                              <Link
-                                to={`/song/${song.id}`}
-                                className="text-sm font-medium text-gray-900 hover:text-pink-600 hover:underline"
-                              >
-                                {song.title}
-                              </Link>
-                              <div className="text-sm text-gray-500">
-                                {(song.artists ?? [])
-                                  .map(
-                                    (a: { artist: Artist }) =>
-                                      a.artist?.stageName || a.artist?.name
-                                  )
-                                  .join(", ")}
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <table className="w-full">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      순위
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      노래
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      앨범
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      재생
+                    </th>
+                    <th className="px-4 py-4 whitespace-nowrap text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      플레이리스트에 추가
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {filteredChartSongs.filter(Boolean).map(
+                    (song, idx) =>
+                      song && (
+                        <tr key={song.id || idx} className="hover:bg-gray-50">
+                          <td className="px-4 py-4 whitespace-nowrap">
+                            <span className="text-sm font-medium text-gray-900">
+                              {idx + 1}
+                            </span>
+                          </td>
+                          <td className="px-4 py-4 whitespace-nowrap group">
+                            <div className="flex items-center space-x-3">
+                              <img
+                                src={
+                                  song.coverImage ||
+                                  song.album?.coverImage ||
+                                  "https://placehold.co/50x50"
+                                }
+                                alt={song.title}
+                                className="w-10 h-10 hidden group-hover:block rounded object-cover"
+                              />
+                              <div>
+                                <Link
+                                  to={`/song/${song.id}`}
+                                  className="text-sm font-medium text-gray-900 hover:text-pink-600 hover:underline"
+                                >
+                                  {song.title}
+                                </Link>
+                                <div className="text-sm text-gray-500 capitalize">
+                                  {song?.genre}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </td>
-                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {song.album?.title || ""}
-                        </td>
-                        <td className="px-4 py-4 whitespace-nowrap">
-                          <button
-                            onClick={() => setPreviewAudio(song)}
-                            className="bg-green-500 text-white text-xs py-1 px-3 rounded hover:bg-green-600 transition-colors flex items-center gap-1"
-                          >
-                            <Play className="w-4 h-4 mr-1" />
-                            재생
-                          </button>
-                        </td>
-                        <td className="px-4 py-4 whitespace-nowrap">
-                          <div className="flex items-center space-x-2">
+                          </td>
+                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {song.album?.title || ""}
+                          </td>
+                          <td className="px-4 py-4 whitespace-nowrap">
                             <button
-                              className={`text-gray-400 hover:text-pink-500 ${
-                                loadingSongId === song.id &&
-                                loadingType === "playlist"
-                                  ? "cursor-wait"
-                                  : ""
-                              }`}
-                              title={
-                                isSongInPlaylist(song.id)
-                                  ? "플레이리스트에서 제거"
-                                  : "플레이리스트에 추가"
-                              }
-                              onClick={() => handleTogglePlaylist(song)}
-                              disabled={
-                                loadingSongId === song.id &&
-                                loadingType === "playlist"
-                              }
+                              onClick={() => setPreviewAudio(song)}
+                              className="border border-slate-600 w-7 h-7 text-white text-xs p-1 rounded-full  transition-colors flex items-center justify-center gap-1"
                             >
-                              {loadingSongId === song.id &&
-                              loadingType === "playlist" ? (
-                                <Loader2 className="w-4 h-4 animate-spin" />
-                              ) : isSongInPlaylist(song.id) ? (
-                                <Check className="w-4 h-4 text-green-500" />
-                              ) : (
-                                <Plus className="w-4 h-4" />
-                              )}
+                              <Play className="w-4 h-4  fill-red-400" />
                             </button>
-                            <button
-                              className="text-gray-400 hover:text-blue-500"
-                              title="다운로드"
-                              onClick={() => handleDownload(song)}
-                            >
-                              <Download className="w-4 h-4" />
-                            </button>
-                            <button
-                              className={`text-gray-400 hover:text-red-500 ${
-                                loadingSongId === song.id &&
-                                loadingType === "favorite"
-                                  ? "cursor-wait"
-                                  : ""
-                              }`}
-                              title={
-                                isSongFavorite(song.id)
-                                  ? "즐겨찾기에서 제거"
-                                  : "즐겨찾기 추가"
-                              }
-                              onClick={() => handleToggleFavorite(song)}
-                              disabled={
-                                loadingSongId === song.id &&
-                                loadingType === "favorite"
-                              }
-                            >
-                              {loadingSongId === song.id &&
-                              loadingType === "favorite" ? (
-                                <Loader2 className="w-4 h-4 animate-spin" />
-                              ) : isSongFavorite(song.id) ? (
-                                <HeartFilled className="w-4 h-4 text-red-500 fill-red-500" />
-                              ) : (
-                                <Heart className="w-4 h-4" />
-                              )}
-                            </button>
-                            <button
-                              className="text-gray-400 hover:text-gray-600"
-                              title="더보기"
-                              onClick={() => handleMore(song)}
-                            >
-                              <MoreHorizontal className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                )}
-              </tbody>
-            </table>
+                          </td>
+                          <td className="px-4 py-4 whitespace-nowrap">
+                            <div className="flex items-center space-x-2">
+                              <button
+                                className={`text-gray-400 hover:text-pink-500 ${
+                                  loadingSongId === song.id &&
+                                  loadingType === "playlist"
+                                    ? "cursor-wait"
+                                    : ""
+                                }`}
+                                title={
+                                  isSongInPlaylist(song.id)
+                                    ? "플레이리스트에서 제거"
+                                    : "플레이리스트에 추가"
+                                }
+                                onClick={() => handleTogglePlaylist(song)}
+                                disabled={
+                                  loadingSongId === song.id &&
+                                  loadingType === "playlist"
+                                }
+                              >
+                                {loadingSongId === song.id &&
+                                loadingType === "playlist" ? (
+                                  <Loader2 className="w-4 h-4 animate-spin" />
+                                ) : isSongInPlaylist(song.id) ? (
+                                  <Check className="w-4 h-4 text-green-500" />
+                                ) : (
+                                  <Plus className="w-4 h-4" />
+                                )}
+                              </button>
+                              <DownloadDropdown
+                                title={song.title}
+                                buttonLabel={<Download className="w-3 h-3" />}
+                                options={[
+                                  {
+                                    label: "Download MP3",
+                                    onClick: () =>
+                                      song.audioUrl &&
+                                      downloadMedia(
+                                        song.audioUrl,
+                                        `${song.title}.mp3`
+                                      ),
+                                    disabled: !song.audioUrl,
+                                  },
+                                  {
+                                    label: "Download FLAC 16/44.1",
+                                    onClick: () =>
+                                      song.flac16Url &&
+                                      downloadMedia(
+                                        song.flac16Url,
+                                        `${song.title}-16.flac`
+                                      ),
+                                    disabled: !song.flac16Url,
+                                  },
+                                  {
+                                    label: "Download FLAC 24/96",
+                                    onClick: () =>
+                                      song.flac24Url &&
+                                      downloadMedia(
+                                        song.flac24Url,
+                                        `${song.title}-24.flac`
+                                      ),
+                                    disabled: !song.flac24Url,
+                                  },
+                                ]}
+                              />
+                              <DownloadDropdown
+                                title={song.title}
+                                buttonLabel={<Video className="w-3 h-3" />}
+                                options={[
+                                  {
+                                    label: "Download 1080p",
+                                    onClick: () =>
+                                      song.video1080Url &&
+                                      downloadMedia(
+                                        song.video1080Url,
+                                        `${song.title}-1080p.mp4`
+                                      ),
+                                    disabled: !song.video1080Url,
+                                  },
+                                  {
+                                    label: "Download 720p",
+                                    onClick: () =>
+                                      song.video720Url &&
+                                      downloadMedia(
+                                        song.video720Url,
+                                        `${song.title}-720p.mp4`
+                                      ),
+                                    disabled: !song.video720Url,
+                                  },
+                                  {
+                                    label: "Download 480p",
+                                    onClick: () =>
+                                      song.video480Url &&
+                                      downloadMedia(
+                                        song.video480Url,
+                                        `${song.title}-480p.mp4`
+                                      ),
+                                    disabled: !song.video480Url,
+                                  },
+                                ]}
+                              />
+                              <button
+                                className={`text-gray-400 hover:text-red-500 ${
+                                  loadingSongId === song.id &&
+                                  loadingType === "favorite"
+                                    ? "cursor-wait"
+                                    : ""
+                                }`}
+                                title={
+                                  isSongFavorite(song.id)
+                                    ? "즐겨찾기에서 제거"
+                                    : "즐겨찾기 추가"
+                                }
+                                onClick={() => handleToggleFavorite(song)}
+                                disabled={
+                                  loadingSongId === song.id &&
+                                  loadingType === "favorite"
+                                }
+                              >
+                                {loadingSongId === song.id &&
+                                loadingType === "favorite" ? (
+                                  <Loader2 className="w-4 h-4 animate-spin" />
+                                ) : isSongFavorite(song.id) ? (
+                                  <HeartFilled className="w-4 h-4 text-red-500 fill-red-500" />
+                                ) : (
+                                  <Heart className="w-4 h-4" />
+                                )}
+                              </button>
+                              <MenuDropdown
+                                song={song}
+                                isFavorite={isSongFavorite(song.id)}
+                                isPlaylist={isSongInPlaylist(song.id)}
+                                loadingSongId={loadingSongId}
+                                loadingType={loadingType}
+                                onToggleFavorite={handleToggleFavorite}
+                                onDownload={handleDownload}
+                                onMore={handleMore}
+                              />
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                  )}
+                </tbody>
+              </table>
 
-            <div className="bg-gray-50 px-4 py-3 border-t border-gray-200">
-              <div className="flex items-center space-x-4">
-                <button className="bg-green-500 text-white text-sm py-2 px-4 rounded hover:bg-green-600 transition-colors flex items-center gap-1">
-                  <Play className="w-4 h-4 mr-1" />
-                  전체 재생
-                </button>
-                <button className="bg-gray-200 text-gray-700 text-sm py-2 px-4 rounded hover:bg-gray-300 transition-colors flex items-center gap-1">
-                  <Plus className="w-4 h-4 mr-1" />
-                  전체 플레이리스트에 추가
-                </button>
-                <button className="bg-gray-200 text-gray-700 text-sm py-2 px-4 rounded hover:bg-gray-300 transition-colors flex items-center gap-1">
-                  <Download className="w-4 h-4 mr-1" />
-                  전체 다운로드
-                </button>
+              <div className="bg-gray-50 px-4 py-3 border-t border-gray-200">
+                <div className="flex items-center space-x-4">
+                  <button className="bg-green-500 text-white text-sm py-2 px-4 rounded hover:bg-green-600 transition-colors flex items-center gap-1">
+                    <Play className="w-4 h-4 mr-1" />
+                    전체 재생
+                  </button>
+                  <button className="bg-gray-200 text-gray-700 text-sm py-2 px-4 rounded hover:bg-gray-300 transition-colors flex items-center gap-1">
+                    <Plus className="w-4 h-4 mr-1" />
+                    전체 플레이리스트에 추가
+                  </button>
+                  <button className="bg-gray-200 text-gray-700 text-sm py-2 px-4 rounded hover:bg-gray-300 transition-colors flex items-center gap-1">
+                    <Download className="w-4 h-4 mr-1" />
+                    전체 다운로드
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="flex items-center justify-between mb-4 border-b-2 border-b-slate-700 py-1">
+              <h2 className="text-lg font-bold text-gray-900">
+                Popular Music PD Albums
+              </h2>
+              <Link className="flex items-center gap-1" to="/pb-album">
+                More <ChevronRight className="w-3 h-3" />
+              </Link>
+            </div>
+
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <ul className="divide-y divide-gray-200">
+                {filteredChartSongs.filter(Boolean).map((song, idx) =>
+                  song ? (
+                    <li
+                      key={song.id || idx}
+                      className="flex items-center py-4 hover:bg-gray-50"
+                    >
+                      <div className="flex-shrink-0 ml-4">
+                        <img
+                          src={
+                            song.coverImage ||
+                            song.album?.coverImage ||
+                            "https://placehold.co/50x50"
+                          }
+                          alt={song.title}
+                          className="w-16 h-16 rounded object-cover"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0 px-4">
+                        <Link
+                          to={`/song/${song.id}`}
+                          className="block text-base font-medium text-gray-900 hover:text-pink-600 hover:underline truncate"
+                        >
+                          {song.title}
+                        </Link>
+                        <div className="text-sm text-gray-500 truncate">
+                          {song?.genre}
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-end mr-4 min-w-[120px]">
+                        <span className="text-xs text-gray-500 mb-2">
+                          {song.album?.title || ""}
+                        </span>
+                        <div className="flex items-center space-x-2">
+                          <MenuDropdown
+                            song={song}
+                            isFavorite={isSongFavorite(song.id)}
+                            isPlaylist={isSongInPlaylist(song.id)}
+                            loadingSongId={loadingSongId}
+                            loadingType={loadingType}
+                            onToggleFavorite={handleToggleFavorite}
+                            onDownload={handleDownload}
+                            onMore={handleMore}
+                          />
+                        </div>
+                      </div>
+                    </li>
+                  ) : null
+                )}
+              </ul>
+
+              <div className="bg-gray-50 px-4 py-3 border-t border-gray-200">
+                <div className="flex items-center space-x-4">
+                  <button className="bg-green-500 text-white text-sm py-2 px-4 rounded hover:bg-green-600 transition-colors flex items-center gap-1">
+                    <Play className="w-4 h-4 mr-1" />
+                    전체 재생
+                  </button>
+                  <button className="bg-gray-200 text-gray-700 text-sm py-2 px-4 rounded hover:bg-gray-300 transition-colors flex items-center gap-1">
+                    <Plus className="w-4 h-4 mr-1" />
+                    전체 플레이리스트에 추가
+                  </button>
+                  <button className="bg-gray-200 text-gray-700 text-sm py-2 px-4 rounded hover:bg-gray-300 transition-colors flex items-center gap-1">
+                    <Download className="w-4 h-4 mr-1" />
+                    전체 다운로드
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* Section 3: Latest Videos */}
-        <section>
+        <section className="bg-slate-200 p-10">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-gray-900">최신 영상</h2>
             <Link
@@ -855,7 +966,7 @@ export default function HomePage() {
             <div className="relative">
               {/* Slider Controls */}
               <button
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white bg-opacity-80 rounded-full p-2 shadow hover:bg-opacity-100 transition disabled:opacity-40"
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-slate-400 text-white cursor-pointer bg-opacity-80 rounded-md py-6 shadow hover:bg-opacity-100 transition disabled:opacity-40"
                 onClick={() => handleVideoNav("left")}
                 disabled={videoPage === 0 || isVideoSliding}
                 aria-label="이전 영상"
@@ -875,7 +986,7 @@ export default function HomePage() {
                 </svg>
               </button>
               <button
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white bg-opacity-80 rounded-full p-2 shadow hover:bg-opacity-100 transition disabled:opacity-40"
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-slate-400 text-white cursor-pointer bg-opacity-80 rounded-md py-6 shadow hover:bg-opacity-100 transition disabled:opacity-40"
                 onClick={() => handleVideoNav("right")}
                 disabled={videoPage >= totalVideoPages - 1 || isVideoSliding}
                 aria-label="다음 영상"
@@ -895,11 +1006,11 @@ export default function HomePage() {
                 </svg>
               </button>
               <div
-                className={`overflow-hidden relative h-auto`}
-                style={{ minHeight: "140px" }}
+                className={`overflow-hidden relative h-auto shrink-0`}
+                style={{ minHeight: "220px" }}
               >
                 <div
-                  className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 transition-transform duration-350 ease-in-out ${
+                  className={`grid grid-cols-7 md:grid-cols-5  grid-rows-2 gap-4 transition-transform duration-350 e duration-350 ease-in-out ${
                     isVideoSliding && videoSlideDirection === "left"
                       ? "-translate-x-16 opacity-60"
                       : isVideoSliding && videoSlideDirection === "right"
@@ -912,7 +1023,7 @@ export default function HomePage() {
                       video && (
                         <div
                           key={video.id}
-                          className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+                          className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow min-w-[250px]"
                         >
                           <div className="relative">
                             <img
@@ -951,7 +1062,15 @@ export default function HomePage() {
                                   : "0"}
                               </span>
                               <button className="text-gray-400 hover:text-gray-600">
-                                <MoreHorizontal className="w-4 h-4" />
+                                <VideoMenuDropdown
+                                  video={video}
+                                  isFavorite={false}
+                                  loadingSongId={loadingSongId}
+                                  loadingType={loadingType}
+                                  onToggleFavorite={() => {}}
+                                  onDownload={() => {}}
+                                  onMore={() => {}}
+                                />
                               </button>
                             </div>
                           </div>
@@ -976,7 +1095,7 @@ export default function HomePage() {
         </section>
 
         {/* Section 4: Music Posts */}
-        <section>
+        <section className="p-10">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-gray-900">뮤직포스트</h2>
             <Link
@@ -986,47 +1105,53 @@ export default function HomePage() {
               뮤직포스트 더 보기
             </Link>
           </div>
-
-          <div className="space-y-4">
-            {musicPosts?.filter(Boolean).map(
-              (post) =>
-                post && (
-                  <div
-                    key={post.id}
-                    className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow"
-                  >
-                    <h3 className="text-sm font-medium text-gray-900 mb-2">
-                      {post.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 mb-3">{post.content}</p>
-                    <div className="flex items-center justify-between text-xs text-gray-500">
-                      <div className="flex items-center space-x-4">
-                        <span>{post.author}</span>
-                        <span>{post.timestamp}</span>
-                      </div>
-                      <div className="flex items-center space-x-4">
-                        <div className="flex items-center space-x-1">
-                          <Heart className="w-3 h-3" />
-                          <span>{post.likes}</span>
+          {musicPosts?.length > 0 ? (
+            <div className="space-y-4">
+              {musicPosts?.filter(Boolean).map(
+                (post) =>
+                  post && (
+                    <div
+                      key={post.id}
+                      className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow"
+                    >
+                      <h3 className="text-sm font-medium text-gray-900 mb-2">
+                        {post.title}
+                      </h3>
+                      <p className="text-sm text-gray-600 mb-3">
+                        {post.content}
+                      </p>
+                      <div className="flex items-center justify-between text-xs text-gray-500">
+                        <div className="flex items-center space-x-4">
+                          <span>{post.author}</span>
+                          <span>{post.timestamp}</span>
                         </div>
-                        <div className="flex items-center space-x-1">
-                          <MessageCircle className="w-3 h-3" />
-                          <span>{post.comments}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <Eye className="w-3 h-3" />
-                          <span>{post.views}</span>
+                        <div className="flex items-center space-x-4">
+                          <div className="flex items-center space-x-1">
+                            <Heart className="w-3 h-3" />
+                            <span>{post.likes}</span>
+                          </div>
+                          <div className="flex items-center space-x-1">
+                            <MessageCircle className="w-3 h-3" />
+                            <span>{post.comments}</span>
+                          </div>
+                          <div className="flex items-center space-x-1">
+                            <Eye className="w-3 h-3" />
+                            <span>{post.views}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                )
-            )}
-          </div>
+                  )
+              )}
+            </div>
+          ) : (
+            <p>No Post</p>
+          )}
         </section>
 
         {/* Section 5: Artist Connect Stories */}
-        <section>
+
+        <section className="bg-slate-200 p-10">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-gray-900">
               아티스트가 쓴 커넥트 스토리
@@ -1038,44 +1163,47 @@ export default function HomePage() {
               커넥트 스토리 더 보기
             </Link>
           </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            {artistStories.filter(Boolean).map(
-              (story) =>
-                story && (
-                  <div
-                    key={story.id}
-                    className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow"
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-sm font-medium text-gray-900">
-                        {story.artist}
-                      </h3>
-                      <span className="text-xs text-gray-500">
-                        {story.timestamp}
-                      </span>
-                    </div>
-                    <p className="text-sm text-gray-600 mb-3">
-                      {story.content}
-                    </p>
-                    <div className="flex items-center space-x-4 text-xs text-gray-500">
-                      <div className="flex items-center space-x-1">
-                        <MessageCircle className="w-3 h-3" />
-                        <span>{story.comments}</span>
+          {artistStories?.length > 0 ? (
+            <div className="grid grid-cols-2 gap-4">
+              {artistStories.filter(Boolean).map(
+                (story) =>
+                  story && (
+                    <div
+                      key={story.id}
+                      className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="text-sm font-medium text-gray-900">
+                          {story.artist}
+                        </h3>
+                        <span className="text-xs text-gray-500">
+                          {story.timestamp}
+                        </span>
                       </div>
-                      <div className="flex items-center space-x-1">
-                        <Eye className="w-3 h-3" />
-                        <span>{story.views}</span>
+                      <p className="text-sm text-gray-600 mb-3">
+                        {story.content}
+                      </p>
+                      <div className="flex items-center space-x-4 text-xs text-gray-500">
+                        <div className="flex items-center space-x-1">
+                          <MessageCircle className="w-3 h-3" />
+                          <span>{story.comments}</span>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <Eye className="w-3 h-3" />
+                          <span>{story.views}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )
-            )}
-          </div>
+                  )
+              )}
+            </div>
+          ) : (
+            <p>No stroy</p>
+          )}
         </section>
 
         {/* Section 6: PD Albums */}
-        <section>
+        <section className="p-10">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-gray-900">
               테마별 음악은 뮤직PD 앨범
@@ -1087,41 +1215,44 @@ export default function HomePage() {
               뮤직PD 앨범 더 보기
             </Link>
           </div>
-
-          <div className="grid grid-cols-4 gap-4">
-            {pdAlbums.filter(Boolean).map(
-              (album) =>
-                album && (
-                  <Link
-                    to={`/album/${album?.id}`}
-                    key={album.id}
-                    className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
-                  >
-                    <img
-                      src={album.imageUrl}
-                      alt={album.title}
-                      className="w-full h-32 object-cover"
-                    />
-                    <div className="p-3">
-                      <h3 className="text-sm font-medium text-gray-900 mb-1">
-                        {album.title}
-                      </h3>
-                      <p className="text-xs text-gray-600 mb-2">
-                        {album.description}
-                      </p>
-                      <div className="flex items-center justify-between text-xs text-gray-500">
-                        <span>{album.curator}</span>
-                        <span>{album.trackCount}곡</span>
+          {pdAlbums?.length > 0 ? (
+            <div className="grid grid-cols-4 gap-4">
+              {pdAlbums.filter(Boolean).map(
+                (album) =>
+                  album && (
+                    <Link
+                      to={`/album/${album?.id}`}
+                      key={album.id}
+                      className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+                    >
+                      <img
+                        src={album.imageUrl}
+                        alt={album.title}
+                        className="w-full h-32 object-cover"
+                      />
+                      <div className="p-3">
+                        <h3 className="text-sm font-medium text-gray-900 mb-1">
+                          {album.title}
+                        </h3>
+                        <p className="text-xs text-gray-600 mb-2">
+                          {album.description}
+                        </p>
+                        <div className="flex items-center justify-between text-xs text-gray-500">
+                          <span>{album.curator}</span>
+                          <span>{album.trackCount}곡</span>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                )
-            )}
-          </div>
+                    </Link>
+                  )
+              )}
+            </div>
+          ) : (
+            <p>No album</p>
+          )}
         </section>
 
         {/* Section 7: Knowledge Content */}
-        <section>
+        <section className="bg-slate-200 p-10">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-gray-900">
               음악, 아는만큼 들린다
@@ -1172,7 +1303,6 @@ export default function HomePage() {
             .map((a) => a.artist?.stageName || a.artist?.name)
             .join(", ")}
           album={previewAudio.album?.title || ""}
-          id={previewAudio.id}
           onClose={() => setPreviewAudio(null)}
         />
       )}
@@ -1190,7 +1320,7 @@ export default function HomePage() {
             {(() => {
               return (
                 <VideoPlayer
-                  videoUrl={previewVideo?.videoUrl}
+                  videoUrl={previewVideo?.url}
                   title={previewVideo.title || ""}
                   isVisible={!!previewVideo}
                   onClose={() => setPreviewVideo(null)}

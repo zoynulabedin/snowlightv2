@@ -260,7 +260,7 @@ export default function AudioPlayer({
           }}
         >
           <div
-            className="h-full bg-bugs-pink transition-all duration-100"
+            className="h-full bg-Snowlight-pink transition-all duration-100"
             style={{
               width:
                 displayDuration > 0
@@ -296,7 +296,7 @@ export default function AudioPlayer({
                 onClick={toggleShuffle}
                 className={`p-2 rounded-md transition-colors ${
                   isShuffled
-                    ? "text-bugs-pink bg-pink-50"
+                    ? "text-Snowlight-pink bg-pink-50"
                     : "text-gray-600 hover:bg-gray-100"
                 }`}
               >
@@ -310,7 +310,7 @@ export default function AudioPlayer({
               </button>
               <button
                 onClick={togglePlay}
-                className="w-10 h-10 bg-bugs-pink text-white rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors"
+                className="w-10 h-10 bg-Snowlight-pink text-white rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors"
               >
                 {isPlaying ? (
                   <Pause className="w-5 h-5" />
@@ -328,7 +328,7 @@ export default function AudioPlayer({
                 onClick={toggleRepeat}
                 className={`p-2 rounded-md transition-colors ${
                   repeatMode !== "off"
-                    ? "text-bugs-pink bg-pink-50"
+                    ? "text-Snowlight-pink bg-pink-50"
                     : "text-gray-600 hover:bg-gray-100"
                 }`}
               >
@@ -374,7 +374,7 @@ export default function AudioPlayer({
                   }}
                 >
                   <div
-                    className="h-full bg-bugs-pink rounded-full"
+                    className="h-full bg-Snowlight-pink rounded-full"
                     style={{ width: `${volume * 100}%` }}
                   />
                 </div>
@@ -384,7 +384,7 @@ export default function AudioPlayer({
                   onClick={() => setShowPlaylist(!showPlaylist)}
                   className={`p-2 rounded-md transition-colors ${
                     showPlaylist
-                      ? "text-bugs-pink bg-pink-50"
+                      ? "text-Snowlight-pink bg-pink-50"
                       : "text-gray-600 hover:bg-gray-100"
                   }`}
                 >
@@ -451,7 +451,7 @@ export default function AudioPlayer({
               >
                 <div className="w-6 text-center">
                   {index === currentIndex && isPlaying ? (
-                    <div className="w-4 h-4 bg-bugs-pink rounded-full animate-pulse" />
+                    <div className="w-4 h-4 bg-Snowlight-pink rounded-full animate-pulse" />
                   ) : (
                     <span className="text-sm text-gray-500">{index + 1}</span>
                   )}
@@ -465,7 +465,7 @@ export default function AudioPlayer({
                   <h4
                     className={`text-sm font-medium truncate ${
                       index === currentIndex
-                        ? "text-bugs-pink"
+                        ? "text-Snowlight-pink"
                         : "text-gray-900"
                     }`}
                   >
@@ -517,7 +517,7 @@ export default function AudioPlayer({
                   setIsExpanded(false);
                   closeAudioPlayer();
                 }}
-                className="p-2 text-gray-600 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors"
+                className="p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -564,7 +564,7 @@ export default function AudioPlayer({
                   }}
                 >
                   <div
-                    className="h-full bg-bugs-pink rounded-full transition-all duration-100"
+                    className="h-full bg-Snowlight-pink rounded-full transition-all duration-100"
                     style={{
                       width:
                         displayDuration > 0
@@ -585,8 +585,8 @@ export default function AudioPlayer({
                   onClick={toggleShuffle}
                   className={`p-2 rounded-md transition-colors ${
                     isShuffled
-                      ? "text-bugs-pink bg-pink-50"
-                      : "text-gray-600 hover:text-bugs-pink hover:bg-pink-50"
+                      ? "text-Snowlight-pink bg-pink-50"
+                      : "text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50"
                   }`}
                 >
                   <Shuffle className="w-5 h-5" />
@@ -594,14 +594,14 @@ export default function AudioPlayer({
 
                 <button
                   onClick={handlePrevious}
-                  className="p-3 text-gray-600 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors"
+                  className="p-3 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors"
                 >
                   <SkipBack className="w-6 h-6" />
                 </button>
 
                 <button
                   onClick={togglePlay}
-                  className="w-16 h-16 bg-bugs-pink text-white rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors"
+                  className="w-16 h-16 bg-Snowlight-pink text-white rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors"
                 >
                   {isPlaying ? (
                     <Pause className="w-8 h-8" />
@@ -612,7 +612,7 @@ export default function AudioPlayer({
 
                 <button
                   onClick={handleNext}
-                  className="p-3 text-gray-600 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors"
+                  className="p-3 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors"
                 >
                   <SkipForward className="w-6 h-6" />
                 </button>
@@ -621,8 +621,8 @@ export default function AudioPlayer({
                   onClick={toggleRepeat}
                   className={`p-2 rounded-md transition-colors ${
                     repeatMode !== "off"
-                      ? "text-bugs-pink bg-pink-50"
-                      : "text-gray-600 hover:text-bugs-pink hover:bg-pink-50"
+                      ? "text-Snowlight-pink bg-pink-50"
+                      : "text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50"
                   }`}
                 >
                   <Repeat className="w-5 h-5" />
@@ -634,7 +634,7 @@ export default function AudioPlayer({
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={toggleMute}
-                    className="p-2 text-gray-600 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors"
+                    className="p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors"
                   >
                     {isMuted || volume === 0 ? (
                       <VolumeX className="w-5 h-5" />
@@ -665,20 +665,20 @@ export default function AudioPlayer({
                     }}
                   >
                     <div
-                      className="h-full bg-bugs-pink rounded-full"
+                      className="h-full bg-Snowlight-pink rounded-full"
                       style={{ width: `${volume * 100}%` }}
                     />
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-2">
-                  <button className="p-2 text-gray-600 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors">
+                  <button className="p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors">
                     <Heart className="w-5 h-5" />
                   </button>
-                  <button className="p-2 text-gray-600 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors">
+                  <button className="p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors">
                     <Download className="w-5 h-5" />
                   </button>
-                  <button className="p-2 text-gray-600 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors">
+                  <button className="p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors">
                     <MoreHorizontal className="w-5 h-5" />
                   </button>
                 </div>

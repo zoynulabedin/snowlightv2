@@ -1,4 +1,23 @@
-import{r as a,j as e}from"./index-BJHAE5s4.js";import{L as oe}from"./LanguageContext-BFw3fmyY.js";import{u as ie,P as ce}from"./PlayerContext-V_k27SiC.js";import{A as de}from"./AuthContext-CUPKj7Oa.js";import{H as U}from"./heart-Dn2OeVKi.js";import{c as g}from"./createLucideIcon-iNHoReR6.js";import{P as q,V as B,a as F,X as T}from"./x-QeL79yBJ.js";import{P as J}from"./play-xanyyhs6.js";import{D as W}from"./download-D1QhcQ9O.js";import{E as me}from"./ellipsis-oYE1YOVG.js";import{d as ue,e as he,O as xe}from"./index-CiN_UGES.js";import{k as pe,l as ge,_ as fe,M as je,m as ye,S as be}from"./components-BzXIzYa5.js";/**
+import { r as a, j as e } from "./index-BJHAE5s4.js";
+import { L as oe } from "./LanguageContext-BFw3fmyY.js";
+import { u as ie, P as ce } from "./PlayerContext-V_k27SiC.js";
+import { A as de } from "./AuthContext-CUPKj7Oa.js";
+import { H as U } from "./heart-Dn2OeVKi.js";
+import { c as g } from "./createLucideIcon-iNHoReR6.js";
+import { P as q, V as B, a as F, X as T } from "./x-QeL79yBJ.js";
+import { P as J } from "./play-xanyyhs6.js";
+import { D as W } from "./download-D1QhcQ9O.js";
+import { E as me } from "./ellipsis-oYE1YOVG.js";
+import { d as ue, e as he, O as xe } from "./index-CiN_UGES.js";
+import {
+  k as pe,
+  l as ge,
+  _ as fe,
+  M as je,
+  m as ye,
+  S as be,
+} from "./components-BzXIzYa5.js";
+/**
  * @remix-run/react v2.17.0
  *
  * Copyright (c) Remix Software Inc.
@@ -7,34 +26,742 @@ import{r as a,j as e}from"./index-BJHAE5s4.js";import{L as oe}from"./LanguageCon
  * LICENSE.md file in the root directory of this source tree.
  *
  * @license MIT
- */let Y="positions";function ve({getKey:r,...n}){let{isSpaMode:M}=pe(),j=ue(),f=he();ge({getKey:r,storageKey:Y});let x=a.useMemo(()=>{if(!r)return null;let i=r(j,f);return i!==j.key?i:null},[]);if(M)return null;let u=((i,y)=>{if(!window.history.state||!window.history.state.key){let l=Math.random().toString(32).slice(2);window.history.replaceState({key:l},"")}try{let b=JSON.parse(sessionStorage.getItem(i)||"{}")[y||window.history.state.key];typeof b=="number"&&window.scrollTo(0,b)}catch(l){console.error(l),sessionStorage.removeItem(i)}}).toString();return a.createElement("script",fe({},n,{suppressHydrationWarning:!0,dangerouslySetInnerHTML:{__html:`(${u})(${JSON.stringify(Y)}, ${JSON.stringify(x)})`}}))}/**
+ */ let Y = "positions";
+function ve({ getKey: r, ...n }) {
+  let { isSpaMode: M } = pe(),
+    j = ue(),
+    f = he();
+  ge({ getKey: r, storageKey: Y });
+  let x = a.useMemo(() => {
+    if (!r) return null;
+    let i = r(j, f);
+    return i !== j.key ? i : null;
+  }, []);
+  if (M) return null;
+  let u = ((i, y) => {
+    if (!window.history.state || !window.history.state.key) {
+      let l = Math.random().toString(32).slice(2);
+      window.history.replaceState({ key: l }, "");
+    }
+    try {
+      let b = JSON.parse(sessionStorage.getItem(i) || "{}")[
+        y || window.history.state.key
+      ];
+      typeof b == "number" && window.scrollTo(0, b);
+    } catch (l) {
+      console.error(l), sessionStorage.removeItem(i);
+    }
+  }).toString();
+  return a.createElement(
+    "script",
+    fe({}, n, {
+      suppressHydrationWarning: !0,
+      dangerouslySetInnerHTML: {
+        __html: `(${u})(${JSON.stringify(Y)}, ${JSON.stringify(x)})`,
+      },
+    })
+  );
+}
+/**
  * @license lucide-react v0.537.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
- */const ke=[["path",{d:"M3 12h.01",key:"nlz23k"}],["path",{d:"M3 18h.01",key:"1tta3j"}],["path",{d:"M3 6h.01",key:"1rqtza"}],["path",{d:"M8 12h13",key:"1za7za"}],["path",{d:"M8 18h13",key:"1lx6n3"}],["path",{d:"M8 6h13",key:"ik3vkj"}]],Ne=g("list",ke);/**
+ */ const ke = [
+    ["path", { d: "M3 12h.01", key: "nlz23k" }],
+    ["path", { d: "M3 18h.01", key: "1tta3j" }],
+    ["path", { d: "M3 6h.01", key: "1rqtza" }],
+    ["path", { d: "M8 12h13", key: "1za7za" }],
+    ["path", { d: "M8 18h13", key: "1lx6n3" }],
+    ["path", { d: "M8 6h13", key: "ik3vkj" }],
+  ],
+  Ne = g("list", ke);
+/**
  * @license lucide-react v0.537.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
- */const we=[["path",{d:"M15 3h6v6",key:"1q9fwt"}],["path",{d:"m21 3-7 7",key:"1l2asr"}],["path",{d:"m3 21 7-7",key:"tjx5ai"}],["path",{d:"M9 21H3v-6",key:"wtvkvv"}]],Me=g("maximize-2",we);/**
+ */ const we = [
+    ["path", { d: "M15 3h6v6", key: "1q9fwt" }],
+    ["path", { d: "m21 3-7 7", key: "1l2asr" }],
+    ["path", { d: "m3 21 7-7", key: "tjx5ai" }],
+    ["path", { d: "M9 21H3v-6", key: "wtvkvv" }],
+  ],
+  Me = g("maximize-2", we);
+/**
  * @license lucide-react v0.537.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
- */const Se=[["path",{d:"m17 2 4 4-4 4",key:"nntrym"}],["path",{d:"M3 11v-1a4 4 0 0 1 4-4h14",key:"84bu3i"}],["path",{d:"m7 22-4-4 4-4",key:"1wqhfi"}],["path",{d:"M21 13v1a4 4 0 0 1-4 4H3",key:"1rx37r"}]],G=g("repeat",Se);/**
+ */ const Se = [
+    ["path", { d: "m17 2 4 4-4 4", key: "nntrym" }],
+    ["path", { d: "M3 11v-1a4 4 0 0 1 4-4h14", key: "84bu3i" }],
+    ["path", { d: "m7 22-4-4 4-4", key: "1wqhfi" }],
+    ["path", { d: "M21 13v1a4 4 0 0 1-4 4H3", key: "1rx37r" }],
+  ],
+  G = g("repeat", Se);
+/**
  * @license lucide-react v0.537.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
- */const Ce=[["path",{d:"m18 14 4 4-4 4",key:"10pe0f"}],["path",{d:"m18 2 4 4-4 4",key:"pucp1d"}],["path",{d:"M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22",key:"1ailkh"}],["path",{d:"M2 6h1.972a4 4 0 0 1 3.6 2.2",key:"km57vx"}],["path",{d:"M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45",key:"os18l9"}]],K=g("shuffle",Ce);/**
+ */ const Ce = [
+    ["path", { d: "m18 14 4 4-4 4", key: "10pe0f" }],
+    ["path", { d: "m18 2 4 4-4 4", key: "pucp1d" }],
+    [
+      "path",
+      {
+        d: "M2 18h1.973a4 4 0 0 0 3.3-1.7l5.454-8.6a4 4 0 0 1 3.3-1.7H22",
+        key: "1ailkh",
+      },
+    ],
+    ["path", { d: "M2 6h1.972a4 4 0 0 1 3.6 2.2", key: "km57vx" }],
+    ["path", { d: "M22 18h-6.041a4 4 0 0 1-3.3-1.8l-.359-.45", key: "os18l9" }],
+  ],
+  K = g("shuffle", Ce);
+/**
  * @license lucide-react v0.537.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
- */const $e=[["path",{d:"M17.971 4.285A2 2 0 0 1 21 6v12a2 2 0 0 1-3.029 1.715l-9.997-5.998a2 2 0 0 1-.003-3.432z",key:"15892j"}],["path",{d:"M3 20V4",key:"1ptbpl"}]],Q=g("skip-back",$e);/**
+ */ const $e = [
+    [
+      "path",
+      {
+        d: "M17.971 4.285A2 2 0 0 1 21 6v12a2 2 0 0 1-3.029 1.715l-9.997-5.998a2 2 0 0 1-.003-3.432z",
+        key: "15892j",
+      },
+    ],
+    ["path", { d: "M3 20V4", key: "1ptbpl" }],
+  ],
+  Q = g("skip-back", $e);
+/**
  * @license lucide-react v0.537.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
- */const Pe=[["path",{d:"M21 4v16",key:"7j8fe9"}],["path",{d:"M6.029 4.285A2 2 0 0 0 3 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z",key:"zs4d6"}]],Z=g("skip-forward",Pe);function Ee(){const{currentTrack:r,playlist:n,isAudioPlayerVisible:M,closeAudioPlayer:j,playTrack:f}=ie(),[x,u]=a.useState(!1),[i,y]=a.useState(0),[l,b]=a.useState(0),[m,S]=a.useState(1),[C,$]=a.useState(!1),[v,ee]=a.useState(!1),[p,se]=a.useState("off"),[P,_]=a.useState(!1),[d,te]=a.useState(0),[re,ae]=a.useState(m),[I,E]=a.useState(!1),o=a.useRef(null),k=a.useRef(null),N=a.useRef(null);a.useEffect(()=>{if(r&&o.current){o.current.src=r.audioUrl,o.current.load();const s=n.findIndex(t=>t.id===r.id);s!==-1&&te(s)}},[r,n]),a.useEffect(()=>{const s=o.current;if(!s)return;const t=()=>y(s.currentTime),c=()=>b(s.duration||0),h=()=>{p==="one"?(s.currentTime=0,s.play()):p==="all"||d<n.length-1?L():u(!1)};return s.addEventListener("timeupdate",t),s.addEventListener("loadedmetadata",c),s.addEventListener("ended",h),s.addEventListener("play",()=>u(!0)),s.addEventListener("pause",()=>u(!1)),()=>{s.removeEventListener("timeupdate",t),s.removeEventListener("loadedmetadata",c),s.removeEventListener("ended",h),s.removeEventListener("play",()=>u(!0)),s.removeEventListener("pause",()=>u(!1))}},[p,d,n.length]),a.useEffect(()=>{o.current&&(o.current.volume=m)},[m]);const w=s=>{const t=Math.floor(s/60),c=Math.floor(s%60);return`${t}:${c.toString().padStart(2,"0")}`},ne=s=>{const t=Math.floor(s/60),c=s%60;return`${t}:${c.toString().padStart(2,"0")}`},R=()=>{!o.current||!r||(x?o.current.pause():o.current.play().catch(console.error))},L=()=>{if(n.length===0)return;let s;v?s=Math.floor(Math.random()*n.length):s=d<n.length-1?d+1:0;const t=n[s];t&&f(t,n)},z=()=>{if(n.length!==0)if(i>3)H(0);else{const s=d>0?d-1:n.length-1,t=n[s];t&&f(t,n)}},V=s=>{if(k.current&&l>0){const t=k.current.getBoundingClientRect(),h=(s.clientX-t.left)/t.width*l;H(h)}},A=s=>{if(N.current){const t=N.current.getBoundingClientRect(),c=s.clientX-t.left,h=Math.max(0,Math.min(1,c/t.width));S(h),h>0&&$(!1)}},H=s=>{o.current&&(o.current.currentTime=s,y(s))},O=()=>{C?(S(re),$(!1)):(ae(m),S(0),$(!0))},X=()=>{ee(!v)},D=()=>{const s=["off","one","all"],t=s.indexOf(p),c=s[(t+1)%s.length];se(c)},le=s=>{f(s,n)};return!M||!r?null:e.jsxs(e.Fragment,{children:[e.jsx("audio",{ref:o}),e.jsxs("div",{className:"fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50",children:[e.jsx("div",{ref:k,className:"w-full h-1 bg-gray-200 cursor-pointer hover:h-2 transition-all duration-200",onClick:V,children:e.jsx("div",{className:"h-full bg-bugs-pink transition-all duration-100",style:{width:l>0?`${i/l*100}%`:"0%"}})}),e.jsx("div",{className:"max-w-7xl mx-auto px-4",children:e.jsxs("div",{className:"flex items-center justify-between py-3",children:[e.jsxs("div",{className:"flex items-center space-x-3 flex-1 min-w-0",children:[e.jsx("img",{src:r.coverUrl,alt:r.title,className:"w-12 h-12 rounded-md object-cover"}),e.jsxs("div",{className:"min-w-0 flex-1",children:[e.jsx("h4",{className:"text-sm font-medium text-gray-900 truncate",children:r.title}),e.jsx("p",{className:"text-xs text-gray-600 truncate",children:r.artist})]}),e.jsx("button",{className:"p-1 hover:bg-gray-100 rounded",children:e.jsx(U,{className:"w-4 h-4 text-gray-600"})})]}),e.jsxs("div",{className:"flex items-center space-x-4",children:[e.jsx("button",{onClick:X,className:`p-2 rounded-md transition-colors ${v?"text-bugs-pink bg-pink-50":"text-gray-600 hover:bg-gray-100"}`,children:e.jsx(K,{className:"w-4 h-4"})}),e.jsx("button",{onClick:z,className:"p-2 text-gray-600 hover:bg-gray-100 rounded-md",children:e.jsx(Q,{className:"w-5 h-5"})}),e.jsx("button",{onClick:R,className:"w-10 h-10 bg-bugs-pink text-white rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors",children:x?e.jsx(q,{className:"w-5 h-5"}):e.jsx(J,{className:"w-5 h-5 ml-0.5"})}),e.jsx("button",{onClick:L,className:"p-2 text-gray-600 hover:bg-gray-100 rounded-md",children:e.jsx(Z,{className:"w-5 h-5"})}),e.jsx("button",{onClick:D,className:`p-2 rounded-md transition-colors ${p!=="off"?"text-bugs-pink bg-pink-50":"text-gray-600 hover:bg-gray-100"}`,children:e.jsx(G,{className:"w-4 h-4"})})]}),e.jsxs("div",{className:"flex items-center space-x-4 flex-1 justify-end",children:[e.jsxs("span",{className:"text-xs text-gray-600 tabular-nums",children:[w(i)," / ",w(l)]}),e.jsxs("div",{className:"flex items-center space-x-2",children:[e.jsx("button",{onClick:O,className:"p-1 hover:bg-gray-100 rounded",children:C||m===0?e.jsx(B,{className:"w-4 h-4 text-gray-600"}):e.jsx(F,{className:"w-4 h-4 text-gray-600"})}),e.jsx("div",{ref:N,className:"w-20 h-1 bg-gray-200 rounded-full cursor-pointer",onClick:A,children:e.jsx("div",{className:"h-full bg-bugs-pink rounded-full",style:{width:`${m*100}%`}})})]}),e.jsxs("div",{className:"flex items-center space-x-2",children:[e.jsx("button",{onClick:()=>_(!P),className:`p-2 rounded-md transition-colors ${P?"text-bugs-pink bg-pink-50":"text-gray-600 hover:bg-gray-100"}`,children:e.jsx(Ne,{className:"w-4 h-4"})}),e.jsx("button",{className:"p-2 text-gray-600 hover:bg-gray-100 rounded-md",children:e.jsx(W,{className:"w-4 h-4"})}),e.jsx("button",{onClick:()=>E(!I),className:"p-2 text-gray-600 hover:bg-gray-100 rounded-md",children:e.jsx(Me,{className:"w-4 h-4"})}),e.jsx("button",{onClick:j,className:"p-2 text-gray-600 hover:bg-gray-100 rounded-md",children:e.jsx(T,{className:"w-4 h-4"})})]})]})]})})]}),P&&e.jsxs("div",{className:"fixed right-0 bottom-20 top-0 w-80 bg-white border-l border-gray-200 shadow-lg z-40 overflow-y-auto",children:[e.jsxs("div",{className:"p-4 border-b border-gray-200",children:[e.jsxs("div",{className:"flex items-center justify-between",children:[e.jsx("h3",{className:"font-semibold text-gray-900",children:"재생목록"}),e.jsx("button",{onClick:()=>_(!1),className:"p-1 hover:bg-gray-100 rounded",children:e.jsx(T,{className:"w-4 h-4"})})]}),e.jsxs("p",{className:"text-sm text-gray-600 mt-1",children:[n.length,"곡"]})]}),e.jsx("div",{className:"p-2",children:n.map((s,t)=>e.jsxs("div",{className:`flex items-center space-x-3 p-2 rounded-md cursor-pointer hover:bg-gray-50 ${t===d?"bg-pink-50 border border-pink-200":""}`,onClick:()=>le(s),children:[e.jsx("div",{className:"w-6 text-center",children:t===d&&x?e.jsx("div",{className:"w-4 h-4 bg-bugs-pink rounded-full animate-pulse"}):e.jsx("span",{className:"text-sm text-gray-500",children:t+1})}),e.jsx("img",{src:s.coverUrl,alt:s.title,className:"w-10 h-10 rounded object-cover"}),e.jsxs("div",{className:"flex-1 min-w-0",children:[e.jsx("h4",{className:`text-sm font-medium truncate ${t===d?"text-bugs-pink":"text-gray-900"}`,children:s.title}),e.jsx("p",{className:"text-xs text-gray-600 truncate",children:s.artist})]}),e.jsx("span",{className:"text-xs text-gray-500 tabular-nums",children:ne(s.duration)})]},s.id))})]}),I&&e.jsxs(e.Fragment,{children:[e.jsx("div",{className:"fixed inset-0 bg-black/50 z-50",onClick:()=>E(!1)}),e.jsxs("div",{className:"fixed inset-4 md:inset-8 bg-white rounded-lg shadow-2xl z-50 flex flex-col",children:[e.jsxs("div",{className:"flex items-center justify-between p-4 border-b border-gray-200",children:[e.jsx("h2",{className:"text-lg font-bold text-gray-900",children:"재생 중"}),e.jsx("button",{onClick:()=>E(!1),className:"p-2 text-gray-600 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors",children:e.jsx(T,{className:"w-5 h-5"})})]}),e.jsxs("div",{className:"flex-1 flex flex-col justify-center p-8",children:[e.jsx("div",{className:"text-center mb-8",children:e.jsx("img",{src:r.coverUrl,alt:r.title,className:"w-64 h-64 mx-auto rounded-lg shadow-lg object-cover"})}),e.jsxs("div",{className:"text-center mb-8",children:[e.jsx("h1",{className:"text-2xl font-bold text-gray-900 mb-2",children:r.title}),e.jsx("p",{className:"text-lg text-gray-600 mb-4",children:r.artist}),e.jsx("p",{className:"text-sm text-gray-500",children:r.album})]}),e.jsxs("div",{className:"mb-8",children:[e.jsx("div",{ref:k,className:"w-full h-2 bg-gray-200 rounded-full cursor-pointer mb-2",onClick:V,children:e.jsx("div",{className:"h-full bg-bugs-pink rounded-full transition-all duration-100",style:{width:l>0?`${i/l*100}%`:"0%"}})}),e.jsxs("div",{className:"flex justify-between text-sm text-gray-500",children:[e.jsx("span",{children:w(i)}),e.jsx("span",{children:w(l)})]})]}),e.jsxs("div",{className:"flex items-center justify-center space-x-6 mb-8",children:[e.jsx("button",{onClick:X,className:`p-2 rounded-md transition-colors ${v?"text-bugs-pink bg-pink-50":"text-gray-600 hover:text-bugs-pink hover:bg-pink-50"}`,children:e.jsx(K,{className:"w-5 h-5"})}),e.jsx("button",{onClick:z,className:"p-3 text-gray-600 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors",children:e.jsx(Q,{className:"w-6 h-6"})}),e.jsx("button",{onClick:R,className:"w-16 h-16 bg-bugs-pink text-white rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors",children:x?e.jsx(q,{className:"w-8 h-8"}):e.jsx(J,{className:"w-8 h-8 ml-1"})}),e.jsx("button",{onClick:L,className:"p-3 text-gray-600 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors",children:e.jsx(Z,{className:"w-6 h-6"})}),e.jsx("button",{onClick:D,className:`p-2 rounded-md transition-colors ${p!=="off"?"text-bugs-pink bg-pink-50":"text-gray-600 hover:text-bugs-pink hover:bg-pink-50"}`,children:e.jsx(G,{className:"w-5 h-5"})})]}),e.jsxs("div",{className:"flex items-center justify-between",children:[e.jsxs("div",{className:"flex items-center space-x-2",children:[e.jsx("button",{onClick:O,className:"p-2 text-gray-600 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors",children:C||m===0?e.jsx(B,{className:"w-5 h-5"}):e.jsx(F,{className:"w-5 h-5"})}),e.jsx("div",{ref:N,className:"w-24 h-1 bg-gray-200 rounded-full cursor-pointer",onClick:A,children:e.jsx("div",{className:"h-full bg-bugs-pink rounded-full",style:{width:`${m*100}%`}})})]}),e.jsxs("div",{className:"flex items-center space-x-2",children:[e.jsx("button",{className:"p-2 text-gray-600 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors",children:e.jsx(U,{className:"w-5 h-5"})}),e.jsx("button",{className:"p-2 text-gray-600 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors",children:e.jsx(W,{className:"w-5 h-5"})}),e.jsx("button",{className:"p-2 text-gray-600 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors",children:e.jsx(me,{className:"w-5 h-5"})})]})]})]})]})]})]})}const Ue=()=>[{rel:"preconnect",href:"https://fonts.googleapis.com"},{rel:"preconnect",href:"https://fonts.gstatic.com",crossOrigin:"anonymous"},{rel:"stylesheet",href:"https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"}];function qe({children:r}){return e.jsxs("html",{lang:"ko",children:[e.jsxs("head",{children:[e.jsx("meta",{charSet:"utf-8"}),e.jsx("meta",{name:"viewport",content:"width=device-width, initial-scale=1"}),e.jsx(je,{}),e.jsx(ye,{})]}),e.jsxs("body",{children:[e.jsx(de,{children:e.jsx(oe,{children:e.jsxs(ce,{children:[r,e.jsx(Ee,{})]})})}),e.jsx(ve,{}),e.jsx(be,{})]})]})}function Be(){return e.jsx(xe,{})}export{qe as Layout,Be as default,Ue as links};
+ */ const Pe = [
+    ["path", { d: "M21 4v16", key: "7j8fe9" }],
+    [
+      "path",
+      {
+        d: "M6.029 4.285A2 2 0 0 0 3 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z",
+        key: "zs4d6",
+      },
+    ],
+  ],
+  Z = g("skip-forward", Pe);
+function Ee() {
+  const {
+      currentTrack: r,
+      playlist: n,
+      isAudioPlayerVisible: M,
+      closeAudioPlayer: j,
+      playTrack: f,
+    } = ie(),
+    [x, u] = a.useState(!1),
+    [i, y] = a.useState(0),
+    [l, b] = a.useState(0),
+    [m, S] = a.useState(1),
+    [C, $] = a.useState(!1),
+    [v, ee] = a.useState(!1),
+    [p, se] = a.useState("off"),
+    [P, _] = a.useState(!1),
+    [d, te] = a.useState(0),
+    [re, ae] = a.useState(m),
+    [I, E] = a.useState(!1),
+    o = a.useRef(null),
+    k = a.useRef(null),
+    N = a.useRef(null);
+  a.useEffect(() => {
+    if (r && o.current) {
+      (o.current.src = r.audioUrl), o.current.load();
+      const s = n.findIndex((t) => t.id === r.id);
+      s !== -1 && te(s);
+    }
+  }, [r, n]),
+    a.useEffect(() => {
+      const s = o.current;
+      if (!s) return;
+      const t = () => y(s.currentTime),
+        c = () => b(s.duration || 0),
+        h = () => {
+          p === "one"
+            ? ((s.currentTime = 0), s.play())
+            : p === "all" || d < n.length - 1
+            ? L()
+            : u(!1);
+        };
+      return (
+        s.addEventListener("timeupdate", t),
+        s.addEventListener("loadedmetadata", c),
+        s.addEventListener("ended", h),
+        s.addEventListener("play", () => u(!0)),
+        s.addEventListener("pause", () => u(!1)),
+        () => {
+          s.removeEventListener("timeupdate", t),
+            s.removeEventListener("loadedmetadata", c),
+            s.removeEventListener("ended", h),
+            s.removeEventListener("play", () => u(!0)),
+            s.removeEventListener("pause", () => u(!1));
+        }
+      );
+    }, [p, d, n.length]),
+    a.useEffect(() => {
+      o.current && (o.current.volume = m);
+    }, [m]);
+  const w = (s) => {
+      const t = Math.floor(s / 60),
+        c = Math.floor(s % 60);
+      return `${t}:${c.toString().padStart(2, "0")}`;
+    },
+    ne = (s) => {
+      const t = Math.floor(s / 60),
+        c = s % 60;
+      return `${t}:${c.toString().padStart(2, "0")}`;
+    },
+    R = () => {
+      !o.current ||
+        !r ||
+        (x ? o.current.pause() : o.current.play().catch(console.error));
+    },
+    L = () => {
+      if (n.length === 0) return;
+      let s;
+      v
+        ? (s = Math.floor(Math.random() * n.length))
+        : (s = d < n.length - 1 ? d + 1 : 0);
+      const t = n[s];
+      t && f(t, n);
+    },
+    z = () => {
+      if (n.length !== 0)
+        if (i > 3) H(0);
+        else {
+          const s = d > 0 ? d - 1 : n.length - 1,
+            t = n[s];
+          t && f(t, n);
+        }
+    },
+    V = (s) => {
+      if (k.current && l > 0) {
+        const t = k.current.getBoundingClientRect(),
+          h = ((s.clientX - t.left) / t.width) * l;
+        H(h);
+      }
+    },
+    A = (s) => {
+      if (N.current) {
+        const t = N.current.getBoundingClientRect(),
+          c = s.clientX - t.left,
+          h = Math.max(0, Math.min(1, c / t.width));
+        S(h), h > 0 && $(!1);
+      }
+    },
+    H = (s) => {
+      o.current && ((o.current.currentTime = s), y(s));
+    },
+    O = () => {
+      C ? (S(re), $(!1)) : (ae(m), S(0), $(!0));
+    },
+    X = () => {
+      ee(!v);
+    },
+    D = () => {
+      const s = ["off", "one", "all"],
+        t = s.indexOf(p),
+        c = s[(t + 1) % s.length];
+      se(c);
+    },
+    le = (s) => {
+      f(s, n);
+    };
+  return !M || !r
+    ? null
+    : e.jsxs(e.Fragment, {
+        children: [
+          e.jsx("audio", { ref: o }),
+          e.jsxs("div", {
+            className:
+              "fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50",
+            children: [
+              e.jsx("div", {
+                ref: k,
+                className:
+                  "w-full h-1 bg-gray-200 cursor-pointer hover:h-2 transition-all duration-200",
+                onClick: V,
+                children: e.jsx("div", {
+                  className:
+                    "h-full bg-Snowlight-pink transition-all duration-100",
+                  style: { width: l > 0 ? `${(i / l) * 100}%` : "0%" },
+                }),
+              }),
+              e.jsx("div", {
+                className: "max-w-7xl mx-auto px-4",
+                children: e.jsxs("div", {
+                  className: "flex items-center justify-between py-3",
+                  children: [
+                    e.jsxs("div", {
+                      className: "flex items-center space-x-3 flex-1 min-w-0",
+                      children: [
+                        e.jsx("img", {
+                          src: r.coverUrl,
+                          alt: r.title,
+                          className: "w-12 h-12 rounded-md object-cover",
+                        }),
+                        e.jsxs("div", {
+                          className: "min-w-0 flex-1",
+                          children: [
+                            e.jsx("h4", {
+                              className:
+                                "text-sm font-medium text-gray-900 truncate",
+                              children: r.title,
+                            }),
+                            e.jsx("p", {
+                              className: "text-xs text-gray-600 truncate",
+                              children: r.artist,
+                            }),
+                          ],
+                        }),
+                        e.jsx("button", {
+                          className: "p-1 hover:bg-gray-100 rounded",
+                          children: e.jsx(U, {
+                            className: "w-4 h-4 text-gray-600",
+                          }),
+                        }),
+                      ],
+                    }),
+                    e.jsxs("div", {
+                      className: "flex items-center space-x-4",
+                      children: [
+                        e.jsx("button", {
+                          onClick: X,
+                          className: `p-2 rounded-md transition-colors ${
+                            v
+                              ? "text-Snowlight-pink bg-pink-50"
+                              : "text-gray-600 hover:bg-gray-100"
+                          }`,
+                          children: e.jsx(K, { className: "w-4 h-4" }),
+                        }),
+                        e.jsx("button", {
+                          onClick: z,
+                          className:
+                            "p-2 text-gray-600 hover:bg-gray-100 rounded-md",
+                          children: e.jsx(Q, { className: "w-5 h-5" }),
+                        }),
+                        e.jsx("button", {
+                          onClick: R,
+                          className:
+                            "w-10 h-10 bg-Snowlight-pink text-white rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors",
+                          children: x
+                            ? e.jsx(q, { className: "w-5 h-5" })
+                            : e.jsx(J, { className: "w-5 h-5 ml-0.5" }),
+                        }),
+                        e.jsx("button", {
+                          onClick: L,
+                          className:
+                            "p-2 text-gray-600 hover:bg-gray-100 rounded-md",
+                          children: e.jsx(Z, { className: "w-5 h-5" }),
+                        }),
+                        e.jsx("button", {
+                          onClick: D,
+                          className: `p-2 rounded-md transition-colors ${
+                            p !== "off"
+                              ? "text-Snowlight-pink bg-pink-50"
+                              : "text-gray-600 hover:bg-gray-100"
+                          }`,
+                          children: e.jsx(G, { className: "w-4 h-4" }),
+                        }),
+                      ],
+                    }),
+                    e.jsxs("div", {
+                      className:
+                        "flex items-center space-x-4 flex-1 justify-end",
+                      children: [
+                        e.jsxs("span", {
+                          className: "text-xs text-gray-600 tabular-nums",
+                          children: [w(i), " / ", w(l)],
+                        }),
+                        e.jsxs("div", {
+                          className: "flex items-center space-x-2",
+                          children: [
+                            e.jsx("button", {
+                              onClick: O,
+                              className: "p-1 hover:bg-gray-100 rounded",
+                              children:
+                                C || m === 0
+                                  ? e.jsx(B, {
+                                      className: "w-4 h-4 text-gray-600",
+                                    })
+                                  : e.jsx(F, {
+                                      className: "w-4 h-4 text-gray-600",
+                                    }),
+                            }),
+                            e.jsx("div", {
+                              ref: N,
+                              className:
+                                "w-20 h-1 bg-gray-200 rounded-full cursor-pointer",
+                              onClick: A,
+                              children: e.jsx("div", {
+                                className:
+                                  "h-full bg-Snowlight-pink rounded-full",
+                                style: { width: `${m * 100}%` },
+                              }),
+                            }),
+                          ],
+                        }),
+                        e.jsxs("div", {
+                          className: "flex items-center space-x-2",
+                          children: [
+                            e.jsx("button", {
+                              onClick: () => _(!P),
+                              className: `p-2 rounded-md transition-colors ${
+                                P
+                                  ? "text-Snowlight-pink bg-pink-50"
+                                  : "text-gray-600 hover:bg-gray-100"
+                              }`,
+                              children: e.jsx(Ne, { className: "w-4 h-4" }),
+                            }),
+                            e.jsx("button", {
+                              className:
+                                "p-2 text-gray-600 hover:bg-gray-100 rounded-md",
+                              children: e.jsx(W, { className: "w-4 h-4" }),
+                            }),
+                            e.jsx("button", {
+                              onClick: () => E(!I),
+                              className:
+                                "p-2 text-gray-600 hover:bg-gray-100 rounded-md",
+                              children: e.jsx(Me, { className: "w-4 h-4" }),
+                            }),
+                            e.jsx("button", {
+                              onClick: j,
+                              className:
+                                "p-2 text-gray-600 hover:bg-gray-100 rounded-md",
+                              children: e.jsx(T, { className: "w-4 h-4" }),
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+              }),
+            ],
+          }),
+          P &&
+            e.jsxs("div", {
+              className:
+                "fixed right-0 bottom-20 top-0 w-80 bg-white border-l border-gray-200 shadow-lg z-40 overflow-y-auto",
+              children: [
+                e.jsxs("div", {
+                  className: "p-4 border-b border-gray-200",
+                  children: [
+                    e.jsxs("div", {
+                      className: "flex items-center justify-between",
+                      children: [
+                        e.jsx("h3", {
+                          className: "font-semibold text-gray-900",
+                          children: "재생목록",
+                        }),
+                        e.jsx("button", {
+                          onClick: () => _(!1),
+                          className: "p-1 hover:bg-gray-100 rounded",
+                          children: e.jsx(T, { className: "w-4 h-4" }),
+                        }),
+                      ],
+                    }),
+                    e.jsxs("p", {
+                      className: "text-sm text-gray-600 mt-1",
+                      children: [n.length, "곡"],
+                    }),
+                  ],
+                }),
+                e.jsx("div", {
+                  className: "p-2",
+                  children: n.map((s, t) =>
+                    e.jsxs(
+                      "div",
+                      {
+                        className: `flex items-center space-x-3 p-2 rounded-md cursor-pointer hover:bg-gray-50 ${
+                          t === d ? "bg-pink-50 border border-pink-200" : ""
+                        }`,
+                        onClick: () => le(s),
+                        children: [
+                          e.jsx("div", {
+                            className: "w-6 text-center",
+                            children:
+                              t === d && x
+                                ? e.jsx("div", {
+                                    className:
+                                      "w-4 h-4 bg-Snowlight-pink rounded-full animate-pulse",
+                                  })
+                                : e.jsx("span", {
+                                    className: "text-sm text-gray-500",
+                                    children: t + 1,
+                                  }),
+                          }),
+                          e.jsx("img", {
+                            src: s.coverUrl,
+                            alt: s.title,
+                            className: "w-10 h-10 rounded object-cover",
+                          }),
+                          e.jsxs("div", {
+                            className: "flex-1 min-w-0",
+                            children: [
+                              e.jsx("h4", {
+                                className: `text-sm font-medium truncate ${
+                                  t === d
+                                    ? "text-Snowlight-pink"
+                                    : "text-gray-900"
+                                }`,
+                                children: s.title,
+                              }),
+                              e.jsx("p", {
+                                className: "text-xs text-gray-600 truncate",
+                                children: s.artist,
+                              }),
+                            ],
+                          }),
+                          e.jsx("span", {
+                            className: "text-xs text-gray-500 tabular-nums",
+                            children: ne(s.duration),
+                          }),
+                        ],
+                      },
+                      s.id
+                    )
+                  ),
+                }),
+              ],
+            }),
+          I &&
+            e.jsxs(e.Fragment, {
+              children: [
+                e.jsx("div", {
+                  className: "fixed inset-0 bg-black/50 z-50",
+                  onClick: () => E(!1),
+                }),
+                e.jsxs("div", {
+                  className:
+                    "fixed inset-4 md:inset-8 bg-white rounded-lg shadow-2xl z-50 flex flex-col",
+                  children: [
+                    e.jsxs("div", {
+                      className:
+                        "flex items-center justify-between p-4 border-b border-gray-200",
+                      children: [
+                        e.jsx("h2", {
+                          className: "text-lg font-bold text-gray-900",
+                          children: "재생 중",
+                        }),
+                        e.jsx("button", {
+                          onClick: () => E(!1),
+                          className:
+                            "p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors",
+                          children: e.jsx(T, { className: "w-5 h-5" }),
+                        }),
+                      ],
+                    }),
+                    e.jsxs("div", {
+                      className: "flex-1 flex flex-col justify-center p-8",
+                      children: [
+                        e.jsx("div", {
+                          className: "text-center mb-8",
+                          children: e.jsx("img", {
+                            src: r.coverUrl,
+                            alt: r.title,
+                            className:
+                              "w-64 h-64 mx-auto rounded-lg shadow-lg object-cover",
+                          }),
+                        }),
+                        e.jsxs("div", {
+                          className: "text-center mb-8",
+                          children: [
+                            e.jsx("h1", {
+                              className:
+                                "text-2xl font-bold text-gray-900 mb-2",
+                              children: r.title,
+                            }),
+                            e.jsx("p", {
+                              className: "text-lg text-gray-600 mb-4",
+                              children: r.artist,
+                            }),
+                            e.jsx("p", {
+                              className: "text-sm text-gray-500",
+                              children: r.album,
+                            }),
+                          ],
+                        }),
+                        e.jsxs("div", {
+                          className: "mb-8",
+                          children: [
+                            e.jsx("div", {
+                              ref: k,
+                              className:
+                                "w-full h-2 bg-gray-200 rounded-full cursor-pointer mb-2",
+                              onClick: V,
+                              children: e.jsx("div", {
+                                className:
+                                  "h-full bg-Snowlight-pink rounded-full transition-all duration-100",
+                                style: {
+                                  width: l > 0 ? `${(i / l) * 100}%` : "0%",
+                                },
+                              }),
+                            }),
+                            e.jsxs("div", {
+                              className:
+                                "flex justify-between text-sm text-gray-500",
+                              children: [
+                                e.jsx("span", { children: w(i) }),
+                                e.jsx("span", { children: w(l) }),
+                              ],
+                            }),
+                          ],
+                        }),
+                        e.jsxs("div", {
+                          className:
+                            "flex items-center justify-center space-x-6 mb-8",
+                          children: [
+                            e.jsx("button", {
+                              onClick: X,
+                              className: `p-2 rounded-md transition-colors ${
+                                v
+                                  ? "text-Snowlight-pink bg-pink-50"
+                                  : "text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50"
+                              }`,
+                              children: e.jsx(K, { className: "w-5 h-5" }),
+                            }),
+                            e.jsx("button", {
+                              onClick: z,
+                              className:
+                                "p-3 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors",
+                              children: e.jsx(Q, { className: "w-6 h-6" }),
+                            }),
+                            e.jsx("button", {
+                              onClick: R,
+                              className:
+                                "w-16 h-16 bg-Snowlight-pink text-white rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors",
+                              children: x
+                                ? e.jsx(q, { className: "w-8 h-8" })
+                                : e.jsx(J, { className: "w-8 h-8 ml-1" }),
+                            }),
+                            e.jsx("button", {
+                              onClick: L,
+                              className:
+                                "p-3 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors",
+                              children: e.jsx(Z, { className: "w-6 h-6" }),
+                            }),
+                            e.jsx("button", {
+                              onClick: D,
+                              className: `p-2 rounded-md transition-colors ${
+                                p !== "off"
+                                  ? "text-Snowlight-pink bg-pink-50"
+                                  : "text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50"
+                              }`,
+                              children: e.jsx(G, { className: "w-5 h-5" }),
+                            }),
+                          ],
+                        }),
+                        e.jsxs("div", {
+                          className: "flex items-center justify-between",
+                          children: [
+                            e.jsxs("div", {
+                              className: "flex items-center space-x-2",
+                              children: [
+                                e.jsx("button", {
+                                  onClick: O,
+                                  className:
+                                    "p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors",
+                                  children:
+                                    C || m === 0
+                                      ? e.jsx(B, { className: "w-5 h-5" })
+                                      : e.jsx(F, { className: "w-5 h-5" }),
+                                }),
+                                e.jsx("div", {
+                                  ref: N,
+                                  className:
+                                    "w-24 h-1 bg-gray-200 rounded-full cursor-pointer",
+                                  onClick: A,
+                                  children: e.jsx("div", {
+                                    className:
+                                      "h-full bg-Snowlight-pink rounded-full",
+                                    style: { width: `${m * 100}%` },
+                                  }),
+                                }),
+                              ],
+                            }),
+                            e.jsxs("div", {
+                              className: "flex items-center space-x-2",
+                              children: [
+                                e.jsx("button", {
+                                  className:
+                                    "p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors",
+                                  children: e.jsx(U, { className: "w-5 h-5" }),
+                                }),
+                                e.jsx("button", {
+                                  className:
+                                    "p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors",
+                                  children: e.jsx(W, { className: "w-5 h-5" }),
+                                }),
+                                e.jsx("button", {
+                                  className:
+                                    "p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors",
+                                  children: e.jsx(me, { className: "w-5 h-5" }),
+                                }),
+                              ],
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+              ],
+            }),
+        ],
+      });
+}
+const Ue = () => [
+  { rel: "preconnect", href: "https://fonts.googleapis.com" },
+  {
+    rel: "preconnect",
+    href: "https://fonts.gstatic.com",
+    crossOrigin: "anonymous",
+  },
+  {
+    rel: "stylesheet",
+    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+  },
+];
+function qe({ children: r }) {
+  return e.jsxs("html", {
+    lang: "ko",
+    children: [
+      e.jsxs("head", {
+        children: [
+          e.jsx("meta", { charSet: "utf-8" }),
+          e.jsx("meta", {
+            name: "viewport",
+            content: "width=device-width, initial-scale=1",
+          }),
+          e.jsx(je, {}),
+          e.jsx(ye, {}),
+        ],
+      }),
+      e.jsxs("body", {
+        children: [
+          e.jsx(de, {
+            children: e.jsx(oe, {
+              children: e.jsxs(ce, { children: [r, e.jsx(Ee, {})] }),
+            }),
+          }),
+          e.jsx(ve, {}),
+          e.jsx(be, {}),
+        ],
+      }),
+    ],
+  });
+}
+function Be() {
+  return e.jsx(xe, {});
+}
+export { qe as Layout, Be as default, Ue as links };

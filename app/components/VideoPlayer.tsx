@@ -269,7 +269,7 @@ export default function VideoPlayer({
               onClick={handleProgressClick}
             >
               <div
-                className="h-full bg-bugs-pink rounded-full transition-all duration-100"
+                className="h-full bg-Snowlight-pink rounded-full transition-all duration-100"
                 style={{
                   width: `${duration ? (currentTime / duration) * 100 : 0}%`,
                 }}
@@ -359,7 +359,7 @@ export default function VideoPlayer({
                           onClick={() => changePlaybackRate(rate)}
                           className={`block w-full text-left px-2 py-1 text-sm rounded hover:bg-white/20 transition-colors ${
                             playbackRate === rate
-                              ? "text-bugs-pink"
+                              ? "text-Snowlight-pink"
                               : "text-white"
                           }`}
                         >

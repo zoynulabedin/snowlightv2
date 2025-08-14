@@ -57,7 +57,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   const page = pageParam ? parseInt(pageParam, 10) : 1;
   const pageSize = 10;
   const albumRaw = params.id ? await getAlbumById(params.id) : null;
-  console.log(albumRaw);
+
   let album: Album | null = null;
   if (albumRaw) {
     const totalSongs = Array.isArray(albumRaw.songs)
@@ -189,7 +189,7 @@ export default function AlbumDetail() {
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
                 <button className="w-16 h-16 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 shadow-lg">
-                  <Play className="w-6 h-6 text-bugs-pink ml-1" />
+                  <Play className="w-6 h-6 text-Snowlight-pink ml-1" />
                 </button>
               </div>
             </div>
@@ -203,7 +203,7 @@ export default function AlbumDetail() {
               </h1>
               <Link
                 to={`/artist/${album.artists?.[0]?.artist?.name || ""}`}
-                className="text-xl text-bugs-pink hover:text-pink-600 font-medium"
+                className="text-xl text-Snowlight-pink hover:text-pink-600 font-medium"
               >
                 {album.artists?.[0]?.artist?.name || ""}
               </Link>
@@ -224,7 +224,7 @@ export default function AlbumDetail() {
                         <Link
                           key={g}
                           to={`/genre/${g}`}
-                          className="text-bugs-pink hover:underline"
+                          className="text-Snowlight-pink hover:underline"
                         >
                           {g}
                         </Link>
@@ -242,7 +242,7 @@ export default function AlbumDetail() {
                         <Link
                           key={s}
                           to={`/style/${s}`}
-                          className="text-bugs-pink hover:underline"
+                          className="text-Snowlight-pink hover:underline"
                         >
                           {s}
                         </Link>
@@ -272,25 +272,27 @@ export default function AlbumDetail() {
                 </div>
                 <div className="flex">
                   <span className="w-20 text-gray-600">고음질</span>
-                  <span className="text-bugs-pink">{album.quality || ""}</span>
+                  <span className="text-Snowlight-pink">
+                    {album.quality || ""}
+                  </span>
                 </div>
               </div>
             </div>
 
             {/* Album Actions */}
             <div className="flex items-center space-x-4">
-              <button className="bugs-button bugs-button-primary">
+              <button className="Snowlight-button Snowlight-button-primary">
                 앨범구매
               </button>
-              <button className="flex items-center space-x-2 text-gray-600 hover:text-bugs-pink">
+              <button className="flex items-center space-x-2 text-gray-600 hover:text-Snowlight-pink">
                 <Heart className="w-5 h-5" />
                 <span>좋아 0</span>
               </button>
-              <button className="flex items-center space-x-2 text-gray-600 hover:text-bugs-pink">
+              <button className="flex items-center space-x-2 text-gray-600 hover:text-Snowlight-pink">
                 <MessageCircle className="w-5 h-5" />
                 <span>0개</span>
               </button>
-              <button className="flex items-center space-x-2 text-gray-600 hover:text-bugs-pink">
+              <button className="flex items-center space-x-2 text-gray-600 hover:text-Snowlight-pink">
                 <Share2 className="w-5 h-5" />
                 <span>공유</span>
               </button>
@@ -311,29 +313,29 @@ export default function AlbumDetail() {
                 type="checkbox"
                 checked={selectAll}
                 onChange={handleSelectAll}
-                className="rounded border-gray-300 text-bugs-pink focus:ring-bugs-pink"
+                className="rounded border-gray-300 text-Snowlight-pink focus:ring-Snowlight-pink"
               />
               <span className="text-sm">곡 목록 전체</span>
             </label>
             <div className="flex space-x-2">
-              <button className="bugs-button bugs-button-secondary text-sm">
+              <button className="Snowlight-button Snowlight-button-secondary text-sm">
                 선택된 곡 재생듣기
               </button>
-              <button className="bugs-button bugs-button-secondary text-sm">
+              <button className="Snowlight-button Snowlight-button-secondary text-sm">
                 재생목록에 추가
               </button>
-              <button className="bugs-button bugs-button-secondary text-sm">
+              <button className="Snowlight-button Snowlight-button-secondary text-sm">
                 내 앨범에 담기
               </button>
-              <button className="bugs-button bugs-button-secondary text-sm">
+              <button className="Snowlight-button Snowlight-button-secondary text-sm">
                 다운로드
               </button>
             </div>
             <div className="flex space-x-2 ml-auto">
-              <button className="bugs-button bugs-button-primary text-sm">
+              <button className="Snowlight-button Snowlight-button-primary text-sm">
                 전체 듣기(재생목록 추가)
               </button>
-              <button className="bugs-button bugs-button-secondary text-sm">
+              <button className="Snowlight-button Snowlight-button-secondary text-sm">
                 전체 듣기(재생목록 교체)
               </button>
             </div>
@@ -363,13 +365,13 @@ export default function AlbumDetail() {
                       type="checkbox"
                       checked={selectedTracks.includes(song.id)}
                       onChange={() => handleSelectTrack(song.id)}
-                      className="rounded border-gray-300 text-bugs-pink focus:ring-bugs-pink"
+                      className="rounded border-gray-300 text-Snowlight-pink focus:ring-Snowlight-pink"
                     />
                   </label>
                   <div className="text-center">
                     <div className="text-lg font-bold">{idx + 1}</div>
                     {song.isTitle && (
-                      <span className="text-xs text-bugs-pink font-bold">
+                      <span className="text-xs text-Snowlight-pink font-bold">
                         [타이틀곡]
                       </span>
                     )}
@@ -379,7 +381,7 @@ export default function AlbumDetail() {
                 {/* Track Info */}
                 <div className="col-span-6 flex items-center">
                   <div>
-                    <h3 className="font-medium text-gray-900 hover:text-bugs-pink cursor-pointer">
+                    <h3 className="font-medium text-gray-900 hover:text-Snowlight-pink cursor-pointer">
                       {song.title}
                     </h3>
                     <p className="text-sm text-gray-600">{song.duration}</p>
@@ -408,7 +410,7 @@ export default function AlbumDetail() {
                 <div className="col-span-2 flex items-center">
                   <Link
                     to={`/artist/${song.artists?.[0]?.artist?.name || ""}`}
-                    className="text-gray-900 hover:text-bugs-pink"
+                    className="text-gray-900 hover:text-Snowlight-pink"
                   >
                     {song.artists
                       ?.map(
@@ -420,7 +422,7 @@ export default function AlbumDetail() {
 
                 {/* Actions */}
                 <div className="col-span-3 flex items-center space-x-2">
-                  <button className="bugs-button-secondary text-xs px-2 py-1">
+                  <button className="Snowlight-button-secondary text-xs px-2 py-1">
                     곡정보
                   </button>
                   <button
@@ -428,18 +430,18 @@ export default function AlbumDetail() {
                     title="듣기"
                     onClick={() => handlePlay(song)}
                   >
-                    <Play className="w-4 h-4 text-bugs-pink" />
+                    <Play className="w-4 h-4 text-Snowlight-pink" />
                   </button>
-                  <button className="text-xs text-gray-600 hover:text-bugs-pink">
+                  <button className="text-xs text-gray-600 hover:text-Snowlight-pink">
                     재생목록에 추가
                   </button>
-                  <button className="text-xs text-gray-600 hover:text-bugs-pink">
+                  <button className="text-xs text-gray-600 hover:text-Snowlight-pink">
                     내 앨범에 담기
                   </button>
-                  <button className="text-xs text-bugs-pink hover:text-pink-600">
+                  <button className="text-xs text-Snowlight-pink hover:text-pink-600">
                     flac 다운로드
                   </button>
-                  <button className="text-xs text-gray-600 hover:text-bugs-pink">
+                  <button className="text-xs text-gray-600 hover:text-Snowlight-pink">
                     기타 기능
                   </button>
                 </div>
@@ -455,7 +457,7 @@ export default function AlbumDetail() {
                   const prevPage = currentPage - 1;
                   window.location.search = `?page=${prevPage}`;
                 }}
-                className={`bugs-button bugs-button-secondary text-sm ${
+                className={`Snowlight-button Snowlight-button-secondary text-sm ${
                   currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               >
@@ -470,7 +472,7 @@ export default function AlbumDetail() {
                   const nextPage = currentPage + 1;
                   window.location.search = `?page=${nextPage}`;
                 }}
-                className={`bugs-button bugs-button-secondary text-sm ${
+                className={`Snowlight-button Snowlight-button-secondary text-sm ${
                   currentPage === totalPages
                     ? "opacity-50 cursor-not-allowed"
                     : ""
@@ -501,16 +503,16 @@ export default function AlbumDetail() {
             <div className="space-y-4">
               <textarea
                 placeholder="한마디 입력"
-                className="w-full p-3 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-bugs-pink focus:border-transparent"
+                className="w-full p-3 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-Snowlight-pink focus:border-transparent"
                 rows={3}
               />
               <div className="flex items-center justify-between">
-                <button className="bugs-button bugs-button-secondary text-sm">
+                <button className="Snowlight-button Snowlight-button-secondary text-sm">
                   음악 첨부
                 </button>
                 <div className="flex items-center space-x-4">
                   <span className="text-sm text-gray-500">0/300</span>
-                  <button className="bugs-button bugs-button-primary text-sm">
+                  <button className="Snowlight-button Snowlight-button-primary text-sm">
                     등록
                   </button>
                 </div>

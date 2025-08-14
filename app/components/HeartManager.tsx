@@ -241,7 +241,7 @@ export default function HeartManager() {
     return (
       <div className="flex items-center justify-center p-8">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-bugs-pink mx-auto"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-Snowlight-pink mx-auto"></div>
           <p className="mt-2 text-gray-600">{t("common.loading")}</p>
         </div>
       </div>
@@ -285,8 +285,8 @@ export default function HeartManager() {
               key={pkg.id}
               className={`border-2 rounded-lg p-4 cursor-pointer transition-all text-left ${
                 selectedPackage === pkg.id
-                  ? "border-bugs-pink bg-pink-50"
-                  : "border-gray-200 hover:border-bugs-pink"
+                  ? "border-Snowlight-pink bg-pink-50"
+                  : "border-gray-200 hover:border-Snowlight-pink"
               } ${pkg.popular ? "ring-2 ring-orange-400" : ""}`}
               onClick={() => setSelectedPackage(pkg.id)}
             >
@@ -311,7 +311,7 @@ export default function HeartManager() {
                     e.stopPropagation();
                     openPaymentModal(pkg.id);
                   }}
-                  className="w-full mt-3 bg-bugs-pink text-white py-2 rounded-md hover:bg-pink-600 transition-colors"
+                  className="w-full mt-3 bg-Snowlight-pink text-white py-2 rounded-md hover:bg-pink-600 transition-colors"
                 >
                   <CreditCard className="w-4 h-4 inline mr-2" />
                   {t("credits.purchase_hearts")}
@@ -402,7 +402,7 @@ export default function HeartManager() {
           <h3 className="text-xl font-bold text-gray-900">결제 내역</h3>
           <button
             onClick={() => setShowPaymentHistory(!showPaymentHistory)}
-            className="text-bugs-pink hover:text-pink-600 font-medium"
+            className="text-Snowlight-pink hover:text-pink-600 font-medium"
           >
             {showPaymentHistory ? "숨기기" : "보기"}
           </button>

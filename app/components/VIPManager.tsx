@@ -202,7 +202,7 @@ export default function VIPManager() {
     return (
       <div className="flex items-center justify-center p-8">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-bugs-pink mx-auto"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-Snowlight-pink mx-auto"></div>
           <p className="mt-2 text-gray-600">{t("common.loading")}</p>
         </div>
       </div>
@@ -267,7 +267,7 @@ export default function VIPManager() {
             {vipPlans.map((plan) => (
               <div
                 key={plan.id}
-                className={`border-2 rounded-lg p-6 relative border-gray-200 hover:border-bugs-pink ${
+                className={`border-2 rounded-lg p-6 relative border-gray-200 hover:border-Snowlight-pink ${
                   plan.popular ? "ring-2 ring-orange-400" : ""
                 }`}
               >
@@ -308,7 +308,7 @@ export default function VIPManager() {
                     className={`w-full py-3 rounded-lg font-medium transition-colors ${
                       plan.popular
                         ? "bg-orange-400 text-white hover:bg-orange-500"
-                        : "bg-bugs-pink text-white hover:bg-pink-600"
+                        : "bg-Snowlight-pink text-white hover:bg-pink-600"
                     }`}
                   >
                     {plan.name} 멤버십 시작하기

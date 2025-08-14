@@ -1,6 +1,15 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
-import { Play, Heart, Download, MoreHorizontal, Plus, Calendar, Music, User } from "lucide-react";
+import {
+  Play,
+  Heart,
+  Download,
+  MoreHorizontal,
+  Plus,
+  Calendar,
+  Music,
+  User,
+} from "lucide-react";
 import { usePlayer, mockTracks } from "~/contexts/PlayerContext";
 import { useLanguage } from "~/contexts/LanguageContext";
 
@@ -16,7 +25,7 @@ export default function Favorite() {
   const { t } = useLanguage();
 
   const handlePlayTrack = (trackId: string) => {
-    const track = mockTracks.find(t => t.id === trackId);
+    const track = mockTracks.find((t) => t.id === trackId);
     if (track) {
       playTrack(track, mockTracks);
     }
@@ -30,7 +39,7 @@ export default function Favorite() {
       album: "서우젯소리",
       duration: "4:32",
       coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=1",
-      addedDate: "2025.08.08"
+      addedDate: "2025.08.08",
     },
     {
       id: "2",
@@ -39,7 +48,7 @@ export default function Favorite() {
       album: "KPop Demon Hunters",
       duration: "4:05",
       coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=2",
-      addedDate: "2025.08.07"
+      addedDate: "2025.08.07",
     },
     {
       id: "3",
@@ -48,8 +57,8 @@ export default function Favorite() {
       album: "Dream",
       duration: "3:28",
       coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=3",
-      addedDate: "2025.08.06"
-    }
+      addedDate: "2025.08.06",
+    },
   ];
 
   const favoriteArtists = [
@@ -57,16 +66,18 @@ export default function Favorite() {
       id: "1",
       name: "사우스 카니발(South Carnival)",
       genre: "인디록",
-      profileImage: "https://via.placeholder.com/100x100/ff1493/ffffff?text=Artist1",
-      followDate: "2025.08.05"
+      profileImage:
+        "https://via.placeholder.com/100x100/ff1493/ffffff?text=Artist1",
+      followDate: "2025.08.05",
     },
     {
       id: "2",
       name: "HUNTR/X",
       genre: "일렉트로닉",
-      profileImage: "https://via.placeholder.com/100x100/ff1493/ffffff?text=Artist2",
-      followDate: "2025.08.04"
-    }
+      profileImage:
+        "https://via.placeholder.com/100x100/ff1493/ffffff?text=Artist2",
+      followDate: "2025.08.04",
+    },
   ];
 
   const favoriteAlbums = [
@@ -75,21 +86,21 @@ export default function Favorite() {
       title: "서우젯소리",
       artist: "사우스 카니발(South Carnival)",
       coverUrl: "https://via.placeholder.com/120x120/ff1493/ffffff?text=Album1",
-      addedDate: "2025.08.03"
+      addedDate: "2025.08.03",
     },
     {
       id: "2",
       title: "KPop Demon Hunters",
       artist: "HUNTR/X",
       coverUrl: "https://via.placeholder.com/120x120/ff1493/ffffff?text=Album2",
-      addedDate: "2025.08.02"
-    }
+      addedDate: "2025.08.02",
+    },
   ];
 
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="bg-gradient-to-r from-bugs-pink to-purple-600 rounded-lg p-8 text-white">
+      <div className="bg-gradient-to-r from-Snowlight-pink to-purple-600 rounded-lg p-8 text-white">
         <h1 className="text-3xl font-bold mb-2">Favorite</h1>
         <p className="text-lg opacity-90">좋아하는 음악을 모아보세요</p>
         <div className="flex items-center space-x-6 mt-4 text-sm">
@@ -112,16 +123,18 @@ export default function Favorite() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-bugs-pink rounded-lg flex items-center justify-center">
+            <div className="w-12 h-12 bg-Snowlight-pink rounded-lg flex items-center justify-center">
               <Music className="w-6 h-6 text-white" />
             </div>
             <div>
               <h3 className="font-bold text-gray-900">좋아하는 곡</h3>
-              <p className="text-2xl font-bold text-bugs-pink">{favoriteTracks.length}</p>
+              <p className="text-2xl font-bold text-Snowlight-pink">
+                {favoriteTracks.length}
+              </p>
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center">
@@ -129,11 +142,13 @@ export default function Favorite() {
             </div>
             <div>
               <h3 className="font-bold text-gray-900">팔로우 아티스트</h3>
-              <p className="text-2xl font-bold text-purple-500">{favoriteArtists.length}</p>
+              <p className="text-2xl font-bold text-purple-500">
+                {favoriteArtists.length}
+              </p>
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center">
@@ -141,7 +156,9 @@ export default function Favorite() {
             </div>
             <div>
               <h3 className="font-bold text-gray-900">좋아하는 앨범</h3>
-              <p className="text-2xl font-bold text-green-500">{favoriteAlbums.length}</p>
+              <p className="text-2xl font-bold text-green-500">
+                {favoriteAlbums.length}
+              </p>
             </div>
           </div>
         </div>
@@ -151,7 +168,7 @@ export default function Favorite() {
       <section>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900">좋아하는 곡</h2>
-          <button className="bugs-button bugs-button-primary">
+          <button className="Snowlight-button Snowlight-button-primary">
             <Play className="w-4 h-4 mr-2" />
             전체 재생
           </button>
@@ -159,57 +176,66 @@ export default function Favorite() {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200">
           <div className="divide-y divide-gray-200">
             {favoriteTracks.map((track, index) => (
-              <div key={track.id} className="p-4 hover:bg-gray-50 transition-colors">
+              <div
+                key={track.id}
+                className="p-4 hover:bg-gray-50 transition-colors"
+              >
                 <div className="flex items-center space-x-4">
                   <div className="flex-shrink-0 w-8 text-center">
-                    <span className="text-sm font-medium text-gray-500">{index + 1}</span>
+                    <span className="text-sm font-medium text-gray-500">
+                      {index + 1}
+                    </span>
                   </div>
-                  
+
                   <img
                     src={track.coverUrl}
                     alt={track.title}
                     className="w-12 h-12 rounded object-cover"
                   />
-                  
+
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-medium text-gray-900 truncate">{track.title}</h3>
+                    <h3 className="font-medium text-gray-900 truncate">
+                      {track.title}
+                    </h3>
                     <div className="flex items-center space-x-2 text-sm text-gray-600">
                       <Link
                         to={`/artist/${track.artist}`}
-                        className="hover:text-bugs-pink"
+                        className="hover:text-Snowlight-pink"
                       >
                         {track.artist}
                       </Link>
                       <span>•</span>
                       <Link
                         to={`/album/${track.id}`}
-                        className="hover:text-bugs-pink"
+                        className="hover:text-Snowlight-pink"
                       >
                         {track.album}
                       </Link>
                       <span>•</span>
                       <span>{track.duration}</span>
                     </div>
-                    <p className="text-xs text-gray-500 mt-1">추가일: {track.addedDate}</p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      추가일: {track.addedDate}
+                    </p>
                   </div>
 
                   <div className="flex items-center space-x-2">
                     <button
                       onClick={() => handlePlayTrack(track.id)}
-                      className="p-2 text-gray-600 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors"
+                      className="p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors"
                     >
                       <Play className="w-4 h-4" />
                     </button>
-                    <button className="p-2 text-gray-600 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors">
+                    <button className="p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors">
                       <Plus className="w-4 h-4" />
                     </button>
                     <button className="p-2 text-red-500 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors">
                       <Heart className="w-4 h-4 fill-current" />
                     </button>
-                    <button className="p-2 text-gray-600 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors">
+                    <button className="p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors">
                       <Download className="w-4 h-4" />
                     </button>
-                    <button className="p-2 text-gray-600 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors">
+                    <button className="p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors">
                       <MoreHorizontal className="w-4 h-4" />
                     </button>
                   </div>
@@ -222,10 +248,15 @@ export default function Favorite() {
 
       {/* Favorite Artists */}
       <section>
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">팔로우 아티스트</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          팔로우 아티스트
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {favoriteArtists.map((artist) => (
-            <div key={artist.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div
+              key={artist.id}
+              className="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
+            >
               <div className="flex items-center space-x-4">
                 <img
                   src={artist.profileImage}
@@ -233,15 +264,15 @@ export default function Favorite() {
                   className="w-16 h-16 rounded-full object-cover"
                 />
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-gray-900 truncate hover:text-bugs-pink transition-colors">
-                    <Link to={`/artist/${artist.name}`}>
-                      {artist.name}
-                    </Link>
+                  <h3 className="font-bold text-gray-900 truncate hover:text-Snowlight-pink transition-colors">
+                    <Link to={`/artist/${artist.name}`}>{artist.name}</Link>
                   </h3>
                   <p className="text-sm text-gray-600">{artist.genre}</p>
-                  <p className="text-xs text-gray-500 mt-1">팔로우: {artist.followDate}</p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    팔로우: {artist.followDate}
+                  </p>
                 </div>
-                <button className="bugs-button bugs-button-secondary text-sm">
+                <button className="Snowlight-button Snowlight-button-secondary text-sm">
                   팔로잉
                 </button>
               </div>
@@ -264,7 +295,7 @@ export default function Favorite() {
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
                   <button className="w-12 h-12 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 shadow-lg">
-                    <Play className="w-5 h-5 text-bugs-pink ml-0.5" />
+                    <Play className="w-5 h-5 text-Snowlight-pink ml-0.5" />
                   </button>
                 </div>
                 <div className="absolute top-2 right-2">
@@ -274,15 +305,11 @@ export default function Favorite() {
                 </div>
               </div>
               <div className="space-y-1">
-                <h3 className="font-medium text-gray-900 hover:text-bugs-pink transition-colors line-clamp-1">
-                  <Link to={`/album/${album.id}`}>
-                    {album.title}
-                  </Link>
+                <h3 className="font-medium text-gray-900 hover:text-Snowlight-pink transition-colors line-clamp-1">
+                  <Link to={`/album/${album.id}`}>{album.title}</Link>
                 </h3>
-                <p className="text-sm text-gray-600 hover:text-bugs-pink transition-colors line-clamp-1">
-                  <Link to={`/artist/${album.artist}`}>
-                    {album.artist}
-                  </Link>
+                <p className="text-sm text-gray-600 hover:text-Snowlight-pink transition-colors line-clamp-1">
+                  <Link to={`/artist/${album.artist}`}>{album.artist}</Link>
                 </p>
                 <p className="text-xs text-gray-500">추가: {album.addedDate}</p>
               </div>
@@ -301,7 +328,10 @@ export default function Favorite() {
           <p className="text-gray-600 mb-6">
             마음에 드는 음악에 하트를 눌러 나만의 컬렉션을 만들어보세요.
           </p>
-          <Link to="/chart" className="bugs-button bugs-button-primary">
+          <Link
+            to="/chart"
+            className="Snowlight-button Snowlight-button-primary"
+          >
             인기 차트 둘러보기
           </Link>
         </div>
@@ -309,4 +339,3 @@ export default function Favorite() {
     </div>
   );
 }
-

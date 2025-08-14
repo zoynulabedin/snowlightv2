@@ -6,7 +6,10 @@ import { useLanguage } from "~/contexts/LanguageContext";
 export const meta: MetaFunction = () => {
   return [
     { title: "장르 - 벅스" },
-    { name: "description", content: "다양한 음악 장르별 인기곡과 신곡을 만나보세요" },
+    {
+      name: "description",
+      content: "다양한 음악 장르별 인기곡과 신곡을 만나보세요",
+    },
   ];
 };
 
@@ -20,7 +23,7 @@ export default function Genres() {
       description: "한국 대중음악",
       color: "bg-gradient-to-br from-pink-500 to-rose-600",
       trackCount: 15420,
-      coverUrl: "https://via.placeholder.com/300x200/ff1493/ffffff?text=K-POP"
+      coverUrl: "https://via.placeholder.com/300x200/ff1493/ffffff?text=K-POP",
     },
     {
       id: "pop",
@@ -28,7 +31,7 @@ export default function Genres() {
       description: "팝 음악",
       color: "bg-gradient-to-br from-blue-500 to-cyan-600",
       trackCount: 28950,
-      coverUrl: "https://via.placeholder.com/300x200/3b82f6/ffffff?text=POP"
+      coverUrl: "https://via.placeholder.com/300x200/3b82f6/ffffff?text=POP",
     },
     {
       id: "rock",
@@ -36,7 +39,7 @@ export default function Genres() {
       description: "록 음악",
       color: "bg-gradient-to-br from-red-500 to-orange-600",
       trackCount: 12340,
-      coverUrl: "https://via.placeholder.com/300x200/ef4444/ffffff?text=ROCK"
+      coverUrl: "https://via.placeholder.com/300x200/ef4444/ffffff?text=ROCK",
     },
     {
       id: "indie",
@@ -44,7 +47,7 @@ export default function Genres() {
       description: "인디 음악",
       color: "bg-gradient-to-br from-purple-500 to-indigo-600",
       trackCount: 8760,
-      coverUrl: "https://via.placeholder.com/300x200/8b5cf6/ffffff?text=INDIE"
+      coverUrl: "https://via.placeholder.com/300x200/8b5cf6/ffffff?text=INDIE",
     },
     {
       id: "hiphop",
@@ -52,7 +55,7 @@ export default function Genres() {
       description: "힙합/랩",
       color: "bg-gradient-to-br from-gray-700 to-gray-900",
       trackCount: 9850,
-      coverUrl: "https://via.placeholder.com/300x200/374151/ffffff?text=HIPHOP"
+      coverUrl: "https://via.placeholder.com/300x200/374151/ffffff?text=HIPHOP",
     },
     {
       id: "rnb",
@@ -60,7 +63,7 @@ export default function Genres() {
       description: "알앤비/소울",
       color: "bg-gradient-to-br from-amber-500 to-yellow-600",
       trackCount: 6420,
-      coverUrl: "https://via.placeholder.com/300x200/f59e0b/ffffff?text=R%26B"
+      coverUrl: "https://via.placeholder.com/300x200/f59e0b/ffffff?text=R%26B",
     },
     {
       id: "electronic",
@@ -68,7 +71,7 @@ export default function Genres() {
       description: "전자음악",
       color: "bg-gradient-to-br from-cyan-500 to-teal-600",
       trackCount: 7890,
-      coverUrl: "https://via.placeholder.com/300x200/06b6d4/ffffff?text=EDM"
+      coverUrl: "https://via.placeholder.com/300x200/06b6d4/ffffff?text=EDM",
     },
     {
       id: "jazz",
@@ -76,7 +79,7 @@ export default function Genres() {
       description: "재즈",
       color: "bg-gradient-to-br from-emerald-500 to-green-600",
       trackCount: 4320,
-      coverUrl: "https://via.placeholder.com/300x200/10b981/ffffff?text=JAZZ"
+      coverUrl: "https://via.placeholder.com/300x200/10b981/ffffff?text=JAZZ",
     },
     {
       id: "classical",
@@ -84,7 +87,8 @@ export default function Genres() {
       description: "클래식",
       color: "bg-gradient-to-br from-violet-500 to-purple-600",
       trackCount: 5670,
-      coverUrl: "https://via.placeholder.com/300x200/8b5cf6/ffffff?text=CLASSIC"
+      coverUrl:
+        "https://via.placeholder.com/300x200/8b5cf6/ffffff?text=CLASSIC",
     },
     {
       id: "folk",
@@ -92,7 +96,7 @@ export default function Genres() {
       description: "포크/컨트리",
       color: "bg-gradient-to-br from-orange-500 to-red-600",
       trackCount: 3450,
-      coverUrl: "https://via.placeholder.com/300x200/f97316/ffffff?text=FOLK"
+      coverUrl: "https://via.placeholder.com/300x200/f97316/ffffff?text=FOLK",
     },
     {
       id: "ballad",
@@ -100,7 +104,7 @@ export default function Genres() {
       description: "발라드",
       color: "bg-gradient-to-br from-rose-500 to-pink-600",
       trackCount: 11230,
-      coverUrl: "https://via.placeholder.com/300x200/f43f5e/ffffff?text=BALLAD"
+      coverUrl: "https://via.placeholder.com/300x200/f43f5e/ffffff?text=BALLAD",
     },
     {
       id: "trot",
@@ -108,8 +112,8 @@ export default function Genres() {
       description: "트로트",
       color: "bg-gradient-to-br from-yellow-500 to-orange-600",
       trackCount: 2890,
-      coverUrl: "https://via.placeholder.com/300x200/eab308/ffffff?text=TROT"
-    }
+      coverUrl: "https://via.placeholder.com/300x200/eab308/ffffff?text=TROT",
+    },
   ];
 
   const popularGenres = genres.slice(0, 6);
@@ -118,9 +122,11 @@ export default function Genres() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="bg-gradient-to-r from-bugs-pink to-purple-600 rounded-lg p-8 text-white">
+      <div className="bg-gradient-to-r from-Snowlight-pink to-purple-600 rounded-lg p-8 text-white">
         <h1 className="text-3xl font-bold mb-2">장르</h1>
-        <p className="text-lg opacity-90">다양한 음악 장르별 인기곡과 신곡을 만나보세요</p>
+        <p className="text-lg opacity-90">
+          다양한 음악 장르별 인기곡과 신곡을 만나보세요
+        </p>
         <div className="flex items-center space-x-6 mt-4 text-sm">
           <div className="flex items-center space-x-2">
             <Music className="w-4 h-4" />
@@ -143,7 +149,9 @@ export default function Genres() {
               to={`/genre/${genre.id}`}
               className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
             >
-              <div className={`${genre.color} aspect-[3/2] flex items-center justify-center relative`}>
+              <div
+                className={`${genre.color} aspect-[3/2] flex items-center justify-center relative`}
+              >
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300" />
                 <div className="relative z-10 text-center text-white">
                   <h3 className="text-2xl font-bold mb-2">{genre.name}</h3>
@@ -172,17 +180,23 @@ export default function Genres() {
             <Link
               key={genre.id}
               to={`/genre/${genre.id}`}
-              className="group bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md hover:border-bugs-pink transition-all duration-300"
+              className="group bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md hover:border-Snowlight-pink transition-all duration-300"
             >
               <div className="text-center">
-                <div className={`w-16 h-16 ${genre.color} rounded-full mx-auto mb-3 flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                <div
+                  className={`w-16 h-16 ${genre.color} rounded-full mx-auto mb-3 flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}
+                >
                   <Music className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="font-bold text-gray-900 mb-1 group-hover:text-bugs-pink transition-colors">
+                <h3 className="font-bold text-gray-900 mb-1 group-hover:text-Snowlight-pink transition-colors">
                   {genre.name}
                 </h3>
-                <p className="text-xs text-gray-600 mb-2">{genre.description}</p>
-                <p className="text-xs text-gray-500">{genre.trackCount.toLocaleString()}곡</p>
+                <p className="text-xs text-gray-600 mb-2">
+                  {genre.description}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {genre.trackCount.toLocaleString()}곡
+                </p>
               </div>
             </Link>
           ))}
@@ -195,8 +209,10 @@ export default function Genres() {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
-              <div className="text-3xl font-bold text-bugs-pink mb-2">
-                {genres.reduce((sum, genre) => sum + genre.trackCount, 0).toLocaleString()}
+              <div className="text-3xl font-bold text-Snowlight-pink mb-2">
+                {genres
+                  .reduce((sum, genre) => sum + genre.trackCount, 0)
+                  .toLocaleString()}
               </div>
               <div className="text-sm text-gray-600">전체 곡 수</div>
             </div>
@@ -214,4 +230,3 @@ export default function Genres() {
     </div>
   );
 }
-

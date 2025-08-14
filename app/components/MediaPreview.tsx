@@ -1,15 +1,28 @@
-import { useState, useRef } from 'react';
-import { Play, Pause, Volume2, VolumeX, Maximize, RotateCcw } from 'lucide-react';
+import { useState, useRef } from "react";
+import {
+  Play,
+  Pause,
+  Volume2,
+  VolumeX,
+  Maximize,
+  RotateCcw,
+} from "lucide-react";
 
 interface MediaPreviewProps {
   url: string;
-  type: 'audio' | 'video';
+  type: "audio" | "video";
   title?: string;
   artist?: string;
   className?: string;
 }
 
-export default function MediaPreview({ url, type, title, artist, className = '' }: MediaPreviewProps) {
+export default function MediaPreview({
+  url,
+  type,
+  title,
+  artist,
+  className = "",
+}: MediaPreviewProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -67,7 +80,7 @@ export default function MediaPreview({ url, type, title, artist, className = '' 
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
   const resetMedia = () => {
@@ -79,9 +92,11 @@ export default function MediaPreview({ url, type, title, artist, className = '' 
     }
   };
 
-  if (type === 'audio') {
+  if (type === "audio") {
     return (
-      <div className={`bg-white rounded-lg border border-gray-200 p-4 ${className}`}>
+      <div
+        className={`bg-white rounded-lg border border-gray-200 p-4 ${className}`}
+      >
         <audio
           ref={mediaRef as React.RefObject<HTMLAudioElement>}
           src={url}
@@ -90,22 +105,22 @@ export default function MediaPreview({ url, type, title, artist, className = '' 
           onEnded={() => setIsPlaying(false)}
           className="hidden"
         />
-        
+
         <div className="flex items-center space-x-4">
           {/* Album Art Placeholder */}
-          <div className="w-16 h-16 bg-gradient-to-br from-bugs-pink to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+          <div className="w-16 h-16 bg-gradient-to-br from-Snowlight-pink to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
             <Play className="w-6 h-6 text-white" />
           </div>
-          
+
           {/* Track Info */}
           <div className="flex-1 min-w-0">
             <h3 className="font-medium text-gray-900 truncate">
-              {title || 'Untitled Track'}
+              {title || "Untitled Track"}
             </h3>
             <p className="text-sm text-gray-600 truncate">
-              {artist || 'Unknown Artist'}
+              {artist || "Unknown Artist"}
             </p>
-            
+
             {/* Progress Bar */}
             <div className="mt-2">
               <input
@@ -122,7 +137,7 @@ export default function MediaPreview({ url, type, title, artist, className = '' 
               </div>
             </div>
           </div>
-          
+
           {/* Controls */}
           <div className="flex items-center space-x-2">
             <button
@@ -132,10 +147,10 @@ export default function MediaPreview({ url, type, title, artist, className = '' 
             >
               <RotateCcw className="w-4 h-4" />
             </button>
-            
+
             <button
               onClick={togglePlay}
-              className="p-2 bg-bugs-pink text-white rounded-full hover:bg-pink-600 transition-colors"
+              className="p-2 bg-Snowlight-pink text-white rounded-full hover:bg-pink-600 transition-colors"
             >
               {isPlaying ? (
                 <Pause className="w-4 h-4" />
@@ -143,7 +158,7 @@ export default function MediaPreview({ url, type, title, artist, className = '' 
                 <Play className="w-4 h-4" />
               )}
             </button>
-            
+
             <button
               onClick={toggleMute}
               className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
@@ -154,7 +169,7 @@ export default function MediaPreview({ url, type, title, artist, className = '' 
                 <Volume2 className="w-4 h-4" />
               )}
             </button>
-            
+
             <input
               type="range"
               min="0"
@@ -171,7 +186,9 @@ export default function MediaPreview({ url, type, title, artist, className = '' 
   }
 
   return (
-    <div className={`bg-white rounded-lg border border-gray-200 overflow-hidden ${className}`}>
+    <div
+      className={`bg-white rounded-lg border border-gray-200 overflow-hidden ${className}`}
+    >
       <div className="relative">
         <video
           ref={mediaRef as React.RefObject<HTMLVideoElement>}
@@ -182,7 +199,7 @@ export default function MediaPreview({ url, type, title, artist, className = '' 
           className="w-full h-48 object-cover"
           poster=""
         />
-        
+
         {/* Video Overlay Controls */}
         <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-30 transition-all duration-200 flex items-center justify-center">
           <button
@@ -196,18 +213,18 @@ export default function MediaPreview({ url, type, title, artist, className = '' 
             )}
           </button>
         </div>
-        
+
         {/* Video Info Overlay */}
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
           <h3 className="font-medium text-white truncate">
-            {title || 'Untitled Video'}
+            {title || "Untitled Video"}
           </h3>
           <p className="text-sm text-gray-300 truncate">
-            {artist || 'Unknown Creator'}
+            {artist || "Unknown Creator"}
           </p>
         </div>
       </div>
-      
+
       {/* Video Controls */}
       <div className="p-4">
         {/* Progress Bar */}
@@ -225,7 +242,7 @@ export default function MediaPreview({ url, type, title, artist, className = '' 
             <span>{formatTime(duration)}</span>
           </div>
         </div>
-        
+
         {/* Control Buttons */}
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
@@ -236,10 +253,10 @@ export default function MediaPreview({ url, type, title, artist, className = '' 
             >
               <RotateCcw className="w-4 h-4" />
             </button>
-            
+
             <button
               onClick={togglePlay}
-              className="p-2 bg-bugs-pink text-white rounded-full hover:bg-pink-600 transition-colors"
+              className="p-2 bg-Snowlight-pink text-white rounded-full hover:bg-pink-600 transition-colors"
             >
               {isPlaying ? (
                 <Pause className="w-4 h-4" />
@@ -248,7 +265,7 @@ export default function MediaPreview({ url, type, title, artist, className = '' 
               )}
             </button>
           </div>
-          
+
           <div className="flex items-center space-x-2">
             <button
               onClick={toggleMute}
@@ -260,7 +277,7 @@ export default function MediaPreview({ url, type, title, artist, className = '' 
                 <Volume2 className="w-4 h-4" />
               )}
             </button>
-            
+
             <input
               type="range"
               min="0"
@@ -270,10 +287,13 @@ export default function MediaPreview({ url, type, title, artist, className = '' 
               onChange={handleVolumeChange}
               className="w-16 h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer"
             />
-            
+
             <button
               onClick={() => {
-                if (mediaRef.current && 'requestFullscreen' in mediaRef.current) {
+                if (
+                  mediaRef.current &&
+                  "requestFullscreen" in mediaRef.current
+                ) {
                   (mediaRef.current as any).requestFullscreen();
                 }
               }}
@@ -288,4 +308,3 @@ export default function MediaPreview({ url, type, title, artist, className = '' 
     </div>
   );
 }
-

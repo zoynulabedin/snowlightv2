@@ -63,12 +63,12 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-bugs-pink via-purple-500 to-blue-600 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-Snowlight-pink via-purple-500 to-blue-600 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
           <div className="mx-auto h-12 w-12 bg-white rounded-full flex items-center justify-center mb-4">
-            <span className="text-2xl font-bold text-bugs-pink">S</span>
+            <span className="text-2xl font-bold text-Snowlight-pink">S</span>
           </div>
           <h2 className="text-3xl font-bold text-white mb-2">
             스노우라이트 로그인
@@ -97,7 +97,7 @@ export default function LoginPage() {
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bugs-pink focus:border-transparent"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-Snowlight-pink focus:border-transparent"
                   placeholder={t("이메일 ")}
                 />
               </div>
@@ -122,7 +122,7 @@ export default function LoginPage() {
                   required
                   value={formData.password}
                   onChange={handleInputChange}
-                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bugs-pink focus:border-transparent"
+                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-Snowlight-pink focus:border-transparent"
                   placeholder={t("비밀번호")}
                 />
                 <button
@@ -159,7 +159,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-bugs-pink to-purple-600 hover:from-pink-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bugs-pink disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-Snowlight-pink to-purple-600 hover:from-pink-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-Snowlight-pink disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
             >
               {isLoading ? (
                 <div className="flex items-center space-x-2">
@@ -178,7 +178,7 @@ export default function LoginPage() {
               {t("회원가입")}{" "}
               <a
                 href="/signup"
-                className="font-medium text-bugs-pink hover:text-pink-600 transition-colors"
+                className="font-medium text-Snowlight-pink hover:text-pink-600 transition-colors"
               >
                 {t("회원가입")}
               </a>

@@ -52,8 +52,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
     },
   });
 
-  console.log("Albums fetched:", albums.length);
-  console.log("Artists fetched:", artists.length);
   return { user, albums, artists };
 }
 

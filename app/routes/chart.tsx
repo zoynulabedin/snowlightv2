@@ -14,7 +14,10 @@ import Layout from "~/components/Layout";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Bugs Chart > Song Chart > Real-time > All Genres - Bugs" },
+    {
+      title:
+        "Snowlight Chart > Song Chart > Real-time > All Genres - Snowlight",
+    },
     { name: "description", content: "Check out the real-time popular charts!" },
   ];
 };
@@ -162,7 +165,7 @@ export default function Chart() {
           <span>&gt;</span>
           <span>{t("chart.realtime")}</span>
           <span>&gt;</span>
-          <span className="text-bugs-pink font-medium">
+          <span className="text-Snowlight-pink font-medium">
             {t("chart.all_genres")}
           </span>
         </div>
@@ -174,7 +177,7 @@ export default function Chart() {
               key={type.name}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                 type.active
-                  ? "bg-white text-bugs-pink shadow-sm"
+                  ? "bg-white text-Snowlight-pink shadow-sm"
                   : "text-gray-600 hover:text-gray-900"
               }`}
             >
@@ -190,7 +193,7 @@ export default function Chart() {
               key={period.name}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                 period.active
-                  ? "bg-white text-bugs-pink shadow-sm"
+                  ? "bg-white text-Snowlight-pink shadow-sm"
                   : "text-gray-600 hover:text-gray-900"
               }`}
             >
@@ -217,21 +220,21 @@ export default function Chart() {
               type="checkbox"
               checked={selectAll}
               onChange={handleSelectAll}
-              className="rounded border-gray-300 text-bugs-pink focus:ring-bugs-pink"
+              className="rounded border-gray-300 text-Snowlight-pink focus:ring-Snowlight-pink"
             />
             <span className="text-sm">{t("chart.select_all")}</span>
           </label>
           <div className="flex space-x-2">
-            <button className="bugs-button bugs-button-secondary text-sm">
+            <button className="Snowlight-button Snowlight-button-secondary text-sm">
               {t("chart.play_selected")}
             </button>
-            <button className="bugs-button bugs-button-secondary text-sm">
+            <button className="Snowlight-button Snowlight-button-secondary text-sm">
               {t("chart.add_to_playlist")}
             </button>
-            <button className="bugs-button bugs-button-secondary text-sm">
+            <button className="Snowlight-button Snowlight-button-secondary text-sm">
               {t("chart.add_to_album")}
             </button>
-            <button className="bugs-button bugs-button-secondary text-sm">
+            <button className="Snowlight-button Snowlight-button-secondary text-sm">
               {t("chart.download")}
             </button>
           </div>
@@ -259,7 +262,7 @@ export default function Chart() {
                     type="checkbox"
                     checked={selectedTracks.includes(track.rank)}
                     onChange={() => handleSelectTrack(track.rank)}
-                    className="rounded border-gray-300 text-bugs-pink focus:ring-bugs-pink"
+                    className="rounded border-gray-300 text-Snowlight-pink focus:ring-Snowlight-pink"
                   />
                 </label>
                 <div className="text-center">
@@ -285,10 +288,10 @@ export default function Chart() {
               {/* Track Info */}
               <div className="col-span-6 flex items-center">
                 <div>
-                  <h3 className="font-medium text-gray-900 hover:text-bugs-pink cursor-pointer">
+                  <h3 className="font-medium text-gray-900 hover:text-Snowlight-pink cursor-pointer">
                     {track.title}
                   </h3>
-                  <p className="text-sm text-gray-600 hover:text-bugs-pink cursor-pointer">
+                  <p className="text-sm text-gray-600 hover:text-Snowlight-pink cursor-pointer">
                     {track.album}
                   </p>
                 </div>
@@ -296,7 +299,7 @@ export default function Chart() {
 
               {/* Artist */}
               <div className="col-span-2 flex items-center">
-                <span className="text-gray-900 hover:text-bugs-pink cursor-pointer">
+                <span className="text-gray-900 hover:text-Snowlight-pink cursor-pointer">
                   {track.artist}
                 </span>
               </div>
@@ -304,7 +307,7 @@ export default function Chart() {
               {/* Actions */}
               <div className="col-span-2 flex items-center space-x-2">
                 <button className="p-1 hover:bg-gray-200 rounded" title="듣기">
-                  <Play className="w-4 h-4 text-bugs-pink" />
+                  <Play className="w-4 h-4 text-Snowlight-pink" />
                 </button>
                 <button
                   className="p-1 hover:bg-gray-200 rounded"

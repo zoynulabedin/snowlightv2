@@ -1,10 +1,11 @@
-import { v2 as cloudinary } from 'cloudinary';
+import { v2 as cloudinary } from "cloudinary";
 
 // Configure Cloudinary
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || 'dsp05t7kx',
-  api_key: process.env.CLOUDINARY_API_KEY || '139216956463782',
-  api_secret: process.env.CLOUDINARY_API_SECRET || 'CjJtN4dGhbh1qwpLLC00Zu_S3Tw',
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || "dsp05t7kx",
+  api_key: process.env.CLOUDINARY_API_KEY || "139216956463782",
+  api_secret:
+    process.env.CLOUDINARY_API_SECRET || "CjJtN4dGhbh1qwpLLC00Zu_S3Tw",
 });
 
 export interface UploadResult {
@@ -20,7 +21,7 @@ export interface UploadResult {
 }
 
 export interface UploadOptions {
-  resource_type: 'auto' | 'image' | 'video' | 'raw';
+  resource_type: "auto" | "image" | "video" | "raw";
   folder?: string;
   public_id?: string;
   tags?: string[];
@@ -29,12 +30,12 @@ export interface UploadOptions {
 
 export async function uploadToCloudinary(
   file: File | Buffer | string,
-  options: UploadOptions = { resource_type: 'auto' }
+  options: UploadOptions = { resource_type: "auto" }
 ): Promise<UploadResult> {
   try {
     const result = await cloudinary.uploader.upload(file as string, {
       ...options,
-      folder: options.folder || 'bugs-music',
+      folder: options.folder || "Snowlight-music",
     });
 
     return {
@@ -49,8 +50,8 @@ export async function uploadToCloudinary(
       created_at: result.created_at,
     };
   } catch (error) {
-    console.error('Cloudinary upload error:', error);
-    throw new Error('Failed to upload file to Cloudinary');
+    console.error("Cloudinary upload error:", error);
+    throw new Error("Failed to upload file to Cloudinary");
   }
 }
 
@@ -58,8 +59,8 @@ export async function deleteFromCloudinary(publicId: string): Promise<void> {
   try {
     await cloudinary.uploader.destroy(publicId);
   } catch (error) {
-    console.error('Cloudinary delete error:', error);
-    throw new Error('Failed to delete file from Cloudinary');
+    console.error("Cloudinary delete error:", error);
+    throw new Error("Failed to delete file from Cloudinary");
   }
 }
 
@@ -81,18 +82,20 @@ export function getCloudinaryUrl(
 
 export function getAudioStreamUrl(publicId: string): string {
   return cloudinary.url(publicId, {
-    resource_type: 'video',
+    resource_type: "video",
     secure: true,
   });
 }
 
-export function getVideoStreamUrl(publicId: string, quality: string = 'auto'): string {
+export function getVideoStreamUrl(
+  publicId: string,
+  quality: string = "auto"
+): string {
   return cloudinary.url(publicId, {
-    resource_type: 'video',
+    resource_type: "video",
     quality,
     secure: true,
   });
 }
 
 export default cloudinary;
-

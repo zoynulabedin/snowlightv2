@@ -1,6 +1,494 @@
-import{r as h,j as e}from"./index-BJHAE5s4.js";import{u as g}from"./LanguageContext-BFw3fmyY.js";import{u}from"./AuthContext-CUPKj7Oa.js";import{u as p}from"./index-CiN_UGES.js";import{C as l}from"./crown-BRMdJP8P.js";import{M as c}from"./music-CZuQgL7Q.js";import{H as j}from"./heart-Dn2OeVKi.js";import{C as f}from"./check-DMlK34ym.js";import{H as N}from"./headphones-j1A_UXWL.js";import{D as b}from"./download-D1QhcQ9O.js";import{S as y}from"./star-W7y2fMPn.js";import{G as w}from"./gift-e6xtNJXd.js";import{c as v}from"./createLucideIcon-iNHoReR6.js";/**
+import { r as h, j as e } from "./index-BJHAE5s4.js";
+import { u as g } from "./LanguageContext-BFw3fmyY.js";
+import { u } from "./AuthContext-CUPKj7Oa.js";
+import { u as p } from "./index-CiN_UGES.js";
+import { C as l } from "./crown-BRMdJP8P.js";
+import { M as c } from "./music-CZuQgL7Q.js";
+import { H as j } from "./heart-Dn2OeVKi.js";
+import { C as f } from "./check-DMlK34ym.js";
+import { H as N } from "./headphones-j1A_UXWL.js";
+import { D as b } from "./download-D1QhcQ9O.js";
+import { S as y } from "./star-W7y2fMPn.js";
+import { G as w } from "./gift-e6xtNJXd.js";
+import { c as v } from "./createLucideIcon-iNHoReR6.js";
+/**
  * @license lucide-react v0.537.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
- */const k=[["path",{d:"M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z",key:"1s2grr"}],["path",{d:"M20 2v4",key:"1rf3ol"}],["path",{d:"M22 4h-4",key:"gwowj6"}],["circle",{cx:"4",cy:"20",r:"2",key:"6kqj1y"}]],P=v("sparkles",k);function _(){const{t:V}=g(),{user:t}=u(),d=p(),[x,n]=h.useState("premium"),i=[{id:"basic",name:"베이직",nameEn:"Basic",price:4900,duration:"월",color:"blue",gradient:"from-blue-500 to-blue-600",icon:e.jsx(c,{className:"w-6 h-6"}),hearts:200,features:["광고 없는 음악 스트리밍","고음질 320kbps 재생","월 200 하트 제공","기본 플레이리스트 생성","모바일 앱 이용"]},{id:"premium",name:"프리미엄",nameEn:"Premium",price:7900,originalPrice:9900,duration:"월",color:"purple",gradient:"from-purple-500 to-pink-500",icon:e.jsx(l,{className:"w-6 h-6"}),popular:!0,hearts:500,features:["베이직 플랜의 모든 혜택","무제한 음악 다운로드","월 500 하트 제공","독점 콘텐츠 이용","우선 고객 지원","가사 표시 기능","크로스페이드 재생"]},{id:"platinum",name:"플래티넘",nameEn:"Platinum",price:12900,originalPrice:15900,duration:"월",color:"gold",gradient:"from-yellow-400 to-orange-500",icon:e.jsx(P,{className:"w-6 h-6"}),hearts:1e3,features:["프리미엄 플랜의 모든 혜택","월 1000 하트 제공","하이파이 음질 (FLAC)","아티스트 만남 이벤트 우선 참여","한정판 굿즈 할인","개인 맞춤 큐레이션","무제한 업로드 용량","전용 고객 매니저"]}],m=s=>{var a;if(!t){d("/login");return}alert(`${(a=i.find(r=>r.id===s))==null?void 0:a.name} 플랜 구독을 시작합니다!`)};return e.jsxs("div",{className:"min-h-screen bg-gray-50",children:[e.jsx("div",{className:"bg-gradient-to-r from-bugs-pink via-purple-600 to-blue-600 text-white",children:e.jsx("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16",children:e.jsxs("div",{className:"text-center",children:[e.jsx("div",{className:"flex justify-center mb-6",children:e.jsx("div",{className:"w-16 h-16 bg-white/20 rounded-full flex items-center justify-center",children:e.jsx(l,{className:"w-8 h-8 text-white"})})}),e.jsx("h1",{className:"text-4xl md:text-5xl font-bold mb-4",children:"벅스 VIP 멤버십"}),e.jsx("p",{className:"text-xl text-purple-100 max-w-2xl mx-auto",children:"음악을 더 깊이, 더 특별하게 즐기세요. 프리미엄 음질과 독점 콘텐츠를 경험해보세요."})]})})}),e.jsxs("div",{className:"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16",children:[t&&e.jsx("div",{className:"bg-white rounded-2xl p-6 shadow-sm border mb-12",children:e.jsxs("div",{className:"flex items-center justify-between",children:[e.jsxs("div",{className:"flex items-center space-x-4",children:[e.jsx("div",{className:"w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center",children:t.isVip?e.jsx(l,{className:"w-6 h-6 text-yellow-500"}):e.jsx(c,{className:"w-6 h-6 text-gray-400"})}),e.jsxs("div",{children:[e.jsxs("h3",{className:"text-lg font-semibold text-gray-900",children:["현재 플랜: ",t.isVip?`VIP ${t.vipType}`:"무료 플랜"]}),e.jsxs("p",{className:"text-gray-600",children:["보유 하트: ",t.hearts,"개"]})]})]}),!t.isVip&&e.jsxs("div",{className:"text-right",children:[e.jsx("p",{className:"text-sm text-gray-500",children:"업그레이드하고"}),e.jsx("p",{className:"text-lg font-semibold text-bugs-pink",children:"더 많은 혜택을 누리세요!"})]})]})}),e.jsx("div",{className:"grid grid-cols-1 md:grid-cols-3 gap-8 mb-16",children:i.map(s=>{var a;return e.jsxs("div",{className:`relative bg-white rounded-2xl shadow-lg border-2 transition-all duration-300 hover:shadow-xl ${x===s.id?"border-bugs-pink scale-105":"border-gray-200 hover:border-gray-300"} ${s.popular?"ring-4 ring-purple-100":""}`,children:[s.popular&&e.jsx("div",{className:"absolute -top-4 left-1/2 transform -translate-x-1/2",children:e.jsx("div",{className:"bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-1 rounded-full text-sm font-medium",children:"가장 인기"})}),e.jsxs("div",{className:"p-8",children:[e.jsxs("div",{className:"text-center mb-6",children:[e.jsx("div",{className:`w-16 h-16 bg-gradient-to-r ${s.gradient} rounded-full flex items-center justify-center text-white mx-auto mb-4`,children:s.icon}),e.jsx("h3",{className:"text-2xl font-bold text-gray-900 mb-2",children:s.name}),e.jsxs("div",{className:"flex items-center justify-center space-x-2",children:[s.originalPrice&&e.jsxs("span",{className:"text-lg text-gray-400 line-through",children:["₩",s.originalPrice.toLocaleString()]}),e.jsxs("span",{className:"text-3xl font-bold text-gray-900",children:["₩",s.price.toLocaleString()]}),e.jsxs("span",{className:"text-gray-600",children:["/",s.duration]})]}),s.originalPrice&&e.jsx("div",{className:"mt-2",children:e.jsxs("span",{className:"bg-red-100 text-red-600 px-2 py-1 rounded-full text-sm font-medium",children:[Math.round((1-s.price/s.originalPrice)*100),"% 할인"]})})]}),e.jsx("div",{className:"bg-red-50 rounded-lg p-4 mb-6",children:e.jsxs("div",{className:"flex items-center justify-center space-x-2",children:[e.jsx(j,{className:"w-5 h-5 text-red-500"}),e.jsxs("span",{className:"text-red-700 font-medium",children:["매월 ",s.hearts," 하트 제공"]})]})}),e.jsx("ul",{className:"space-y-3 mb-8",children:s.features.map((r,o)=>e.jsxs("li",{className:"flex items-start space-x-3",children:[e.jsx(f,{className:"w-5 h-5 text-green-500 mt-0.5 flex-shrink-0"}),e.jsx("span",{className:"text-gray-700",children:r})]},o))}),e.jsx("button",{onClick:()=>{n(s.id),m(s.id)},className:`w-full py-3 px-4 rounded-lg font-medium transition-all duration-200 ${s.popular?"bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 shadow-lg":"bg-gray-900 text-white hover:bg-gray-800"}`,children:t!=null&&t.isVip&&((a=t.vipType)==null?void 0:a.toLowerCase())===s.id?"현재 플랜":"구독하기"})]})]},s.id)})}),e.jsxs("div",{className:"bg-white rounded-2xl p-8 shadow-sm border mb-16",children:[e.jsx("h2",{className:"text-3xl font-bold text-center text-gray-900 mb-12",children:"VIP 멤버십 특별 혜택"}),e.jsxs("div",{className:"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8",children:[e.jsxs("div",{className:"text-center",children:[e.jsx("div",{className:"w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4",children:e.jsx(N,{className:"w-8 h-8 text-blue-600"})}),e.jsx("h3",{className:"text-lg font-semibold text-gray-900 mb-2",children:"고음질 스트리밍"}),e.jsx("p",{className:"text-gray-600",children:"최대 FLAC 무손실 음질로 음악을 감상하세요"})]}),e.jsxs("div",{className:"text-center",children:[e.jsx("div",{className:"w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4",children:e.jsx(b,{className:"w-8 h-8 text-green-600"})}),e.jsx("h3",{className:"text-lg font-semibold text-gray-900 mb-2",children:"무제한 다운로드"}),e.jsx("p",{className:"text-gray-600",children:"오프라인에서도 언제든지 음악을 즐기세요"})]}),e.jsxs("div",{className:"text-center",children:[e.jsx("div",{className:"w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4",children:e.jsx(y,{className:"w-8 h-8 text-purple-600"})}),e.jsx("h3",{className:"text-lg font-semibold text-gray-900 mb-2",children:"독점 콘텐츠"}),e.jsx("p",{className:"text-gray-600",children:"VIP 전용 음악과 라이브 세션을 만나보세요"})]}),e.jsxs("div",{className:"text-center",children:[e.jsx("div",{className:"w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4",children:e.jsx(w,{className:"w-8 h-8 text-yellow-600"})}),e.jsx("h3",{className:"text-lg font-semibold text-gray-900 mb-2",children:"특별 이벤트"}),e.jsx("p",{className:"text-gray-600",children:"아티스트 만남과 콘서트 우선 예매 혜택"})]})]})]}),e.jsxs("div",{className:"bg-gray-100 rounded-2xl p-8",children:[e.jsx("h2",{className:"text-2xl font-bold text-center text-gray-900 mb-8",children:"자주 묻는 질문"}),e.jsxs("div",{className:"space-y-6 max-w-3xl mx-auto",children:[e.jsxs("div",{className:"bg-white rounded-lg p-6",children:[e.jsx("h3",{className:"text-lg font-semibold text-gray-900 mb-2",children:"언제든지 구독을 취소할 수 있나요?"}),e.jsx("p",{className:"text-gray-600",children:"네, 언제든지 구독을 취소하실 수 있습니다. 취소 후에도 현재 결제 기간이 끝날 때까지 VIP 혜택을 이용하실 수 있습니다."})]}),e.jsxs("div",{className:"bg-white rounded-lg p-6",children:[e.jsx("h3",{className:"text-lg font-semibold text-gray-900 mb-2",children:"하트는 어떻게 사용하나요?"}),e.jsx("p",{className:"text-gray-600",children:"하트는 음악 다운로드, 독점 콘텐츠 이용, 아티스트 응원 등에 사용할 수 있습니다. VIP 멤버는 매월 추가 하트를 받으실 수 있어요."})]}),e.jsxs("div",{className:"bg-white rounded-lg p-6",children:[e.jsx("h3",{className:"text-lg font-semibold text-gray-900 mb-2",children:"플랜을 변경할 수 있나요?"}),e.jsx("p",{className:"text-gray-600",children:"네, 언제든지 더 높은 플랜으로 업그레이드하거나 낮은 플랜으로 다운그레이드하실 수 있습니다. 변경사항은 다음 결제일부터 적용됩니다."})]})]})]})]})]})}export{_ as default};
+ */ const k = [
+    [
+      "path",
+      {
+        d: "M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z",
+        key: "1s2grr",
+      },
+    ],
+    ["path", { d: "M20 2v4", key: "1rf3ol" }],
+    ["path", { d: "M22 4h-4", key: "gwowj6" }],
+    ["circle", { cx: "4", cy: "20", r: "2", key: "6kqj1y" }],
+  ],
+  P = v("sparkles", k);
+function _() {
+  const { t: V } = g(),
+    { user: t } = u(),
+    d = p(),
+    [x, n] = h.useState("premium"),
+    i = [
+      {
+        id: "basic",
+        name: "베이직",
+        nameEn: "Basic",
+        price: 4900,
+        duration: "월",
+        color: "blue",
+        gradient: "from-blue-500 to-blue-600",
+        icon: e.jsx(c, { className: "w-6 h-6" }),
+        hearts: 200,
+        features: [
+          "광고 없는 음악 스트리밍",
+          "고음질 320kbps 재생",
+          "월 200 하트 제공",
+          "기본 플레이리스트 생성",
+          "모바일 앱 이용",
+        ],
+      },
+      {
+        id: "premium",
+        name: "프리미엄",
+        nameEn: "Premium",
+        price: 7900,
+        originalPrice: 9900,
+        duration: "월",
+        color: "purple",
+        gradient: "from-purple-500 to-pink-500",
+        icon: e.jsx(l, { className: "w-6 h-6" }),
+        popular: !0,
+        hearts: 500,
+        features: [
+          "베이직 플랜의 모든 혜택",
+          "무제한 음악 다운로드",
+          "월 500 하트 제공",
+          "독점 콘텐츠 이용",
+          "우선 고객 지원",
+          "가사 표시 기능",
+          "크로스페이드 재생",
+        ],
+      },
+      {
+        id: "platinum",
+        name: "플래티넘",
+        nameEn: "Platinum",
+        price: 12900,
+        originalPrice: 15900,
+        duration: "월",
+        color: "gold",
+        gradient: "from-yellow-400 to-orange-500",
+        icon: e.jsx(P, { className: "w-6 h-6" }),
+        hearts: 1e3,
+        features: [
+          "프리미엄 플랜의 모든 혜택",
+          "월 1000 하트 제공",
+          "하이파이 음질 (FLAC)",
+          "아티스트 만남 이벤트 우선 참여",
+          "한정판 굿즈 할인",
+          "개인 맞춤 큐레이션",
+          "무제한 업로드 용량",
+          "전용 고객 매니저",
+        ],
+      },
+    ],
+    m = (s) => {
+      var a;
+      if (!t) {
+        d("/login");
+        return;
+      }
+      alert(
+        `${
+          (a = i.find((r) => r.id === s)) == null ? void 0 : a.name
+        } 플랜 구독을 시작합니다!`
+      );
+    };
+  return e.jsxs("div", {
+    className: "min-h-screen bg-gray-50",
+    children: [
+      e.jsx("div", {
+        className:
+          "bg-gradient-to-r from-Snowlight-pink via-purple-600 to-blue-600 text-white",
+        children: e.jsx("div", {
+          className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16",
+          children: e.jsxs("div", {
+            className: "text-center",
+            children: [
+              e.jsx("div", {
+                className: "flex justify-center mb-6",
+                children: e.jsx("div", {
+                  className:
+                    "w-16 h-16 bg-white/20 rounded-full flex items-center justify-center",
+                  children: e.jsx(l, { className: "w-8 h-8 text-white" }),
+                }),
+              }),
+              e.jsx("h1", {
+                className: "text-4xl md:text-5xl font-bold mb-4",
+                children: "벅스 VIP 멤버십",
+              }),
+              e.jsx("p", {
+                className: "text-xl text-purple-100 max-w-2xl mx-auto",
+                children:
+                  "음악을 더 깊이, 더 특별하게 즐기세요. 프리미엄 음질과 독점 콘텐츠를 경험해보세요.",
+              }),
+            ],
+          }),
+        }),
+      }),
+      e.jsxs("div", {
+        className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16",
+        children: [
+          t &&
+            e.jsx("div", {
+              className: "bg-white rounded-2xl p-6 shadow-sm border mb-12",
+              children: e.jsxs("div", {
+                className: "flex items-center justify-between",
+                children: [
+                  e.jsxs("div", {
+                    className: "flex items-center space-x-4",
+                    children: [
+                      e.jsx("div", {
+                        className:
+                          "w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center",
+                        children: t.isVip
+                          ? e.jsx(l, { className: "w-6 h-6 text-yellow-500" })
+                          : e.jsx(c, { className: "w-6 h-6 text-gray-400" }),
+                      }),
+                      e.jsxs("div", {
+                        children: [
+                          e.jsxs("h3", {
+                            className: "text-lg font-semibold text-gray-900",
+                            children: [
+                              "현재 플랜: ",
+                              t.isVip ? `VIP ${t.vipType}` : "무료 플랜",
+                            ],
+                          }),
+                          e.jsxs("p", {
+                            className: "text-gray-600",
+                            children: ["보유 하트: ", t.hearts, "개"],
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                  !t.isVip &&
+                    e.jsxs("div", {
+                      className: "text-right",
+                      children: [
+                        e.jsx("p", {
+                          className: "text-sm text-gray-500",
+                          children: "업그레이드하고",
+                        }),
+                        e.jsx("p", {
+                          className:
+                            "text-lg font-semibold text-Snowlight-pink",
+                          children: "더 많은 혜택을 누리세요!",
+                        }),
+                      ],
+                    }),
+                ],
+              }),
+            }),
+          e.jsx("div", {
+            className: "grid grid-cols-1 md:grid-cols-3 gap-8 mb-16",
+            children: i.map((s) => {
+              var a;
+              return e.jsxs(
+                "div",
+                {
+                  className: `relative bg-white rounded-2xl shadow-lg border-2 transition-all duration-300 hover:shadow-xl ${
+                    x === s.id
+                      ? "border-Snowlight-pink scale-105"
+                      : "border-gray-200 hover:border-gray-300"
+                  } ${s.popular ? "ring-4 ring-purple-100" : ""}`,
+                  children: [
+                    s.popular &&
+                      e.jsx("div", {
+                        className:
+                          "absolute -top-4 left-1/2 transform -translate-x-1/2",
+                        children: e.jsx("div", {
+                          className:
+                            "bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-1 rounded-full text-sm font-medium",
+                          children: "가장 인기",
+                        }),
+                      }),
+                    e.jsxs("div", {
+                      className: "p-8",
+                      children: [
+                        e.jsxs("div", {
+                          className: "text-center mb-6",
+                          children: [
+                            e.jsx("div", {
+                              className: `w-16 h-16 bg-gradient-to-r ${s.gradient} rounded-full flex items-center justify-center text-white mx-auto mb-4`,
+                              children: s.icon,
+                            }),
+                            e.jsx("h3", {
+                              className:
+                                "text-2xl font-bold text-gray-900 mb-2",
+                              children: s.name,
+                            }),
+                            e.jsxs("div", {
+                              className:
+                                "flex items-center justify-center space-x-2",
+                              children: [
+                                s.originalPrice &&
+                                  e.jsxs("span", {
+                                    className:
+                                      "text-lg text-gray-400 line-through",
+                                    children: [
+                                      "₩",
+                                      s.originalPrice.toLocaleString(),
+                                    ],
+                                  }),
+                                e.jsxs("span", {
+                                  className: "text-3xl font-bold text-gray-900",
+                                  children: ["₩", s.price.toLocaleString()],
+                                }),
+                                e.jsxs("span", {
+                                  className: "text-gray-600",
+                                  children: ["/", s.duration],
+                                }),
+                              ],
+                            }),
+                            s.originalPrice &&
+                              e.jsx("div", {
+                                className: "mt-2",
+                                children: e.jsxs("span", {
+                                  className:
+                                    "bg-red-100 text-red-600 px-2 py-1 rounded-full text-sm font-medium",
+                                  children: [
+                                    Math.round(
+                                      (1 - s.price / s.originalPrice) * 100
+                                    ),
+                                    "% 할인",
+                                  ],
+                                }),
+                              }),
+                          ],
+                        }),
+                        e.jsx("div", {
+                          className: "bg-red-50 rounded-lg p-4 mb-6",
+                          children: e.jsxs("div", {
+                            className:
+                              "flex items-center justify-center space-x-2",
+                            children: [
+                              e.jsx(j, { className: "w-5 h-5 text-red-500" }),
+                              e.jsxs("span", {
+                                className: "text-red-700 font-medium",
+                                children: ["매월 ", s.hearts, " 하트 제공"],
+                              }),
+                            ],
+                          }),
+                        }),
+                        e.jsx("ul", {
+                          className: "space-y-3 mb-8",
+                          children: s.features.map((r, o) =>
+                            e.jsxs(
+                              "li",
+                              {
+                                className: "flex items-start space-x-3",
+                                children: [
+                                  e.jsx(f, {
+                                    className:
+                                      "w-5 h-5 text-green-500 mt-0.5 flex-shrink-0",
+                                  }),
+                                  e.jsx("span", {
+                                    className: "text-gray-700",
+                                    children: r,
+                                  }),
+                                ],
+                              },
+                              o
+                            )
+                          ),
+                        }),
+                        e.jsx("button", {
+                          onClick: () => {
+                            n(s.id), m(s.id);
+                          },
+                          className: `w-full py-3 px-4 rounded-lg font-medium transition-all duration-200 ${
+                            s.popular
+                              ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 shadow-lg"
+                              : "bg-gray-900 text-white hover:bg-gray-800"
+                          }`,
+                          children:
+                            t != null &&
+                            t.isVip &&
+                            ((a = t.vipType) == null
+                              ? void 0
+                              : a.toLowerCase()) === s.id
+                              ? "현재 플랜"
+                              : "구독하기",
+                        }),
+                      ],
+                    }),
+                  ],
+                },
+                s.id
+              );
+            }),
+          }),
+          e.jsxs("div", {
+            className: "bg-white rounded-2xl p-8 shadow-sm border mb-16",
+            children: [
+              e.jsx("h2", {
+                className: "text-3xl font-bold text-center text-gray-900 mb-12",
+                children: "VIP 멤버십 특별 혜택",
+              }),
+              e.jsxs("div", {
+                className:
+                  "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8",
+                children: [
+                  e.jsxs("div", {
+                    className: "text-center",
+                    children: [
+                      e.jsx("div", {
+                        className:
+                          "w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4",
+                        children: e.jsx(N, {
+                          className: "w-8 h-8 text-blue-600",
+                        }),
+                      }),
+                      e.jsx("h3", {
+                        className: "text-lg font-semibold text-gray-900 mb-2",
+                        children: "고음질 스트리밍",
+                      }),
+                      e.jsx("p", {
+                        className: "text-gray-600",
+                        children: "최대 FLAC 무손실 음질로 음악을 감상하세요",
+                      }),
+                    ],
+                  }),
+                  e.jsxs("div", {
+                    className: "text-center",
+                    children: [
+                      e.jsx("div", {
+                        className:
+                          "w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4",
+                        children: e.jsx(b, {
+                          className: "w-8 h-8 text-green-600",
+                        }),
+                      }),
+                      e.jsx("h3", {
+                        className: "text-lg font-semibold text-gray-900 mb-2",
+                        children: "무제한 다운로드",
+                      }),
+                      e.jsx("p", {
+                        className: "text-gray-600",
+                        children: "오프라인에서도 언제든지 음악을 즐기세요",
+                      }),
+                    ],
+                  }),
+                  e.jsxs("div", {
+                    className: "text-center",
+                    children: [
+                      e.jsx("div", {
+                        className:
+                          "w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4",
+                        children: e.jsx(y, {
+                          className: "w-8 h-8 text-purple-600",
+                        }),
+                      }),
+                      e.jsx("h3", {
+                        className: "text-lg font-semibold text-gray-900 mb-2",
+                        children: "독점 콘텐츠",
+                      }),
+                      e.jsx("p", {
+                        className: "text-gray-600",
+                        children: "VIP 전용 음악과 라이브 세션을 만나보세요",
+                      }),
+                    ],
+                  }),
+                  e.jsxs("div", {
+                    className: "text-center",
+                    children: [
+                      e.jsx("div", {
+                        className:
+                          "w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4",
+                        children: e.jsx(w, {
+                          className: "w-8 h-8 text-yellow-600",
+                        }),
+                      }),
+                      e.jsx("h3", {
+                        className: "text-lg font-semibold text-gray-900 mb-2",
+                        children: "특별 이벤트",
+                      }),
+                      e.jsx("p", {
+                        className: "text-gray-600",
+                        children: "아티스트 만남과 콘서트 우선 예매 혜택",
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+            ],
+          }),
+          e.jsxs("div", {
+            className: "bg-gray-100 rounded-2xl p-8",
+            children: [
+              e.jsx("h2", {
+                className: "text-2xl font-bold text-center text-gray-900 mb-8",
+                children: "자주 묻는 질문",
+              }),
+              e.jsxs("div", {
+                className: "space-y-6 max-w-3xl mx-auto",
+                children: [
+                  e.jsxs("div", {
+                    className: "bg-white rounded-lg p-6",
+                    children: [
+                      e.jsx("h3", {
+                        className: "text-lg font-semibold text-gray-900 mb-2",
+                        children: "언제든지 구독을 취소할 수 있나요?",
+                      }),
+                      e.jsx("p", {
+                        className: "text-gray-600",
+                        children:
+                          "네, 언제든지 구독을 취소하실 수 있습니다. 취소 후에도 현재 결제 기간이 끝날 때까지 VIP 혜택을 이용하실 수 있습니다.",
+                      }),
+                    ],
+                  }),
+                  e.jsxs("div", {
+                    className: "bg-white rounded-lg p-6",
+                    children: [
+                      e.jsx("h3", {
+                        className: "text-lg font-semibold text-gray-900 mb-2",
+                        children: "하트는 어떻게 사용하나요?",
+                      }),
+                      e.jsx("p", {
+                        className: "text-gray-600",
+                        children:
+                          "하트는 음악 다운로드, 독점 콘텐츠 이용, 아티스트 응원 등에 사용할 수 있습니다. VIP 멤버는 매월 추가 하트를 받으실 수 있어요.",
+                      }),
+                    ],
+                  }),
+                  e.jsxs("div", {
+                    className: "bg-white rounded-lg p-6",
+                    children: [
+                      e.jsx("h3", {
+                        className: "text-lg font-semibold text-gray-900 mb-2",
+                        children: "플랜을 변경할 수 있나요?",
+                      }),
+                      e.jsx("p", {
+                        className: "text-gray-600",
+                        children:
+                          "네, 언제든지 더 높은 플랜으로 업그레이드하거나 낮은 플랜으로 다운그레이드하실 수 있습니다. 변경사항은 다음 결제일부터 적용됩니다.",
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+            ],
+          }),
+        ],
+      }),
+    ],
+  });
+}
+export { _ as default };

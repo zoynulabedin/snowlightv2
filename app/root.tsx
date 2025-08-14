@@ -14,6 +14,8 @@ import { AuthProvider } from "./contexts/AuthContext";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
+  { rel: "stylesheet", href: "/build/tailwind.css" },
+
   {
     rel: "preconnect",
     href: "https://fonts.gstatic.com",

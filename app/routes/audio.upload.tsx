@@ -309,7 +309,7 @@ export default function UploadPage() {
           <div
             className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
               dragActive
-                ? "border-bugs-pink bg-pink-50"
+                ? "border-Snowlight-pink bg-pink-50"
                 : "border-gray-300 hover:border-gray-400"
             }`}
             onDragEnter={handleDrag}
@@ -362,7 +362,7 @@ export default function UploadPage() {
                 <button
                   onClick={uploadAll}
                   disabled={uploadFiles.every((f) => f.status !== "pending")}
-                  className="px-4 py-2 bg-bugs-pink text-white rounded-md hover:bg-pink-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+                  className="px-4 py-2 bg-Snowlight-pink text-white rounded-md hover:bg-pink-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
                 >
                   {t("upload.uploadAll", "모두 업로드")}
                 </button>
@@ -435,7 +435,7 @@ export default function UploadPage() {
                             </div>
                             <div className="w-full bg-gray-200 rounded-full h-1.5">
                               <div
-                                className="bg-bugs-pink h-1.5 rounded-full transition-all duration-300"
+                                className="bg-Snowlight-pink h-1.5 rounded-full transition-all duration-300"
                                 style={{ width: `${uploadFile.progress}%` }}
                               />
                             </div>
@@ -463,7 +463,7 @@ export default function UploadPage() {
                                   title: e.target.value,
                                 })
                               }
-                              className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-bugs-pink focus:border-transparent"
+                              className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-Snowlight-pink focus:border-transparent"
                             />
                             <input
                               type="text"
@@ -474,7 +474,7 @@ export default function UploadPage() {
                                   artist: e.target.value,
                                 })
                               }
-                              className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-bugs-pink focus:border-transparent"
+                              className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-Snowlight-pink focus:border-transparent"
                             />
                             {uploadFile.type === "audio" && (
                               <>
@@ -487,7 +487,7 @@ export default function UploadPage() {
                                       album: e.target.value,
                                     })
                                   }
-                                  className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-bugs-pink focus:border-transparent"
+                                  className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-Snowlight-pink focus:border-transparent"
                                 />
                                 <select
                                   value={uploadFile.genre || ""}
@@ -496,7 +496,7 @@ export default function UploadPage() {
                                       genre: e.target.value,
                                     })
                                   }
-                                  className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-bugs-pink focus:border-transparent"
+                                  className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-Snowlight-pink focus:border-transparent"
                                 >
                                   <option value="">
                                     {t("upload.selectGenre", "장르 선택")}
@@ -523,7 +523,7 @@ export default function UploadPage() {
                                 })
                               }
                               rows={2}
-                              className="md:col-span-2 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-bugs-pink focus:border-transparent resize-none"
+                              className="md:col-span-2 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-Snowlight-pink focus:border-transparent resize-none"
                             />
                           </div>
                         )}
@@ -533,7 +533,7 @@ export default function UploadPage() {
                           <div className="mt-3">
                             <button
                               onClick={() => uploadToCloudinary(uploadFile)}
-                              className="px-4 py-2 bg-bugs-pink text-white text-sm rounded-md hover:bg-pink-600 transition-colors"
+                              className="px-4 py-2 bg-Snowlight-pink text-white text-sm rounded-md hover:bg-pink-600 transition-colors"
                             >
                               {t("upload.upload", "업로드")}
                             </button>

@@ -1,11 +1,12 @@
 {
-  "name": "bugs-music-clone",
+  "name": "Snowlight-music-clone",
   "private": true,
   "sideEffects": false,
   "type": "module",
   "scripts": {
     "build": "remix vite:build",
     "dev": "remix vite:dev",
+    "dev:css": "tailwindcss -i ./app/tailwind.css -o ./public/build/tailwind.css --watch",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc"

@@ -27,7 +27,7 @@ export default function MembershipPage() {
             </p>
             <a
               href="/login"
-              className="inline-flex items-center px-6 py-3 bg-bugs-pink text-white rounded-lg hover:bg-pink-600 transition-colors"
+              className="inline-flex items-center px-6 py-3 bg-Snowlight-pink text-white rounded-lg hover:bg-pink-600 transition-colors"
             >
               {t("auth.login")}
             </a>
@@ -57,7 +57,7 @@ export default function MembershipPage() {
               onClick={() => setActiveTab("membership")}
               className={`flex items-center space-x-2 px-6 py-3 rounded-md font-medium transition-colors ${
                 activeTab === "membership"
-                  ? "bg-white text-bugs-pink shadow-sm"
+                  ? "bg-white text-Snowlight-pink shadow-sm"
                   : "text-gray-600 hover:text-gray-900"
               }`}
             >
@@ -68,7 +68,7 @@ export default function MembershipPage() {
               onClick={() => setActiveTab("hearts")}
               className={`flex items-center space-x-2 px-6 py-3 rounded-md font-medium transition-colors ${
                 activeTab === "hearts"
-                  ? "bg-white text-bugs-pink shadow-sm"
+                  ? "bg-white text-Snowlight-pink shadow-sm"
                   : "text-gray-600 hover:text-gray-900"
               }`}
             >

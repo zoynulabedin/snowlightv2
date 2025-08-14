@@ -1,21 +1,965 @@
-import{r as u,j as e}from"./index-BJHAE5s4.js";import{u as O}from"./LanguageContext-BFw3fmyY.js";import{P as C}from"./play-xanyyhs6.js";import{c as P}from"./createLucideIcon-iNHoReR6.js";import{P as V,V as S,a as T,X as B}from"./x-QeL79yBJ.js";import{U as R}from"./upload-CDHKjDVa.js";import{C as I}from"./check-DMlK34ym.js";import{C as L}from"./circle-alert-DukOSXm-.js";import{M as E}from"./music-CZuQgL7Q.js";import{V as _}from"./video-DgaTGqil.js";/**
+import { r as u, j as e } from "./index-BJHAE5s4.js";
+import { u as O } from "./LanguageContext-BFw3fmyY.js";
+import { P as C } from "./play-xanyyhs6.js";
+import { c as P } from "./createLucideIcon-iNHoReR6.js";
+import { P as V, V as S, a as T, X as B } from "./x-QeL79yBJ.js";
+import { U as R } from "./upload-CDHKjDVa.js";
+import { C as I } from "./check-DMlK34ym.js";
+import { C as L } from "./circle-alert-DukOSXm-.js";
+import { M as E } from "./music-CZuQgL7Q.js";
+import { V as _ } from "./video-DgaTGqil.js";
+/**
  * @license lucide-react v0.537.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
- */const $=[["path",{d:"M17.5 22h.5a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3",key:"rslqgf"}],["path",{d:"M14 2v4a2 2 0 0 0 2 2h4",key:"tnqrlb"}],["path",{d:"M2 19a2 2 0 1 1 4 0v1a2 2 0 1 1-4 0v-4a6 6 0 0 1 12 0v4a2 2 0 1 1-4 0v-1a2 2 0 1 1 4 0",key:"9f7x3i"}]],q=P("file-audio",$);/**
+ */ const $ = [
+    [
+      "path",
+      {
+        d: "M17.5 22h.5a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3",
+        key: "rslqgf",
+      },
+    ],
+    ["path", { d: "M14 2v4a2 2 0 0 0 2 2h4", key: "tnqrlb" }],
+    [
+      "path",
+      {
+        d: "M2 19a2 2 0 1 1 4 0v1a2 2 0 1 1-4 0v-4a6 6 0 0 1 12 0v4a2 2 0 1 1-4 0v-1a2 2 0 1 1 4 0",
+        key: "9f7x3i",
+      },
+    ],
+  ],
+  q = P("file-audio", $);
+/**
  * @license lucide-react v0.537.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
- */const W=[["path",{d:"M14 2v4a2 2 0 0 0 2 2h4",key:"tnqrlb"}],["path",{d:"M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z",key:"1mlx9k"}],["path",{d:"M15.033 13.44a.647.647 0 0 1 0 1.12l-4.065 2.352a.645.645 0 0 1-.968-.56v-4.704a.645.645 0 0 1 .967-.56z",key:"1tzo1f"}]],G=P("file-play",W);/**
+ */ const W = [
+    ["path", { d: "M14 2v4a2 2 0 0 0 2 2h4", key: "tnqrlb" }],
+    [
+      "path",
+      {
+        d: "M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z",
+        key: "1mlx9k",
+      },
+    ],
+    [
+      "path",
+      {
+        d: "M15.033 13.44a.647.647 0 0 1 0 1.12l-4.065 2.352a.645.645 0 0 1-.968-.56v-4.704a.645.645 0 0 1 .967-.56z",
+        key: "1tzo1f",
+      },
+    ],
+  ],
+  G = P("file-play", W);
+/**
  * @license lucide-react v0.537.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
- */const H=[["path",{d:"M8 3H5a2 2 0 0 0-2 2v3",key:"1dcmit"}],["path",{d:"M21 8V5a2 2 0 0 0-2-2h-3",key:"1e4gt3"}],["path",{d:"M3 16v3a2 2 0 0 0 2 2h3",key:"wsl5sc"}],["path",{d:"M16 21h3a2 2 0 0 0 2-2v-3",key:"18trek"}]],K=P("maximize",H);/**
+ */ const H = [
+    ["path", { d: "M8 3H5a2 2 0 0 0-2 2v3", key: "1dcmit" }],
+    ["path", { d: "M21 8V5a2 2 0 0 0-2-2h-3", key: "1e4gt3" }],
+    ["path", { d: "M3 16v3a2 2 0 0 0 2 2h3", key: "wsl5sc" }],
+    ["path", { d: "M16 21h3a2 2 0 0 0 2-2v-3", key: "18trek" }],
+  ],
+  K = P("maximize", H);
+/**
  * @license lucide-react v0.537.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
- */const X=[["path",{d:"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8",key:"1357e3"}],["path",{d:"M3 3v5h5",key:"1xhq8a"}]],z=P("rotate-ccw",X);function Z({url:r,type:h,title:o,artist:N,className:g=""}){const[d,j]=u.useState(!1),[f,v]=u.useState(!1),[b,m]=u.useState(0),[p,A]=u.useState(0),[w,s]=u.useState(1),t=u.useRef(null),i=()=>{t.current&&(d?t.current.pause():t.current.play(),j(!d))},a=()=>{t.current&&(t.current.muted=!f,v(!f))},l=()=>{t.current&&m(t.current.currentTime)},c=()=>{t.current&&A(t.current.duration)},n=y=>{const x=parseFloat(y.target.value);t.current&&(t.current.currentTime=x,m(x))},k=y=>{const x=parseFloat(y.target.value);t.current&&(t.current.volume=x,s(x),v(x===0))},M=y=>{const x=Math.floor(y/60),D=Math.floor(y%60);return`${x}:${D.toString().padStart(2,"0")}`},U=()=>{t.current&&(t.current.currentTime=0,m(0),j(!1),t.current.pause())};return h==="audio"?e.jsxs("div",{className:`bg-white rounded-lg border border-gray-200 p-4 ${g}`,children:[e.jsx("audio",{ref:t,src:r,onTimeUpdate:l,onLoadedMetadata:c,onEnded:()=>j(!1),className:"hidden"}),e.jsxs("div",{className:"flex items-center space-x-4",children:[e.jsx("div",{className:"w-16 h-16 bg-gradient-to-br from-bugs-pink to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0",children:e.jsx(C,{className:"w-6 h-6 text-white"})}),e.jsxs("div",{className:"flex-1 min-w-0",children:[e.jsx("h3",{className:"font-medium text-gray-900 truncate",children:o||"Untitled Track"}),e.jsx("p",{className:"text-sm text-gray-600 truncate",children:N||"Unknown Artist"}),e.jsxs("div",{className:"mt-2",children:[e.jsx("input",{type:"range",min:"0",max:p||0,value:b,onChange:n,className:"w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"}),e.jsxs("div",{className:"flex justify-between text-xs text-gray-500 mt-1",children:[e.jsx("span",{children:M(b)}),e.jsx("span",{children:M(p)})]})]})]}),e.jsxs("div",{className:"flex items-center space-x-2",children:[e.jsx("button",{onClick:U,className:"p-2 text-gray-400 hover:text-gray-600 transition-colors",title:"Reset",children:e.jsx(z,{className:"w-4 h-4"})}),e.jsx("button",{onClick:i,className:"p-2 bg-bugs-pink text-white rounded-full hover:bg-pink-600 transition-colors",children:d?e.jsx(V,{className:"w-4 h-4"}):e.jsx(C,{className:"w-4 h-4"})}),e.jsx("button",{onClick:a,className:"p-2 text-gray-400 hover:text-gray-600 transition-colors",children:f?e.jsx(S,{className:"w-4 h-4"}):e.jsx(T,{className:"w-4 h-4"})}),e.jsx("input",{type:"range",min:"0",max:"1",step:"0.1",value:w,onChange:k,className:"w-16 h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer"})]})]})]}):e.jsxs("div",{className:`bg-white rounded-lg border border-gray-200 overflow-hidden ${g}`,children:[e.jsxs("div",{className:"relative",children:[e.jsx("video",{ref:t,src:r,onTimeUpdate:l,onLoadedMetadata:c,onEnded:()=>j(!1),className:"w-full h-48 object-cover",poster:""}),e.jsx("div",{className:"absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-30 transition-all duration-200 flex items-center justify-center",children:e.jsx("button",{onClick:i,className:"p-4 bg-black bg-opacity-50 text-white rounded-full hover:bg-opacity-70 transition-all duration-200 transform hover:scale-110",children:d?e.jsx(V,{className:"w-8 h-8"}):e.jsx(C,{className:"w-8 h-8"})})}),e.jsxs("div",{className:"absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4",children:[e.jsx("h3",{className:"font-medium text-white truncate",children:o||"Untitled Video"}),e.jsx("p",{className:"text-sm text-gray-300 truncate",children:N||"Unknown Creator"})]})]}),e.jsxs("div",{className:"p-4",children:[e.jsxs("div",{className:"mb-3",children:[e.jsx("input",{type:"range",min:"0",max:p||0,value:b,onChange:n,className:"w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"}),e.jsxs("div",{className:"flex justify-between text-xs text-gray-500 mt-1",children:[e.jsx("span",{children:M(b)}),e.jsx("span",{children:M(p)})]})]}),e.jsxs("div",{className:"flex items-center justify-between",children:[e.jsxs("div",{className:"flex items-center space-x-2",children:[e.jsx("button",{onClick:U,className:"p-2 text-gray-400 hover:text-gray-600 transition-colors",title:"Reset",children:e.jsx(z,{className:"w-4 h-4"})}),e.jsx("button",{onClick:i,className:"p-2 bg-bugs-pink text-white rounded-full hover:bg-pink-600 transition-colors",children:d?e.jsx(V,{className:"w-4 h-4"}):e.jsx(C,{className:"w-4 h-4"})})]}),e.jsxs("div",{className:"flex items-center space-x-2",children:[e.jsx("button",{onClick:a,className:"p-2 text-gray-400 hover:text-gray-600 transition-colors",children:f?e.jsx(S,{className:"w-4 h-4"}):e.jsx(T,{className:"w-4 h-4"})}),e.jsx("input",{type:"range",min:"0",max:"1",step:"0.1",value:w,onChange:k,className:"w-16 h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer"}),e.jsx("button",{onClick:()=>{t.current&&"requestFullscreen"in t.current&&t.current.requestFullscreen()},className:"p-2 text-gray-400 hover:text-gray-600 transition-colors",title:"Fullscreen",children:e.jsx(K,{className:"w-4 h-4"})})]})]})]})]})}function ie(){const{t:r}=O(),[h,o]=u.useState([]),[N,g]=u.useState(!1),d=s=>{s.preventDefault(),s.stopPropagation(),s.type==="dragenter"||s.type==="dragover"?g(!0):s.type==="dragleave"&&g(!1)},j=s=>{s.preventDefault(),s.stopPropagation(),g(!1),s.dataTransfer.files&&s.dataTransfer.files[0]&&v(Array.from(s.dataTransfer.files))},f=s=>{s.target.files&&v(Array.from(s.target.files))},v=s=>{const i=s.filter(a=>{const l=a.type.startsWith("audio/"),c=a.type.startsWith("video/");return l||c}).map(a=>({id:Math.random().toString(36).substr(2,9),file:a,type:a.type.startsWith("audio/")?"audio":"video",progress:0,status:"pending"}));o(a=>[...a,...i])},b=s=>{o(t=>t.filter(i=>i.id!==s))},m=(s,t)=>{o(i=>i.map(a=>a.id===s?{...a,...t}:a))},p=async s=>{const t=new FormData;t.append("file",s.file),t.append("title",s.title||""),t.append("artist",s.artist||""),t.append("album",s.album||""),t.append("genre",s.genre||""),t.append("description",s.description||"");try{o(c=>c.map(n=>n.id===s.id?{...n,status:"uploading",progress:0}:n));const i=setInterval(()=>{o(c=>c.map(n=>{if(n.id===s.id&&n.status==="uploading"){const k=Math.min(n.progress+Math.random()*20,90);return{...n,progress:k}}return n}))},500),a=await fetch("/api/upload",{method:"POST",body:t});clearInterval(i);const l=await a.json();a.ok&&l.success?o(c=>c.map(n=>n.id===s.id?{...n,status:"completed",progress:100,cloudinaryUrl:l.file.url,cloudinaryId:l.file.id}:n)):o(c=>c.map(n=>n.id===s.id?{...n,status:"error",error:l.error||"Upload failed"}:n))}catch{o(a=>a.map(l=>l.id===s.id?{...l,status:"error",error:"Network error occurred"}:l))}},A=()=>{h.forEach(s=>{s.status==="pending"&&p(s)})},w=s=>{if(s===0)return"0 Bytes";const t=1024,i=["Bytes","KB","MB","GB"],a=Math.floor(Math.log(s)/Math.log(t));return parseFloat((s/Math.pow(t,a)).toFixed(2))+" "+i[a]};return e.jsx("div",{className:"min-h-screen bg-gray-50 py-8",children:e.jsxs("div",{className:"max-w-4xl mx-auto px-4",children:[e.jsxs("div",{className:"mb-8",children:[e.jsx("h1",{className:"text-3xl font-bold text-gray-900 mb-2",children:r("upload.title","음악 및 비디오 업로드")}),e.jsx("p",{className:"text-gray-600",children:r("upload.description","오디오 파일과 비디오 파일을 업로드하여 벅스에서 공유하세요")})]}),e.jsxs("div",{className:`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${N?"border-bugs-pink bg-pink-50":"border-gray-300 hover:border-gray-400"}`,onDragEnter:d,onDragLeave:d,onDragOver:d,onDrop:j,children:[e.jsx("input",{type:"file",multiple:!0,accept:"audio/*,video/*",onChange:f,className:"absolute inset-0 w-full h-full opacity-0 cursor-pointer"}),e.jsxs("div",{className:"space-y-4",children:[e.jsx("div",{className:"flex justify-center",children:e.jsx(R,{className:"w-12 h-12 text-gray-400"})}),e.jsxs("div",{children:[e.jsx("h3",{className:"text-lg font-medium text-gray-900 mb-2",children:r("upload.dropFiles","파일을 여기에 드래그하거나 클릭하여 선택하세요")}),e.jsx("p",{className:"text-sm text-gray-600",children:r("upload.supportedFormats","지원 형식: MP3, WAV, FLAC, AAC, MP4, AVI, MOV, WMV")}),e.jsx("p",{className:"text-xs text-gray-500 mt-1",children:r("upload.maxSize","최대 파일 크기: 오디오 100MB, 비디오 500MB")})]})]})]}),h.length>0&&e.jsxs("div",{className:"mt-8",children:[e.jsxs("div",{className:"flex items-center justify-between mb-4",children:[e.jsxs("h2",{className:"text-xl font-semibold text-gray-900",children:[r("upload.queue","업로드 대기열")," (",h.length,")"]}),e.jsx("button",{onClick:A,disabled:h.every(s=>s.status!=="pending"),className:"px-4 py-2 bg-bugs-pink text-white rounded-md hover:bg-pink-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors",children:r("upload.uploadAll","모두 업로드")})]}),e.jsx("div",{className:"space-y-4",children:h.map(s=>e.jsx("div",{className:"bg-white rounded-lg border border-gray-200 p-4",children:e.jsxs("div",{className:"flex items-start space-x-4",children:[e.jsx("div",{className:"flex-shrink-0",children:s.type==="audio"?e.jsx("div",{className:"w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center",children:e.jsx(q,{className:"w-6 h-6 text-blue-600"})}):e.jsx("div",{className:"w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center",children:e.jsx(G,{className:"w-6 h-6 text-purple-600"})})}),e.jsxs("div",{className:"flex-1 min-w-0",children:[e.jsxs("div",{className:"flex items-center justify-between mb-2",children:[e.jsx("h3",{className:"text-sm font-medium text-gray-900 truncate",children:s.file.name}),e.jsxs("div",{className:"flex items-center space-x-2",children:[s.status==="completed"&&e.jsx(I,{className:"w-4 h-4 text-green-500"}),s.status==="error"&&e.jsx(L,{className:"w-4 h-4 text-red-500"}),e.jsx("button",{onClick:()=>b(s.id),className:"p-1 text-gray-400 hover:text-red-500 transition-colors",children:e.jsx(B,{className:"w-4 h-4"})})]})]}),e.jsxs("div",{className:"flex items-center space-x-4 text-xs text-gray-500 mb-3",children:[e.jsx("span",{children:w(s.file.size)}),e.jsx("span",{className:"capitalize",children:s.type}),e.jsx("span",{children:s.file.type})]}),s.status==="uploading"&&e.jsxs("div",{className:"mb-3",children:[e.jsxs("div",{className:"flex items-center justify-between text-xs text-gray-600 mb-1",children:[e.jsx("span",{children:"업로드 중..."}),e.jsxs("span",{children:[Math.round(s.progress),"%"]})]}),e.jsx("div",{className:"w-full bg-gray-200 rounded-full h-1.5",children:e.jsx("div",{className:"bg-bugs-pink h-1.5 rounded-full transition-all duration-300",style:{width:`${s.progress}%`}})})]}),s.status==="error"&&e.jsx("div",{className:"mb-3 p-2 bg-red-50 border border-red-200 rounded-md",children:e.jsx("p",{className:"text-sm text-red-600",children:s.error})}),s.status==="pending"&&e.jsxs("div",{className:"grid grid-cols-1 md:grid-cols-2 gap-3 mt-3",children:[e.jsx("input",{type:"text",placeholder:r("upload.title","제목"),value:s.title||"",onChange:t=>m(s.id,{title:t.target.value}),className:"px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-bugs-pink focus:border-transparent"}),e.jsx("input",{type:"text",placeholder:r("upload.artist","아티스트"),value:s.artist||"",onChange:t=>m(s.id,{artist:t.target.value}),className:"px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-bugs-pink focus:border-transparent"}),s.type==="audio"&&e.jsxs(e.Fragment,{children:[e.jsx("input",{type:"text",placeholder:r("upload.album","앨범"),value:s.album||"",onChange:t=>m(s.id,{album:t.target.value}),className:"px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-bugs-pink focus:border-transparent"}),e.jsxs("select",{value:s.genre||"",onChange:t=>m(s.id,{genre:t.target.value}),className:"px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-bugs-pink focus:border-transparent",children:[e.jsx("option",{value:"",children:r("upload.selectGenre","장르 선택")}),e.jsx("option",{value:"kpop",children:"K-POP"}),e.jsx("option",{value:"pop",children:"POP"}),e.jsx("option",{value:"rock",children:"ROCK"}),e.jsx("option",{value:"hiphop",children:"HIP-HOP"}),e.jsx("option",{value:"rnb",children:"R&B"}),e.jsx("option",{value:"jazz",children:"JAZZ"}),e.jsx("option",{value:"classical",children:"CLASSICAL"}),e.jsx("option",{value:"electronic",children:"ELECTRONIC"}),e.jsx("option",{value:"indie",children:"INDIE"}),e.jsx("option",{value:"folk",children:"FOLK"})]})]}),e.jsx("textarea",{placeholder:r("upload.description","설명"),value:s.description||"",onChange:t=>m(s.id,{description:t.target.value}),rows:2,className:"md:col-span-2 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-bugs-pink focus:border-transparent resize-none"})]}),s.status==="pending"&&e.jsx("div",{className:"mt-3",children:e.jsx("button",{onClick:()=>p(s),className:"px-4 py-2 bg-bugs-pink text-white text-sm rounded-md hover:bg-pink-600 transition-colors",children:r("upload.upload","업로드")})}),s.status==="completed"&&e.jsxs("div",{className:"mt-3",children:[e.jsxs("div",{className:"p-3 bg-green-50 border border-green-200 rounded-md mb-3",children:[e.jsxs("div",{className:"flex items-center",children:[e.jsx(I,{className:"w-4 h-4 text-green-500 mr-2"}),e.jsx("span",{className:"text-sm text-green-700",children:r("upload.success","업로드가 완료되었습니다!")})]}),s.cloudinaryUrl&&e.jsx("div",{className:"mt-2",children:e.jsxs("p",{className:"text-xs text-green-600",children:["URL: ",e.jsx("a",{href:s.cloudinaryUrl,target:"_blank",rel:"noopener noreferrer",className:"underline",children:s.cloudinaryUrl})]})})]}),s.cloudinaryUrl&&e.jsx(Z,{url:s.cloudinaryUrl,type:s.type,title:s.title||s.file.name,artist:s.artist,className:"mt-3"})]})]})]})},s.id))})]}),e.jsxs("div",{className:"mt-12 bg-white rounded-lg border border-gray-200 p-6",children:[e.jsx("h3",{className:"text-lg font-semibold text-gray-900 mb-4",children:r("upload.guidelines","업로드 가이드라인")}),e.jsxs("div",{className:"grid grid-cols-1 md:grid-cols-2 gap-6",children:[e.jsxs("div",{children:[e.jsxs("h4",{className:"font-medium text-gray-900 mb-2 flex items-center",children:[e.jsx(E,{className:"w-4 h-4 mr-2 text-blue-500"}),r("upload.audioGuidelines","오디오 파일")]}),e.jsxs("ul",{className:"text-sm text-gray-600 space-y-1",children:[e.jsx("li",{children:"• 지원 형식: MP3, WAV, FLAC, AAC, OGG"}),e.jsx("li",{children:"• 최대 파일 크기: 100MB"}),e.jsx("li",{children:"• 권장 품질: 320kbps 이상"}),e.jsx("li",{children:"• 최소 길이: 30초"})]})]}),e.jsxs("div",{children:[e.jsxs("h4",{className:"font-medium text-gray-900 mb-2 flex items-center",children:[e.jsx(_,{className:"w-4 h-4 mr-2 text-purple-500"}),r("upload.videoGuidelines","비디오 파일")]}),e.jsxs("ul",{className:"text-sm text-gray-600 space-y-1",children:[e.jsx("li",{children:"• 지원 형식: MP4, AVI, MOV, WMV, MKV"}),e.jsx("li",{children:"• 최대 파일 크기: 500MB"}),e.jsx("li",{children:"• 권장 해상도: 1080p 이상"}),e.jsx("li",{children:"• 최소 길이: 30초"})]})]})]}),e.jsx("div",{className:"mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-md",children:e.jsxs("div",{className:"flex items-start",children:[e.jsx(L,{className:"w-5 h-5 text-yellow-600 mr-2 mt-0.5"}),e.jsxs("div",{className:"text-sm text-yellow-800",children:[e.jsx("p",{className:"font-medium mb-1",children:r("upload.copyright","저작권 안내")}),e.jsx("p",{children:r("upload.copyrightNotice","업로드하는 모든 콘텐츠는 저작권을 소유하고 있거나 적절한 라이선스를 보유한 것이어야 합니다. 저작권을 침해하는 콘텐츠는 삭제될 수 있습니다.")})]})]})})]})]})})}export{ie as default};
+ */ const X = [
+    [
+      "path",
+      { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8", key: "1357e3" },
+    ],
+    ["path", { d: "M3 3v5h5", key: "1xhq8a" }],
+  ],
+  z = P("rotate-ccw", X);
+function Z({ url: r, type: h, title: o, artist: N, className: g = "" }) {
+  const [d, j] = u.useState(!1),
+    [f, v] = u.useState(!1),
+    [b, m] = u.useState(0),
+    [p, A] = u.useState(0),
+    [w, s] = u.useState(1),
+    t = u.useRef(null),
+    i = () => {
+      t.current && (d ? t.current.pause() : t.current.play(), j(!d));
+    },
+    a = () => {
+      t.current && ((t.current.muted = !f), v(!f));
+    },
+    l = () => {
+      t.current && m(t.current.currentTime);
+    },
+    c = () => {
+      t.current && A(t.current.duration);
+    },
+    n = (y) => {
+      const x = parseFloat(y.target.value);
+      t.current && ((t.current.currentTime = x), m(x));
+    },
+    k = (y) => {
+      const x = parseFloat(y.target.value);
+      t.current && ((t.current.volume = x), s(x), v(x === 0));
+    },
+    M = (y) => {
+      const x = Math.floor(y / 60),
+        D = Math.floor(y % 60);
+      return `${x}:${D.toString().padStart(2, "0")}`;
+    },
+    U = () => {
+      t.current &&
+        ((t.current.currentTime = 0), m(0), j(!1), t.current.pause());
+    };
+  return h === "audio"
+    ? e.jsxs("div", {
+        className: `bg-white rounded-lg border border-gray-200 p-4 ${g}`,
+        children: [
+          e.jsx("audio", {
+            ref: t,
+            src: r,
+            onTimeUpdate: l,
+            onLoadedMetadata: c,
+            onEnded: () => j(!1),
+            className: "hidden",
+          }),
+          e.jsxs("div", {
+            className: "flex items-center space-x-4",
+            children: [
+              e.jsx("div", {
+                className:
+                  "w-16 h-16 bg-gradient-to-br from-Snowlight-pink to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0",
+                children: e.jsx(C, { className: "w-6 h-6 text-white" }),
+              }),
+              e.jsxs("div", {
+                className: "flex-1 min-w-0",
+                children: [
+                  e.jsx("h3", {
+                    className: "font-medium text-gray-900 truncate",
+                    children: o || "Untitled Track",
+                  }),
+                  e.jsx("p", {
+                    className: "text-sm text-gray-600 truncate",
+                    children: N || "Unknown Artist",
+                  }),
+                  e.jsxs("div", {
+                    className: "mt-2",
+                    children: [
+                      e.jsx("input", {
+                        type: "range",
+                        min: "0",
+                        max: p || 0,
+                        value: b,
+                        onChange: n,
+                        className:
+                          "w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer slider",
+                      }),
+                      e.jsxs("div", {
+                        className:
+                          "flex justify-between text-xs text-gray-500 mt-1",
+                        children: [
+                          e.jsx("span", { children: M(b) }),
+                          e.jsx("span", { children: M(p) }),
+                        ],
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+              e.jsxs("div", {
+                className: "flex items-center space-x-2",
+                children: [
+                  e.jsx("button", {
+                    onClick: U,
+                    className:
+                      "p-2 text-gray-400 hover:text-gray-600 transition-colors",
+                    title: "Reset",
+                    children: e.jsx(z, { className: "w-4 h-4" }),
+                  }),
+                  e.jsx("button", {
+                    onClick: i,
+                    className:
+                      "p-2 bg-Snowlight-pink text-white rounded-full hover:bg-pink-600 transition-colors",
+                    children: d
+                      ? e.jsx(V, { className: "w-4 h-4" })
+                      : e.jsx(C, { className: "w-4 h-4" }),
+                  }),
+                  e.jsx("button", {
+                    onClick: a,
+                    className:
+                      "p-2 text-gray-400 hover:text-gray-600 transition-colors",
+                    children: f
+                      ? e.jsx(S, { className: "w-4 h-4" })
+                      : e.jsx(T, { className: "w-4 h-4" }),
+                  }),
+                  e.jsx("input", {
+                    type: "range",
+                    min: "0",
+                    max: "1",
+                    step: "0.1",
+                    value: w,
+                    onChange: k,
+                    className:
+                      "w-16 h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer",
+                  }),
+                ],
+              }),
+            ],
+          }),
+        ],
+      })
+    : e.jsxs("div", {
+        className: `bg-white rounded-lg border border-gray-200 overflow-hidden ${g}`,
+        children: [
+          e.jsxs("div", {
+            className: "relative",
+            children: [
+              e.jsx("video", {
+                ref: t,
+                src: r,
+                onTimeUpdate: l,
+                onLoadedMetadata: c,
+                onEnded: () => j(!1),
+                className: "w-full h-48 object-cover",
+                poster: "",
+              }),
+              e.jsx("div", {
+                className:
+                  "absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-30 transition-all duration-200 flex items-center justify-center",
+                children: e.jsx("button", {
+                  onClick: i,
+                  className:
+                    "p-4 bg-black bg-opacity-50 text-white rounded-full hover:bg-opacity-70 transition-all duration-200 transform hover:scale-110",
+                  children: d
+                    ? e.jsx(V, { className: "w-8 h-8" })
+                    : e.jsx(C, { className: "w-8 h-8" }),
+                }),
+              }),
+              e.jsxs("div", {
+                className:
+                  "absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4",
+                children: [
+                  e.jsx("h3", {
+                    className: "font-medium text-white truncate",
+                    children: o || "Untitled Video",
+                  }),
+                  e.jsx("p", {
+                    className: "text-sm text-gray-300 truncate",
+                    children: N || "Unknown Creator",
+                  }),
+                ],
+              }),
+            ],
+          }),
+          e.jsxs("div", {
+            className: "p-4",
+            children: [
+              e.jsxs("div", {
+                className: "mb-3",
+                children: [
+                  e.jsx("input", {
+                    type: "range",
+                    min: "0",
+                    max: p || 0,
+                    value: b,
+                    onChange: n,
+                    className:
+                      "w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer slider",
+                  }),
+                  e.jsxs("div", {
+                    className:
+                      "flex justify-between text-xs text-gray-500 mt-1",
+                    children: [
+                      e.jsx("span", { children: M(b) }),
+                      e.jsx("span", { children: M(p) }),
+                    ],
+                  }),
+                ],
+              }),
+              e.jsxs("div", {
+                className: "flex items-center justify-between",
+                children: [
+                  e.jsxs("div", {
+                    className: "flex items-center space-x-2",
+                    children: [
+                      e.jsx("button", {
+                        onClick: U,
+                        className:
+                          "p-2 text-gray-400 hover:text-gray-600 transition-colors",
+                        title: "Reset",
+                        children: e.jsx(z, { className: "w-4 h-4" }),
+                      }),
+                      e.jsx("button", {
+                        onClick: i,
+                        className:
+                          "p-2 bg-Snowlight-pink text-white rounded-full hover:bg-pink-600 transition-colors",
+                        children: d
+                          ? e.jsx(V, { className: "w-4 h-4" })
+                          : e.jsx(C, { className: "w-4 h-4" }),
+                      }),
+                    ],
+                  }),
+                  e.jsxs("div", {
+                    className: "flex items-center space-x-2",
+                    children: [
+                      e.jsx("button", {
+                        onClick: a,
+                        className:
+                          "p-2 text-gray-400 hover:text-gray-600 transition-colors",
+                        children: f
+                          ? e.jsx(S, { className: "w-4 h-4" })
+                          : e.jsx(T, { className: "w-4 h-4" }),
+                      }),
+                      e.jsx("input", {
+                        type: "range",
+                        min: "0",
+                        max: "1",
+                        step: "0.1",
+                        value: w,
+                        onChange: k,
+                        className:
+                          "w-16 h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer",
+                      }),
+                      e.jsx("button", {
+                        onClick: () => {
+                          t.current &&
+                            "requestFullscreen" in t.current &&
+                            t.current.requestFullscreen();
+                        },
+                        className:
+                          "p-2 text-gray-400 hover:text-gray-600 transition-colors",
+                        title: "Fullscreen",
+                        children: e.jsx(K, { className: "w-4 h-4" }),
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+            ],
+          }),
+        ],
+      });
+}
+function ie() {
+  const { t: r } = O(),
+    [h, o] = u.useState([]),
+    [N, g] = u.useState(!1),
+    d = (s) => {
+      s.preventDefault(),
+        s.stopPropagation(),
+        s.type === "dragenter" || s.type === "dragover"
+          ? g(!0)
+          : s.type === "dragleave" && g(!1);
+    },
+    j = (s) => {
+      s.preventDefault(),
+        s.stopPropagation(),
+        g(!1),
+        s.dataTransfer.files &&
+          s.dataTransfer.files[0] &&
+          v(Array.from(s.dataTransfer.files));
+    },
+    f = (s) => {
+      s.target.files && v(Array.from(s.target.files));
+    },
+    v = (s) => {
+      const i = s
+        .filter((a) => {
+          const l = a.type.startsWith("audio/"),
+            c = a.type.startsWith("video/");
+          return l || c;
+        })
+        .map((a) => ({
+          id: Math.random().toString(36).substr(2, 9),
+          file: a,
+          type: a.type.startsWith("audio/") ? "audio" : "video",
+          progress: 0,
+          status: "pending",
+        }));
+      o((a) => [...a, ...i]);
+    },
+    b = (s) => {
+      o((t) => t.filter((i) => i.id !== s));
+    },
+    m = (s, t) => {
+      o((i) => i.map((a) => (a.id === s ? { ...a, ...t } : a)));
+    },
+    p = async (s) => {
+      const t = new FormData();
+      t.append("file", s.file),
+        t.append("title", s.title || ""),
+        t.append("artist", s.artist || ""),
+        t.append("album", s.album || ""),
+        t.append("genre", s.genre || ""),
+        t.append("description", s.description || "");
+      try {
+        o((c) =>
+          c.map((n) =>
+            n.id === s.id ? { ...n, status: "uploading", progress: 0 } : n
+          )
+        );
+        const i = setInterval(() => {
+            o((c) =>
+              c.map((n) => {
+                if (n.id === s.id && n.status === "uploading") {
+                  const k = Math.min(n.progress + Math.random() * 20, 90);
+                  return { ...n, progress: k };
+                }
+                return n;
+              })
+            );
+          }, 500),
+          a = await fetch("/api/upload", { method: "POST", body: t });
+        clearInterval(i);
+        const l = await a.json();
+        a.ok && l.success
+          ? o((c) =>
+              c.map((n) =>
+                n.id === s.id
+                  ? {
+                      ...n,
+                      status: "completed",
+                      progress: 100,
+                      cloudinaryUrl: l.file.url,
+                      cloudinaryId: l.file.id,
+                    }
+                  : n
+              )
+            )
+          : o((c) =>
+              c.map((n) =>
+                n.id === s.id
+                  ? { ...n, status: "error", error: l.error || "Upload failed" }
+                  : n
+              )
+            );
+      } catch {
+        o((a) =>
+          a.map((l) =>
+            l.id === s.id
+              ? { ...l, status: "error", error: "Network error occurred" }
+              : l
+          )
+        );
+      }
+    },
+    A = () => {
+      h.forEach((s) => {
+        s.status === "pending" && p(s);
+      });
+    },
+    w = (s) => {
+      if (s === 0) return "0 Bytes";
+      const t = 1024,
+        i = ["Bytes", "KB", "MB", "GB"],
+        a = Math.floor(Math.log(s) / Math.log(t));
+      return parseFloat((s / Math.pow(t, a)).toFixed(2)) + " " + i[a];
+    };
+  return e.jsx("div", {
+    className: "min-h-screen bg-gray-50 py-8",
+    children: e.jsxs("div", {
+      className: "max-w-4xl mx-auto px-4",
+      children: [
+        e.jsxs("div", {
+          className: "mb-8",
+          children: [
+            e.jsx("h1", {
+              className: "text-3xl font-bold text-gray-900 mb-2",
+              children: r("upload.title", "음악 및 비디오 업로드"),
+            }),
+            e.jsx("p", {
+              className: "text-gray-600",
+              children: r(
+                "upload.description",
+                "오디오 파일과 비디오 파일을 업로드하여 벅스에서 공유하세요"
+              ),
+            }),
+          ],
+        }),
+        e.jsxs("div", {
+          className: `relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+            N
+              ? "border-Snowlight-pink bg-pink-50"
+              : "border-gray-300 hover:border-gray-400"
+          }`,
+          onDragEnter: d,
+          onDragLeave: d,
+          onDragOver: d,
+          onDrop: j,
+          children: [
+            e.jsx("input", {
+              type: "file",
+              multiple: !0,
+              accept: "audio/*,video/*",
+              onChange: f,
+              className:
+                "absolute inset-0 w-full h-full opacity-0 cursor-pointer",
+            }),
+            e.jsxs("div", {
+              className: "space-y-4",
+              children: [
+                e.jsx("div", {
+                  className: "flex justify-center",
+                  children: e.jsx(R, { className: "w-12 h-12 text-gray-400" }),
+                }),
+                e.jsxs("div", {
+                  children: [
+                    e.jsx("h3", {
+                      className: "text-lg font-medium text-gray-900 mb-2",
+                      children: r(
+                        "upload.dropFiles",
+                        "파일을 여기에 드래그하거나 클릭하여 선택하세요"
+                      ),
+                    }),
+                    e.jsx("p", {
+                      className: "text-sm text-gray-600",
+                      children: r(
+                        "upload.supportedFormats",
+                        "지원 형식: MP3, WAV, FLAC, AAC, MP4, AVI, MOV, WMV"
+                      ),
+                    }),
+                    e.jsx("p", {
+                      className: "text-xs text-gray-500 mt-1",
+                      children: r(
+                        "upload.maxSize",
+                        "최대 파일 크기: 오디오 100MB, 비디오 500MB"
+                      ),
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          ],
+        }),
+        h.length > 0 &&
+          e.jsxs("div", {
+            className: "mt-8",
+            children: [
+              e.jsxs("div", {
+                className: "flex items-center justify-between mb-4",
+                children: [
+                  e.jsxs("h2", {
+                    className: "text-xl font-semibold text-gray-900",
+                    children: [
+                      r("upload.queue", "업로드 대기열"),
+                      " (",
+                      h.length,
+                      ")",
+                    ],
+                  }),
+                  e.jsx("button", {
+                    onClick: A,
+                    disabled: h.every((s) => s.status !== "pending"),
+                    className:
+                      "px-4 py-2 bg-Snowlight-pink text-white rounded-md hover:bg-pink-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors",
+                    children: r("upload.uploadAll", "모두 업로드"),
+                  }),
+                ],
+              }),
+              e.jsx("div", {
+                className: "space-y-4",
+                children: h.map((s) =>
+                  e.jsx(
+                    "div",
+                    {
+                      className:
+                        "bg-white rounded-lg border border-gray-200 p-4",
+                      children: e.jsxs("div", {
+                        className: "flex items-start space-x-4",
+                        children: [
+                          e.jsx("div", {
+                            className: "flex-shrink-0",
+                            children:
+                              s.type === "audio"
+                                ? e.jsx("div", {
+                                    className:
+                                      "w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center",
+                                    children: e.jsx(q, {
+                                      className: "w-6 h-6 text-blue-600",
+                                    }),
+                                  })
+                                : e.jsx("div", {
+                                    className:
+                                      "w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center",
+                                    children: e.jsx(G, {
+                                      className: "w-6 h-6 text-purple-600",
+                                    }),
+                                  }),
+                          }),
+                          e.jsxs("div", {
+                            className: "flex-1 min-w-0",
+                            children: [
+                              e.jsxs("div", {
+                                className:
+                                  "flex items-center justify-between mb-2",
+                                children: [
+                                  e.jsx("h3", {
+                                    className:
+                                      "text-sm font-medium text-gray-900 truncate",
+                                    children: s.file.name,
+                                  }),
+                                  e.jsxs("div", {
+                                    className: "flex items-center space-x-2",
+                                    children: [
+                                      s.status === "completed" &&
+                                        e.jsx(I, {
+                                          className: "w-4 h-4 text-green-500",
+                                        }),
+                                      s.status === "error" &&
+                                        e.jsx(L, {
+                                          className: "w-4 h-4 text-red-500",
+                                        }),
+                                      e.jsx("button", {
+                                        onClick: () => b(s.id),
+                                        className:
+                                          "p-1 text-gray-400 hover:text-red-500 transition-colors",
+                                        children: e.jsx(B, {
+                                          className: "w-4 h-4",
+                                        }),
+                                      }),
+                                    ],
+                                  }),
+                                ],
+                              }),
+                              e.jsxs("div", {
+                                className:
+                                  "flex items-center space-x-4 text-xs text-gray-500 mb-3",
+                                children: [
+                                  e.jsx("span", { children: w(s.file.size) }),
+                                  e.jsx("span", {
+                                    className: "capitalize",
+                                    children: s.type,
+                                  }),
+                                  e.jsx("span", { children: s.file.type }),
+                                ],
+                              }),
+                              s.status === "uploading" &&
+                                e.jsxs("div", {
+                                  className: "mb-3",
+                                  children: [
+                                    e.jsxs("div", {
+                                      className:
+                                        "flex items-center justify-between text-xs text-gray-600 mb-1",
+                                      children: [
+                                        e.jsx("span", {
+                                          children: "업로드 중...",
+                                        }),
+                                        e.jsxs("span", {
+                                          children: [
+                                            Math.round(s.progress),
+                                            "%",
+                                          ],
+                                        }),
+                                      ],
+                                    }),
+                                    e.jsx("div", {
+                                      className:
+                                        "w-full bg-gray-200 rounded-full h-1.5",
+                                      children: e.jsx("div", {
+                                        className:
+                                          "bg-Snowlight-pink h-1.5 rounded-full transition-all duration-300",
+                                        style: { width: `${s.progress}%` },
+                                      }),
+                                    }),
+                                  ],
+                                }),
+                              s.status === "error" &&
+                                e.jsx("div", {
+                                  className:
+                                    "mb-3 p-2 bg-red-50 border border-red-200 rounded-md",
+                                  children: e.jsx("p", {
+                                    className: "text-sm text-red-600",
+                                    children: s.error,
+                                  }),
+                                }),
+                              s.status === "pending" &&
+                                e.jsxs("div", {
+                                  className:
+                                    "grid grid-cols-1 md:grid-cols-2 gap-3 mt-3",
+                                  children: [
+                                    e.jsx("input", {
+                                      type: "text",
+                                      placeholder: r("upload.title", "제목"),
+                                      value: s.title || "",
+                                      onChange: (t) =>
+                                        m(s.id, { title: t.target.value }),
+                                      className:
+                                        "px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-Snowlight-pink focus:border-transparent",
+                                    }),
+                                    e.jsx("input", {
+                                      type: "text",
+                                      placeholder: r(
+                                        "upload.artist",
+                                        "아티스트"
+                                      ),
+                                      value: s.artist || "",
+                                      onChange: (t) =>
+                                        m(s.id, { artist: t.target.value }),
+                                      className:
+                                        "px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-Snowlight-pink focus:border-transparent",
+                                    }),
+                                    s.type === "audio" &&
+                                      e.jsxs(e.Fragment, {
+                                        children: [
+                                          e.jsx("input", {
+                                            type: "text",
+                                            placeholder: r(
+                                              "upload.album",
+                                              "앨범"
+                                            ),
+                                            value: s.album || "",
+                                            onChange: (t) =>
+                                              m(s.id, {
+                                                album: t.target.value,
+                                              }),
+                                            className:
+                                              "px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-Snowlight-pink focus:border-transparent",
+                                          }),
+                                          e.jsxs("select", {
+                                            value: s.genre || "",
+                                            onChange: (t) =>
+                                              m(s.id, {
+                                                genre: t.target.value,
+                                              }),
+                                            className:
+                                              "px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-Snowlight-pink focus:border-transparent",
+                                            children: [
+                                              e.jsx("option", {
+                                                value: "",
+                                                children: r(
+                                                  "upload.selectGenre",
+                                                  "장르 선택"
+                                                ),
+                                              }),
+                                              e.jsx("option", {
+                                                value: "kpop",
+                                                children: "K-POP",
+                                              }),
+                                              e.jsx("option", {
+                                                value: "pop",
+                                                children: "POP",
+                                              }),
+                                              e.jsx("option", {
+                                                value: "rock",
+                                                children: "ROCK",
+                                              }),
+                                              e.jsx("option", {
+                                                value: "hiphop",
+                                                children: "HIP-HOP",
+                                              }),
+                                              e.jsx("option", {
+                                                value: "rnb",
+                                                children: "R&B",
+                                              }),
+                                              e.jsx("option", {
+                                                value: "jazz",
+                                                children: "JAZZ",
+                                              }),
+                                              e.jsx("option", {
+                                                value: "classical",
+                                                children: "CLASSICAL",
+                                              }),
+                                              e.jsx("option", {
+                                                value: "electronic",
+                                                children: "ELECTRONIC",
+                                              }),
+                                              e.jsx("option", {
+                                                value: "indie",
+                                                children: "INDIE",
+                                              }),
+                                              e.jsx("option", {
+                                                value: "folk",
+                                                children: "FOLK",
+                                              }),
+                                            ],
+                                          }),
+                                        ],
+                                      }),
+                                    e.jsx("textarea", {
+                                      placeholder: r(
+                                        "upload.description",
+                                        "설명"
+                                      ),
+                                      value: s.description || "",
+                                      onChange: (t) =>
+                                        m(s.id, {
+                                          description: t.target.value,
+                                        }),
+                                      rows: 2,
+                                      className:
+                                        "md:col-span-2 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-Snowlight-pink focus:border-transparent resize-none",
+                                    }),
+                                  ],
+                                }),
+                              s.status === "pending" &&
+                                e.jsx("div", {
+                                  className: "mt-3",
+                                  children: e.jsx("button", {
+                                    onClick: () => p(s),
+                                    className:
+                                      "px-4 py-2 bg-Snowlight-pink text-white text-sm rounded-md hover:bg-pink-600 transition-colors",
+                                    children: r("upload.upload", "업로드"),
+                                  }),
+                                }),
+                              s.status === "completed" &&
+                                e.jsxs("div", {
+                                  className: "mt-3",
+                                  children: [
+                                    e.jsxs("div", {
+                                      className:
+                                        "p-3 bg-green-50 border border-green-200 rounded-md mb-3",
+                                      children: [
+                                        e.jsxs("div", {
+                                          className: "flex items-center",
+                                          children: [
+                                            e.jsx(I, {
+                                              className:
+                                                "w-4 h-4 text-green-500 mr-2",
+                                            }),
+                                            e.jsx("span", {
+                                              className:
+                                                "text-sm text-green-700",
+                                              children: r(
+                                                "upload.success",
+                                                "업로드가 완료되었습니다!"
+                                              ),
+                                            }),
+                                          ],
+                                        }),
+                                        s.cloudinaryUrl &&
+                                          e.jsx("div", {
+                                            className: "mt-2",
+                                            children: e.jsxs("p", {
+                                              className:
+                                                "text-xs text-green-600",
+                                              children: [
+                                                "URL: ",
+                                                e.jsx("a", {
+                                                  href: s.cloudinaryUrl,
+                                                  target: "_blank",
+                                                  rel: "noopener noreferrer",
+                                                  className: "underline",
+                                                  children: s.cloudinaryUrl,
+                                                }),
+                                              ],
+                                            }),
+                                          }),
+                                      ],
+                                    }),
+                                    s.cloudinaryUrl &&
+                                      e.jsx(Z, {
+                                        url: s.cloudinaryUrl,
+                                        type: s.type,
+                                        title: s.title || s.file.name,
+                                        artist: s.artist,
+                                        className: "mt-3",
+                                      }),
+                                  ],
+                                }),
+                            ],
+                          }),
+                        ],
+                      }),
+                    },
+                    s.id
+                  )
+                ),
+              }),
+            ],
+          }),
+        e.jsxs("div", {
+          className: "mt-12 bg-white rounded-lg border border-gray-200 p-6",
+          children: [
+            e.jsx("h3", {
+              className: "text-lg font-semibold text-gray-900 mb-4",
+              children: r("upload.guidelines", "업로드 가이드라인"),
+            }),
+            e.jsxs("div", {
+              className: "grid grid-cols-1 md:grid-cols-2 gap-6",
+              children: [
+                e.jsxs("div", {
+                  children: [
+                    e.jsxs("h4", {
+                      className:
+                        "font-medium text-gray-900 mb-2 flex items-center",
+                      children: [
+                        e.jsx(E, { className: "w-4 h-4 mr-2 text-blue-500" }),
+                        r("upload.audioGuidelines", "오디오 파일"),
+                      ],
+                    }),
+                    e.jsxs("ul", {
+                      className: "text-sm text-gray-600 space-y-1",
+                      children: [
+                        e.jsx("li", {
+                          children: "• 지원 형식: MP3, WAV, FLAC, AAC, OGG",
+                        }),
+                        e.jsx("li", { children: "• 최대 파일 크기: 100MB" }),
+                        e.jsx("li", { children: "• 권장 품질: 320kbps 이상" }),
+                        e.jsx("li", { children: "• 최소 길이: 30초" }),
+                      ],
+                    }),
+                  ],
+                }),
+                e.jsxs("div", {
+                  children: [
+                    e.jsxs("h4", {
+                      className:
+                        "font-medium text-gray-900 mb-2 flex items-center",
+                      children: [
+                        e.jsx(_, { className: "w-4 h-4 mr-2 text-purple-500" }),
+                        r("upload.videoGuidelines", "비디오 파일"),
+                      ],
+                    }),
+                    e.jsxs("ul", {
+                      className: "text-sm text-gray-600 space-y-1",
+                      children: [
+                        e.jsx("li", {
+                          children: "• 지원 형식: MP4, AVI, MOV, WMV, MKV",
+                        }),
+                        e.jsx("li", { children: "• 최대 파일 크기: 500MB" }),
+                        e.jsx("li", { children: "• 권장 해상도: 1080p 이상" }),
+                        e.jsx("li", { children: "• 최소 길이: 30초" }),
+                      ],
+                    }),
+                  ],
+                }),
+              ],
+            }),
+            e.jsx("div", {
+              className:
+                "mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-md",
+              children: e.jsxs("div", {
+                className: "flex items-start",
+                children: [
+                  e.jsx(L, {
+                    className: "w-5 h-5 text-yellow-600 mr-2 mt-0.5",
+                  }),
+                  e.jsxs("div", {
+                    className: "text-sm text-yellow-800",
+                    children: [
+                      e.jsx("p", {
+                        className: "font-medium mb-1",
+                        children: r("upload.copyright", "저작권 안내"),
+                      }),
+                      e.jsx("p", {
+                        children: r(
+                          "upload.copyrightNotice",
+                          "업로드하는 모든 콘텐츠는 저작권을 소유하고 있거나 적절한 라이선스를 보유한 것이어야 합니다. 저작권을 침해하는 콘텐츠는 삭제될 수 있습니다."
+                        ),
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+            }),
+          ],
+        }),
+      ],
+    }),
+  });
+}
+export { ie as default };

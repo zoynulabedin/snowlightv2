@@ -154,7 +154,7 @@ export default function ArtistForm() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 py-4">
+        <div className="max-w-full mx-auto px-4 py-4">
           <div className="flex items-center">
             <Link
               to="/dashboard/artists"

@@ -10,7 +10,7 @@ export async function loader() {
       application: "✅ App runs without schema errors",
       mongodb_issue: "⚠️ MongoDB Atlas replica set needs primary node",
       admin_credentials: {
-        email: "admin@bugs.co.kr",
+        email: "admin@Snowlight.co.kr",
         password: "admin123!",
         role: "ADMIN",
       },
@@ -72,7 +72,7 @@ export default function DatabaseStatus() {
               <p className="font-semibold">
                 Admin Credentials (when DB stabilizes):
               </p>
-              <p>📧 Email: admin@bugs.co.kr</p>
+              <p>📧 Email: admin@Snowlight.co.kr</p>
               <p>🔑 Password: admin123!</p>
               <p>👑 Role: ADMIN</p>
             </div>

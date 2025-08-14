@@ -65,7 +65,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
         duration: 180,
         thumbnailUrl: song.coverImage || placeholderImg,
         videoUrl:
-          "https://res.cloudinary.com/dsp05t7kx/video/upload/v1755014244/bugs-music/video/1755014242719_s30.mp4",
+          "https://res.cloudinary.com/dsp05t7kx/video/upload/v1755014244/Snowlight-music/video/1755014242719_s30.mp4",
         createdAt: new Date().toISOString(),
       },
       {
@@ -75,7 +75,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
         duration: 200,
         thumbnailUrl: song.coverImage || placeholderImg,
         videoUrl:
-          "https://res.cloudinary.com/dsp05t7kx/video/upload/v1755014244/bugs-music/video/1755014242719_s30.mp4",
+          "https://res.cloudinary.com/dsp05t7kx/video/upload/v1755014244/Snowlight-music/video/1755014242719_s30.mp4",
         createdAt: new Date().toISOString(),
       },
     ];
@@ -195,11 +195,11 @@ export default function SongDetails() {
                     </div>
                     <div className="mb-2">
                       <span className="text-gray-200">유통사:</span>
-                      <span className="ml-2">Bugs Music</span>
+                      <span className="ml-2">Snowlight Music</span>
                     </div>
                     <div className="mb-2">
                       <span className="text-gray-200">기획사:</span>
-                      <span className="ml-2">Bugs Entertainment</span>
+                      <span className="ml-2">Snowlight Entertainment</span>
                     </div>
                     <div className="mb-2">
                       <span className="text-gray-200">재생 시간:</span>
@@ -334,7 +334,6 @@ export default function SongDetails() {
                             .join(", ")}
                           album={song.album?.title || ""}
                           duration={song.duration || 0}
-                          id={song.id}
                         />
                       </div>
                     </div>
@@ -389,11 +388,11 @@ export default function SongDetails() {
                   <h4 className="font-medium mb-2">[Credit]</h4>
                   <div className="text-sm text-gray-600 space-y-1">
                     <div>1. {song.title}</div>
-                    <div>Composed by Bugs Music</div>
-                    <div>Lyrics by Bugs Music</div>
-                    <div>Recorded by Bugs Studio</div>
-                    <div>Mixed by Bugs Studio</div>
-                    <div>Mastered by Bugs Mastering</div>
+                    <div>Composed by Snowlight Music</div>
+                    <div>Lyrics by Snowlight Music</div>
+                    <div>Recorded by Snowlight Studio</div>
+                    <div>Mixed by Snowlight Studio</div>
+                    <div>Mastered by Snowlight Mastering</div>
                   </div>
                 </div>
               </div>

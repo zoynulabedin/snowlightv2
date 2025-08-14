@@ -74,7 +74,7 @@ export async function action({ request }: ActionFunctionArgs) {
     // Upload main file to Cloudinary
     const uploadResult = await uploadToCloudinary(base64, {
       resource_type: isVideo ? "video" : "auto",
-      folder: isAudio ? "bugs-music/audio" : "bugs-music/video",
+      folder: isAudio ? "Snowlight-music/audio" : "Snowlight-music/video",
       tags: [genre || "untagged", isAudio ? "audio" : "video"],
       public_id: `${Date.now()}_${file.name.replace(/\.[^/.]+$/, "")}`,
     });
@@ -101,7 +101,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
         const thumbnailResult = await uploadToCloudinary(thumbBase64, {
           resource_type: "image",
-          folder: "bugs-music/thumbnails",
+          folder: "Snowlight-music/thumbnails",
           tags: ["thumbnail", isAudio ? "audio" : "video"],
           public_id: `thumb_${Date.now()}_${thumbnailFile.name.replace(
             /\.[^/.]+$/,

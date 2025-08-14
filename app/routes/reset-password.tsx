@@ -77,7 +77,7 @@ export default function ResetPasswordPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-bugs-pink via-purple-500 to-blue-600 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gradient-to-br from-Snowlight-pink via-purple-500 to-blue-600 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           {/* Header */}
           <div className="text-center">
@@ -107,7 +107,7 @@ export default function ResetPasswordPage() {
               <div className="pt-6">
                 <button
                   onClick={() => navigate("/login")}
-                  className="w-full py-3 px-4 bg-gradient-to-r from-bugs-pink to-purple-600 text-white rounded-lg hover:from-pink-600 hover:to-purple-700 transition-all duration-200"
+                  className="w-full py-3 px-4 bg-gradient-to-r from-Snowlight-pink to-purple-600 text-white rounded-lg hover:from-pink-600 hover:to-purple-700 transition-all duration-200"
                 >
                   로그인하기
                 </button>
@@ -121,7 +121,7 @@ export default function ResetPasswordPage() {
 
   if (!token) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-bugs-pink via-purple-500 to-blue-600 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gradient-to-br from-Snowlight-pink via-purple-500 to-blue-600 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div className="bg-white rounded-2xl shadow-2xl p-8 text-center">
             <AlertCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
@@ -133,7 +133,7 @@ export default function ResetPasswordPage() {
             </p>
             <button
               onClick={() => navigate("/forgot-password")}
-              className="w-full py-3 px-4 bg-gradient-to-r from-bugs-pink to-purple-600 text-white rounded-lg hover:from-pink-600 hover:to-purple-700 transition-all duration-200"
+              className="w-full py-3 px-4 bg-gradient-to-r from-Snowlight-pink to-purple-600 text-white rounded-lg hover:from-pink-600 hover:to-purple-700 transition-all duration-200"
             >
               새로운 재설정 링크 요청
             </button>
@@ -144,12 +144,12 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-bugs-pink via-purple-500 to-blue-600 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-Snowlight-pink via-purple-500 to-blue-600 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
           <div className="mx-auto h-12 w-12 bg-white rounded-full flex items-center justify-center mb-4">
-            <span className="text-2xl font-bold text-bugs-pink">B</span>
+            <span className="text-2xl font-bold text-Snowlight-pink">B</span>
           </div>
           <h2 className="text-3xl font-bold text-white mb-2">
             새 비밀번호 설정
@@ -181,7 +181,7 @@ export default function ResetPasswordPage() {
                   required
                   value={formData.password}
                   onChange={handleInputChange}
-                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bugs-pink focus:border-transparent"
+                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-Snowlight-pink focus:border-transparent"
                   placeholder="새 비밀번호를 입력하세요"
                 />
                 <button
@@ -217,7 +217,7 @@ export default function ResetPasswordPage() {
                   required
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
-                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bugs-pink focus:border-transparent"
+                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-Snowlight-pink focus:border-transparent"
                   placeholder="비밀번호를 다시 입력하세요"
                 />
                 <button
@@ -287,7 +287,7 @@ export default function ResetPasswordPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-bugs-pink to-purple-600 hover:from-pink-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bugs-pink disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-Snowlight-pink to-purple-600 hover:from-pink-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-Snowlight-pink disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
             >
               {isLoading ? (
                 <div className="flex items-center space-x-2">
@@ -306,7 +306,7 @@ export default function ResetPasswordPage() {
               문제가 있나요?{" "}
               <button
                 onClick={() => navigate("/forgot-password")}
-                className="font-medium text-bugs-pink hover:text-pink-600 transition-colors"
+                className="font-medium text-Snowlight-pink hover:text-pink-600 transition-colors"
               >
                 새로운 재설정 링크 요청
               </button>

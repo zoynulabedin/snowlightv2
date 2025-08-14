@@ -213,13 +213,13 @@ export default function PaymentModal({
             onClick={() => setSelectedPaymentMethod(method.id)}
             className={`w-full p-4 border-2 rounded-lg text-left transition-colors ${
               selectedPaymentMethod === method.id
-                ? "border-bugs-pink bg-pink-50"
-                : "border-gray-200 hover:border-bugs-pink"
+                ? "border-Snowlight-pink bg-pink-50"
+                : "border-gray-200 hover:border-Snowlight-pink"
             }`}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <div className="text-bugs-pink">{method.icon}</div>
+                <div className="text-Snowlight-pink">{method.icon}</div>
                 <div>
                   <div className="font-medium text-gray-900">
                     {language === "ko" ? method.name : method.nameEn}
@@ -244,14 +244,16 @@ export default function PaymentModal({
       <div className="mt-6 pt-4 border-t border-gray-200">
         <div className="flex justify-between items-center text-lg font-semibold">
           <span>총 결제금액</span>
-          <span className="text-bugs-pink">₩{totalPrice.toLocaleString()}</span>
+          <span className="text-Snowlight-pink">
+            ₩{totalPrice.toLocaleString()}
+          </span>
         </div>
       </div>
 
       <button
         onClick={() => setPaymentStep("details")}
         disabled={!selectedPaymentMethod}
-        className="w-full mt-4 py-3 bg-bugs-pink text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-pink-600 transition-colors"
+        className="w-full mt-4 py-3 bg-Snowlight-pink text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-pink-600 transition-colors"
       >
         다음 단계
       </button>
@@ -292,7 +294,7 @@ export default function PaymentModal({
                   setCardDetails({ ...cardDetails, cardNumber: e.target.value })
                 }
                 placeholder="1234 5678 9012 3456"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-bugs-pink"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-Snowlight-pink"
                 maxLength={19}
               />
             </div>
@@ -315,7 +317,7 @@ export default function PaymentModal({
                     })
                   }
                   placeholder="MM/YY"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-bugs-pink"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-Snowlight-pink"
                   maxLength={5}
                 />
               </div>
@@ -334,7 +336,7 @@ export default function PaymentModal({
                     setCardDetails({ ...cardDetails, cvv: e.target.value })
                   }
                   placeholder="123"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-bugs-pink"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-Snowlight-pink"
                   maxLength={4}
                 />
               </div>
@@ -357,7 +359,7 @@ export default function PaymentModal({
                   })
                 }
                 placeholder="홍길동"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-bugs-pink"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-Snowlight-pink"
               />
             </div>
           </div>
@@ -377,7 +379,7 @@ export default function PaymentModal({
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               placeholder="010-1234-5678"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-bugs-pink"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-Snowlight-pink"
             />
           </div>
         )}
@@ -396,7 +398,7 @@ export default function PaymentModal({
               value={bankAccount}
               onChange={(e) => setBankAccount(e.target.value)}
               placeholder="123-456-789012"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-bugs-pink"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-Snowlight-pink"
             />
           </div>
         )}
@@ -413,7 +415,7 @@ export default function PaymentModal({
         <button
           onClick={handlePaymentSubmit}
           disabled={isProcessing}
-          className="w-full mt-6 py-3 bg-bugs-pink text-white rounded-lg font-medium disabled:opacity-50 hover:bg-pink-600 transition-colors"
+          className="w-full mt-6 py-3 bg-Snowlight-pink text-white rounded-lg font-medium disabled:opacity-50 hover:bg-pink-600 transition-colors"
         >
           {isProcessing
             ? "처리 중..."
@@ -425,7 +427,7 @@ export default function PaymentModal({
 
   const renderProcessing = () => (
     <div className="text-center py-8">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-bugs-pink mx-auto mb-4"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-Snowlight-pink mx-auto mb-4"></div>
       <h3 className="text-lg font-semibold text-gray-900 mb-2">
         결제 처리 중...
       </h3>
@@ -456,7 +458,7 @@ export default function PaymentModal({
       <div className="space-y-2">
         <button
           onClick={() => setPaymentStep("details")}
-          className="w-full py-2 bg-bugs-pink text-white rounded-lg hover:bg-pink-600 transition-colors"
+          className="w-full py-2 bg-Snowlight-pink text-white rounded-lg hover:bg-pink-600 transition-colors"
         >
           다시 시도
         </button>
@@ -493,7 +495,7 @@ export default function PaymentModal({
                 총 {heartPackage.hearts + heartPackage.bonus} 하트
               </div>
             </div>
-            <div className="text-lg font-bold text-bugs-pink">
+            <div className="text-lg font-bold text-Snowlight-pink">
               ₩{heartPackage.price.toLocaleString()}
             </div>
           </div>

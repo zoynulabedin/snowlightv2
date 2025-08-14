@@ -63,7 +63,7 @@ export default function SearchDropdown({
   // Load recent searches from localStorage
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("bugs-recent-searches");
+      const saved = localStorage.getItem("Snowlight-recent-searches");
       if (saved) {
         setRecentSearches(JSON.parse(saved));
       }
@@ -78,7 +78,10 @@ export default function SearchDropdown({
         ...recentSearches.filter((s) => s !== query),
       ].slice(0, 5);
       setRecentSearches(updated);
-      localStorage.setItem("bugs-recent-searches", JSON.stringify(updated));
+      localStorage.setItem(
+        "Snowlight-recent-searches",
+        JSON.stringify(updated)
+      );
     }
   };
 
@@ -86,7 +89,7 @@ export default function SearchDropdown({
   const clearRecentSearches = () => {
     setRecentSearches([]);
     if (typeof window !== "undefined") {
-      localStorage.removeItem("bugs-recent-searches");
+      localStorage.removeItem("Snowlight-recent-searches");
     }
   };
 

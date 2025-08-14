@@ -1,1 +1,546 @@
-import{r as m,j as e}from"./index-BJHAE5s4.js";import{u as f}from"./LanguageContext-BFw3fmyY.js";import{C as x}from"./calendar-CmJUhcwv.js";import{M as w}from"./music-CZuQgL7Q.js";import{T as p}from"./trending-up-BpWpwtul.js";import{H as g}from"./heart-Dn2OeVKi.js";import{P}from"./play-xanyyhs6.js";import{D as k}from"./download-D1QhcQ9O.js";import{E as U}from"./ellipsis-oYE1YOVG.js";import"./createLucideIcon-iNHoReR6.js";function M(){const{t:a}=f(),[i,h]=m.useState(2025),[l,u]=m.useState("all"),d=new Date().getFullYear(),b=Array.from({length:d-1999},(s,r)=>d-r),n={2025:{year:2025,totalTracks:1247,topGenres:["K-POP","Hip-Hop","Pop","R&B","Electronic"],newArtists:89,totalListens:1542e4,popularTracks:[{id:"1",title:"Golden",artist:"HUNTR/X",album:"KPop Demon Hunters (Soundtrack)",duration:210,coverUrl:"/api/placeholder/300/300",audioUrl:"/audio/golden.mp3",releaseDate:"2025-08-08",genre:"K-POP",plays:245e4},{id:"2",title:"Soda Pop",artist:"Saja Boys",album:"KPop Demon Hunters (Soundtrack)",duration:195,coverUrl:"/api/placeholder/300/300",audioUrl:"/audio/soda-pop.mp3",releaseDate:"2025-08-07",genre:"Pop",plays:189e4},{id:"3",title:"뛰어(JUMP)",artist:"BLACKPINK",album:"뛰어(JUMP)",duration:205,coverUrl:"/api/placeholder/300/300",audioUrl:"/audio/jump.mp3",releaseDate:"2025-08-06",genre:"K-POP",plays:312e4},{id:"4",title:"FAMOUS",artist:"ALLDAY PROJECT",album:"FAMOUS",duration:180,coverUrl:"/api/placeholder/300/300",audioUrl:"/audio/famous.mp3",releaseDate:"2025-08-05",genre:"Hip-Hop",plays:165e4},{id:"5",title:"여름이었다",artist:"H1-KEY (하이키)",album:"H1-KEY 4th Mini Album [Lovestruck]",duration:225,coverUrl:"/api/placeholder/300/300",audioUrl:"/audio/summer.mp3",releaseDate:"2025-08-04",genre:"K-POP",plays:142e4}]},2024:{year:2024,totalTracks:2156,topGenres:["K-POP","Pop","Hip-Hop","R&B","Rock"],newArtists:124,totalListens:2875e4,popularTracks:[{id:"6",title:"Supernova",artist:"aespa",album:"Armageddon",duration:195,coverUrl:"/api/placeholder/300/300",audioUrl:"/audio/supernova.mp3",releaseDate:"2024-05-13",genre:"K-POP",plays:425e4},{id:"7",title:"How Sweet",artist:"NewJeans",album:"How Sweet",duration:210,coverUrl:"/api/placeholder/300/300",audioUrl:"/audio/how-sweet.mp3",releaseDate:"2024-05-24",genre:"K-POP",plays:389e4}]},2023:{year:2023,totalTracks:1987,topGenres:["K-POP","Hip-Hop","Pop","Electronic","R&B"],newArtists:156,totalListens:321e5,popularTracks:[{id:"8",title:"Flower",artist:"JISOO",album:"ME",duration:190,coverUrl:"/api/placeholder/300/300",audioUrl:"/audio/flower.mp3",releaseDate:"2023-03-31",genre:"K-POP",plays:512e4}]}},t=n[i]||n[2025],y=["all",...t.topGenres.map(s=>s.toLowerCase())],c=l==="all"?t.popularTracks:t.popularTracks.filter(s=>s.genre.toLowerCase()===l),o=s=>s>=1e6?(s/1e6).toFixed(1)+"M":s>=1e3?(s/1e3).toFixed(1)+"K":s.toString(),j=s=>{const r=Math.floor(s/60),v=s%60;return`${r}:${v.toString().padStart(2,"0")}`},N=s=>new Date(s).toLocaleDateString("ko-KR",{year:"numeric",month:"long",day:"numeric"});return e.jsx("div",{className:"min-h-screen bg-gray-50 py-8",children:e.jsxs("div",{className:"max-w-6xl mx-auto px-4",children:[e.jsxs("div",{className:"mb-8",children:[e.jsx("h1",{className:"text-3xl font-bold text-gray-900 mb-2",children:a("byYear.title","연도별 음악")}),e.jsx("p",{className:"text-gray-600",children:a("byYear.description","연도별로 인기 있었던 음악들을 만나보세요")})]}),e.jsx("div",{className:"bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8",children:e.jsxs("div",{className:"flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4",children:[e.jsxs("div",{className:"flex items-center space-x-4",children:[e.jsx(x,{className:"w-5 h-5 text-bugs-pink"}),e.jsx("h2",{className:"text-lg font-semibold text-gray-900",children:a("byYear.selectYear","연도 선택")})]}),e.jsx("div",{className:"flex flex-wrap gap-2",children:b.slice(0,10).map(s=>e.jsx("button",{onClick:()=>h(s),className:`px-4 py-2 rounded-md text-sm font-medium transition-colors ${i===s?"bg-bugs-pink text-white":"bg-gray-100 text-gray-700 hover:bg-gray-200"}`,children:s},s))})]})}),e.jsxs("div",{className:"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8",children:[e.jsx("div",{className:"bg-white rounded-lg shadow-sm border border-gray-200 p-6",children:e.jsxs("div",{className:"flex items-center",children:[e.jsx("div",{className:"w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center",children:e.jsx(w,{className:"w-6 h-6 text-blue-600"})}),e.jsxs("div",{className:"ml-4",children:[e.jsx("p",{className:"text-sm font-medium text-gray-600",children:a("byYear.stats.totalTracks","총 트랙 수")}),e.jsx("p",{className:"text-2xl font-bold text-gray-900",children:o(t.totalTracks)})]})]})}),e.jsx("div",{className:"bg-white rounded-lg shadow-sm border border-gray-200 p-6",children:e.jsxs("div",{className:"flex items-center",children:[e.jsx("div",{className:"w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center",children:e.jsx(p,{className:"w-6 h-6 text-green-600"})}),e.jsxs("div",{className:"ml-4",children:[e.jsx("p",{className:"text-sm font-medium text-gray-600",children:a("byYear.stats.totalListens","총 재생 수")}),e.jsx("p",{className:"text-2xl font-bold text-gray-900",children:o(t.totalListens)})]})]})}),e.jsx("div",{className:"bg-white rounded-lg shadow-sm border border-gray-200 p-6",children:e.jsxs("div",{className:"flex items-center",children:[e.jsx("div",{className:"w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center",children:e.jsx(x,{className:"w-6 h-6 text-purple-600"})}),e.jsxs("div",{className:"ml-4",children:[e.jsx("p",{className:"text-sm font-medium text-gray-600",children:a("byYear.stats.newArtists","신인 아티스트")}),e.jsx("p",{className:"text-2xl font-bold text-gray-900",children:t.newArtists})]})]})}),e.jsx("div",{className:"bg-white rounded-lg shadow-sm border border-gray-200 p-6",children:e.jsxs("div",{className:"flex items-center",children:[e.jsx("div",{className:"w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center",children:e.jsx(g,{className:"w-6 h-6 text-pink-600"})}),e.jsxs("div",{className:"ml-4",children:[e.jsx("p",{className:"text-sm font-medium text-gray-600",children:a("byYear.stats.topGenres","인기 장르")}),e.jsx("p",{className:"text-lg font-bold text-gray-900",children:t.topGenres[0]})]})]})})]}),e.jsxs("div",{className:"bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8",children:[e.jsx("h3",{className:"text-lg font-semibold text-gray-900 mb-4",children:a("byYear.filterByGenre","장르별 필터")}),e.jsx("div",{className:"flex flex-wrap gap-2",children:y.map(s=>e.jsx("button",{onClick:()=>u(s),className:`px-4 py-2 rounded-full text-sm font-medium transition-colors ${l===s?"bg-bugs-pink text-white":"bg-gray-100 text-gray-700 hover:bg-gray-200"}`,children:s==="all"?a("byYear.allGenres","전체"):s.toUpperCase()},s))})]}),e.jsxs("div",{className:"bg-white rounded-lg shadow-sm border border-gray-200",children:[e.jsxs("div",{className:"p-6 border-b border-gray-200",children:[e.jsxs("h3",{className:"text-xl font-bold text-gray-900",children:[i,"년 ",l==="all"?a("byYear.popularTracks","인기 트랙"):`${l.toUpperCase()} ${a("byYear.tracks","트랙")}`]}),e.jsxs("p",{className:"text-gray-600 mt-1",children:[c.length,"곡의 트랙"]})]}),e.jsx("div",{className:"divide-y divide-gray-200",children:c.map((s,r)=>e.jsx("div",{className:"p-6 hover:bg-gray-50 transition-colors",children:e.jsxs("div",{className:"flex items-center space-x-4",children:[e.jsx("div",{className:"w-8 text-center",children:e.jsx("span",{className:"text-lg font-bold text-gray-900",children:r+1})}),e.jsxs("div",{className:"relative",children:[e.jsx("img",{src:s.coverUrl,alt:s.title,className:"w-16 h-16 rounded-md object-cover"}),e.jsx("button",{className:"absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-30 rounded-md flex items-center justify-center transition-all group",children:e.jsx(P,{className:"w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity"})})]}),e.jsxs("div",{className:"flex-1 min-w-0",children:[e.jsx("h4",{className:"text-lg font-semibold text-gray-900 truncate",children:s.title}),e.jsx("p",{className:"text-gray-600 truncate",children:s.artist}),e.jsx("p",{className:"text-sm text-gray-500 truncate",children:s.album})]}),e.jsx("div",{className:"hidden md:block",children:e.jsx("span",{className:"px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full",children:s.genre})}),e.jsx("div",{className:"hidden lg:block text-sm text-gray-500",children:N(s.releaseDate)}),e.jsx("div",{className:"hidden lg:block text-sm text-gray-500",children:e.jsxs("div",{className:"flex items-center",children:[e.jsx(p,{className:"w-4 h-4 mr-1"}),o(s.plays)]})}),e.jsx("div",{className:"text-sm text-gray-500 tabular-nums",children:j(s.duration)}),e.jsxs("div",{className:"flex items-center space-x-2",children:[e.jsx("button",{className:"p-2 text-gray-400 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors",children:e.jsx(g,{className:"w-4 h-4"})}),e.jsx("button",{className:"p-2 text-gray-400 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors",children:e.jsx(k,{className:"w-4 h-4"})}),e.jsx("button",{className:"p-2 text-gray-400 hover:text-bugs-pink hover:bg-pink-50 rounded-md transition-colors",children:e.jsx(U,{className:"w-4 h-4"})})]})]})},s.id))}),e.jsx("div",{className:"p-6 border-t border-gray-200 text-center",children:e.jsx("button",{className:"px-6 py-3 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors",children:a("byYear.loadMore","더 많은 트랙 보기")})})]}),e.jsxs("div",{className:"mt-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6",children:[e.jsxs("h3",{className:"text-xl font-bold text-gray-900 mb-4",children:[i,"년 ",a("byYear.topGenres","인기 장르")]}),e.jsx("div",{className:"grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4",children:t.topGenres.map((s,r)=>e.jsxs("div",{className:"text-center p-4 bg-gray-50 rounded-lg",children:[e.jsxs("div",{className:"text-2xl font-bold text-bugs-pink mb-1",children:["#",r+1]}),e.jsx("div",{className:"text-sm font-medium text-gray-900",children:s})]},s))})]})]})})}export{M as default};
+import { r as m, j as e } from "./index-BJHAE5s4.js";
+import { u as f } from "./LanguageContext-BFw3fmyY.js";
+import { C as x } from "./calendar-CmJUhcwv.js";
+import { M as w } from "./music-CZuQgL7Q.js";
+import { T as p } from "./trending-up-BpWpwtul.js";
+import { H as g } from "./heart-Dn2OeVKi.js";
+import { P } from "./play-xanyyhs6.js";
+import { D as k } from "./download-D1QhcQ9O.js";
+import { E as U } from "./ellipsis-oYE1YOVG.js";
+import "./createLucideIcon-iNHoReR6.js";
+function M() {
+  const { t: a } = f(),
+    [i, h] = m.useState(2025),
+    [l, u] = m.useState("all"),
+    d = new Date().getFullYear(),
+    b = Array.from({ length: d - 1999 }, (s, r) => d - r),
+    n = {
+      2025: {
+        year: 2025,
+        totalTracks: 1247,
+        topGenres: ["K-POP", "Hip-Hop", "Pop", "R&B", "Electronic"],
+        newArtists: 89,
+        totalListens: 1542e4,
+        popularTracks: [
+          {
+            id: "1",
+            title: "Golden",
+            artist: "HUNTR/X",
+            album: "KPop Demon Hunters (Soundtrack)",
+            duration: 210,
+            coverUrl: "/api/placeholder/300/300",
+            audioUrl: "/audio/golden.mp3",
+            releaseDate: "2025-08-08",
+            genre: "K-POP",
+            plays: 245e4,
+          },
+          {
+            id: "2",
+            title: "Soda Pop",
+            artist: "Saja Boys",
+            album: "KPop Demon Hunters (Soundtrack)",
+            duration: 195,
+            coverUrl: "/api/placeholder/300/300",
+            audioUrl: "/audio/soda-pop.mp3",
+            releaseDate: "2025-08-07",
+            genre: "Pop",
+            plays: 189e4,
+          },
+          {
+            id: "3",
+            title: "뛰어(JUMP)",
+            artist: "BLACKPINK",
+            album: "뛰어(JUMP)",
+            duration: 205,
+            coverUrl: "/api/placeholder/300/300",
+            audioUrl: "/audio/jump.mp3",
+            releaseDate: "2025-08-06",
+            genre: "K-POP",
+            plays: 312e4,
+          },
+          {
+            id: "4",
+            title: "FAMOUS",
+            artist: "ALLDAY PROJECT",
+            album: "FAMOUS",
+            duration: 180,
+            coverUrl: "/api/placeholder/300/300",
+            audioUrl: "/audio/famous.mp3",
+            releaseDate: "2025-08-05",
+            genre: "Hip-Hop",
+            plays: 165e4,
+          },
+          {
+            id: "5",
+            title: "여름이었다",
+            artist: "H1-KEY (하이키)",
+            album: "H1-KEY 4th Mini Album [Lovestruck]",
+            duration: 225,
+            coverUrl: "/api/placeholder/300/300",
+            audioUrl: "/audio/summer.mp3",
+            releaseDate: "2025-08-04",
+            genre: "K-POP",
+            plays: 142e4,
+          },
+        ],
+      },
+      2024: {
+        year: 2024,
+        totalTracks: 2156,
+        topGenres: ["K-POP", "Pop", "Hip-Hop", "R&B", "Rock"],
+        newArtists: 124,
+        totalListens: 2875e4,
+        popularTracks: [
+          {
+            id: "6",
+            title: "Supernova",
+            artist: "aespa",
+            album: "Armageddon",
+            duration: 195,
+            coverUrl: "/api/placeholder/300/300",
+            audioUrl: "/audio/supernova.mp3",
+            releaseDate: "2024-05-13",
+            genre: "K-POP",
+            plays: 425e4,
+          },
+          {
+            id: "7",
+            title: "How Sweet",
+            artist: "NewJeans",
+            album: "How Sweet",
+            duration: 210,
+            coverUrl: "/api/placeholder/300/300",
+            audioUrl: "/audio/how-sweet.mp3",
+            releaseDate: "2024-05-24",
+            genre: "K-POP",
+            plays: 389e4,
+          },
+        ],
+      },
+      2023: {
+        year: 2023,
+        totalTracks: 1987,
+        topGenres: ["K-POP", "Hip-Hop", "Pop", "Electronic", "R&B"],
+        newArtists: 156,
+        totalListens: 321e5,
+        popularTracks: [
+          {
+            id: "8",
+            title: "Flower",
+            artist: "JISOO",
+            album: "ME",
+            duration: 190,
+            coverUrl: "/api/placeholder/300/300",
+            audioUrl: "/audio/flower.mp3",
+            releaseDate: "2023-03-31",
+            genre: "K-POP",
+            plays: 512e4,
+          },
+        ],
+      },
+    },
+    t = n[i] || n[2025],
+    y = ["all", ...t.topGenres.map((s) => s.toLowerCase())],
+    c =
+      l === "all"
+        ? t.popularTracks
+        : t.popularTracks.filter((s) => s.genre.toLowerCase() === l),
+    o = (s) =>
+      s >= 1e6
+        ? (s / 1e6).toFixed(1) + "M"
+        : s >= 1e3
+        ? (s / 1e3).toFixed(1) + "K"
+        : s.toString(),
+    j = (s) => {
+      const r = Math.floor(s / 60),
+        v = s % 60;
+      return `${r}:${v.toString().padStart(2, "0")}`;
+    },
+    N = (s) =>
+      new Date(s).toLocaleDateString("ko-KR", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+  return e.jsx("div", {
+    className: "min-h-screen bg-gray-50 py-8",
+    children: e.jsxs("div", {
+      className: "max-w-6xl mx-auto px-4",
+      children: [
+        e.jsxs("div", {
+          className: "mb-8",
+          children: [
+            e.jsx("h1", {
+              className: "text-3xl font-bold text-gray-900 mb-2",
+              children: a("byYear.title", "연도별 음악"),
+            }),
+            e.jsx("p", {
+              className: "text-gray-600",
+              children: a(
+                "byYear.description",
+                "연도별로 인기 있었던 음악들을 만나보세요"
+              ),
+            }),
+          ],
+        }),
+        e.jsx("div", {
+          className:
+            "bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8",
+          children: e.jsxs("div", {
+            className:
+              "flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4",
+            children: [
+              e.jsxs("div", {
+                className: "flex items-center space-x-4",
+                children: [
+                  e.jsx(x, { className: "w-5 h-5 text-Snowlight-pink" }),
+                  e.jsx("h2", {
+                    className: "text-lg font-semibold text-gray-900",
+                    children: a("byYear.selectYear", "연도 선택"),
+                  }),
+                ],
+              }),
+              e.jsx("div", {
+                className: "flex flex-wrap gap-2",
+                children: b.slice(0, 10).map((s) =>
+                  e.jsx(
+                    "button",
+                    {
+                      onClick: () => h(s),
+                      className: `px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                        i === s
+                          ? "bg-Snowlight-pink text-white"
+                          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      }`,
+                      children: s,
+                    },
+                    s
+                  )
+                ),
+              }),
+            ],
+          }),
+        }),
+        e.jsxs("div", {
+          className:
+            "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8",
+          children: [
+            e.jsx("div", {
+              className:
+                "bg-white rounded-lg shadow-sm border border-gray-200 p-6",
+              children: e.jsxs("div", {
+                className: "flex items-center",
+                children: [
+                  e.jsx("div", {
+                    className:
+                      "w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center",
+                    children: e.jsx(w, { className: "w-6 h-6 text-blue-600" }),
+                  }),
+                  e.jsxs("div", {
+                    className: "ml-4",
+                    children: [
+                      e.jsx("p", {
+                        className: "text-sm font-medium text-gray-600",
+                        children: a("byYear.stats.totalTracks", "총 트랙 수"),
+                      }),
+                      e.jsx("p", {
+                        className: "text-2xl font-bold text-gray-900",
+                        children: o(t.totalTracks),
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+            }),
+            e.jsx("div", {
+              className:
+                "bg-white rounded-lg shadow-sm border border-gray-200 p-6",
+              children: e.jsxs("div", {
+                className: "flex items-center",
+                children: [
+                  e.jsx("div", {
+                    className:
+                      "w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center",
+                    children: e.jsx(p, { className: "w-6 h-6 text-green-600" }),
+                  }),
+                  e.jsxs("div", {
+                    className: "ml-4",
+                    children: [
+                      e.jsx("p", {
+                        className: "text-sm font-medium text-gray-600",
+                        children: a("byYear.stats.totalListens", "총 재생 수"),
+                      }),
+                      e.jsx("p", {
+                        className: "text-2xl font-bold text-gray-900",
+                        children: o(t.totalListens),
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+            }),
+            e.jsx("div", {
+              className:
+                "bg-white rounded-lg shadow-sm border border-gray-200 p-6",
+              children: e.jsxs("div", {
+                className: "flex items-center",
+                children: [
+                  e.jsx("div", {
+                    className:
+                      "w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center",
+                    children: e.jsx(x, {
+                      className: "w-6 h-6 text-purple-600",
+                    }),
+                  }),
+                  e.jsxs("div", {
+                    className: "ml-4",
+                    children: [
+                      e.jsx("p", {
+                        className: "text-sm font-medium text-gray-600",
+                        children: a("byYear.stats.newArtists", "신인 아티스트"),
+                      }),
+                      e.jsx("p", {
+                        className: "text-2xl font-bold text-gray-900",
+                        children: t.newArtists,
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+            }),
+            e.jsx("div", {
+              className:
+                "bg-white rounded-lg shadow-sm border border-gray-200 p-6",
+              children: e.jsxs("div", {
+                className: "flex items-center",
+                children: [
+                  e.jsx("div", {
+                    className:
+                      "w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center",
+                    children: e.jsx(g, { className: "w-6 h-6 text-pink-600" }),
+                  }),
+                  e.jsxs("div", {
+                    className: "ml-4",
+                    children: [
+                      e.jsx("p", {
+                        className: "text-sm font-medium text-gray-600",
+                        children: a("byYear.stats.topGenres", "인기 장르"),
+                      }),
+                      e.jsx("p", {
+                        className: "text-lg font-bold text-gray-900",
+                        children: t.topGenres[0],
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+            }),
+          ],
+        }),
+        e.jsxs("div", {
+          className:
+            "bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8",
+          children: [
+            e.jsx("h3", {
+              className: "text-lg font-semibold text-gray-900 mb-4",
+              children: a("byYear.filterByGenre", "장르별 필터"),
+            }),
+            e.jsx("div", {
+              className: "flex flex-wrap gap-2",
+              children: y.map((s) =>
+                e.jsx(
+                  "button",
+                  {
+                    onClick: () => u(s),
+                    className: `px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                      l === s
+                        ? "bg-Snowlight-pink text-white"
+                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    }`,
+                    children:
+                      s === "all"
+                        ? a("byYear.allGenres", "전체")
+                        : s.toUpperCase(),
+                  },
+                  s
+                )
+              ),
+            }),
+          ],
+        }),
+        e.jsxs("div", {
+          className: "bg-white rounded-lg shadow-sm border border-gray-200",
+          children: [
+            e.jsxs("div", {
+              className: "p-6 border-b border-gray-200",
+              children: [
+                e.jsxs("h3", {
+                  className: "text-xl font-bold text-gray-900",
+                  children: [
+                    i,
+                    "년 ",
+                    l === "all"
+                      ? a("byYear.popularTracks", "인기 트랙")
+                      : `${l.toUpperCase()} ${a("byYear.tracks", "트랙")}`,
+                  ],
+                }),
+                e.jsxs("p", {
+                  className: "text-gray-600 mt-1",
+                  children: [c.length, "곡의 트랙"],
+                }),
+              ],
+            }),
+            e.jsx("div", {
+              className: "divide-y divide-gray-200",
+              children: c.map((s, r) =>
+                e.jsx(
+                  "div",
+                  {
+                    className: "p-6 hover:bg-gray-50 transition-colors",
+                    children: e.jsxs("div", {
+                      className: "flex items-center space-x-4",
+                      children: [
+                        e.jsx("div", {
+                          className: "w-8 text-center",
+                          children: e.jsx("span", {
+                            className: "text-lg font-bold text-gray-900",
+                            children: r + 1,
+                          }),
+                        }),
+                        e.jsxs("div", {
+                          className: "relative",
+                          children: [
+                            e.jsx("img", {
+                              src: s.coverUrl,
+                              alt: s.title,
+                              className: "w-16 h-16 rounded-md object-cover",
+                            }),
+                            e.jsx("button", {
+                              className:
+                                "absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-30 rounded-md flex items-center justify-center transition-all group",
+                              children: e.jsx(P, {
+                                className:
+                                  "w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity",
+                              }),
+                            }),
+                          ],
+                        }),
+                        e.jsxs("div", {
+                          className: "flex-1 min-w-0",
+                          children: [
+                            e.jsx("h4", {
+                              className:
+                                "text-lg font-semibold text-gray-900 truncate",
+                              children: s.title,
+                            }),
+                            e.jsx("p", {
+                              className: "text-gray-600 truncate",
+                              children: s.artist,
+                            }),
+                            e.jsx("p", {
+                              className: "text-sm text-gray-500 truncate",
+                              children: s.album,
+                            }),
+                          ],
+                        }),
+                        e.jsx("div", {
+                          className: "hidden md:block",
+                          children: e.jsx("span", {
+                            className:
+                              "px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full",
+                            children: s.genre,
+                          }),
+                        }),
+                        e.jsx("div", {
+                          className: "hidden lg:block text-sm text-gray-500",
+                          children: N(s.releaseDate),
+                        }),
+                        e.jsx("div", {
+                          className: "hidden lg:block text-sm text-gray-500",
+                          children: e.jsxs("div", {
+                            className: "flex items-center",
+                            children: [
+                              e.jsx(p, { className: "w-4 h-4 mr-1" }),
+                              o(s.plays),
+                            ],
+                          }),
+                        }),
+                        e.jsx("div", {
+                          className: "text-sm text-gray-500 tabular-nums",
+                          children: j(s.duration),
+                        }),
+                        e.jsxs("div", {
+                          className: "flex items-center space-x-2",
+                          children: [
+                            e.jsx("button", {
+                              className:
+                                "p-2 text-gray-400 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors",
+                              children: e.jsx(g, { className: "w-4 h-4" }),
+                            }),
+                            e.jsx("button", {
+                              className:
+                                "p-2 text-gray-400 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors",
+                              children: e.jsx(k, { className: "w-4 h-4" }),
+                            }),
+                            e.jsx("button", {
+                              className:
+                                "p-2 text-gray-400 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors",
+                              children: e.jsx(U, { className: "w-4 h-4" }),
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                  },
+                  s.id
+                )
+              ),
+            }),
+            e.jsx("div", {
+              className: "p-6 border-t border-gray-200 text-center",
+              children: e.jsx("button", {
+                className:
+                  "px-6 py-3 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors",
+                children: a("byYear.loadMore", "더 많은 트랙 보기"),
+              }),
+            }),
+          ],
+        }),
+        e.jsxs("div", {
+          className:
+            "mt-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6",
+          children: [
+            e.jsxs("h3", {
+              className: "text-xl font-bold text-gray-900 mb-4",
+              children: [i, "년 ", a("byYear.topGenres", "인기 장르")],
+            }),
+            e.jsx("div", {
+              className: "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4",
+              children: t.topGenres.map((s, r) =>
+                e.jsxs(
+                  "div",
+                  {
+                    className: "text-center p-4 bg-gray-50 rounded-lg",
+                    children: [
+                      e.jsxs("div", {
+                        className:
+                          "text-2xl font-bold text-Snowlight-pink mb-1",
+                        children: ["#", r + 1],
+                      }),
+                      e.jsx("div", {
+                        className: "text-sm font-medium text-gray-900",
+                        children: s,
+                      }),
+                    ],
+                  },
+                  s
+                )
+              ),
+            }),
+          ],
+        }),
+      ],
+    }),
+  });
+}
+export { M as default };

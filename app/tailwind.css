@@ -2,16 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Bugs Website Exact Color Scheme */
+/* Snowlight Website Exact Color Scheme */
 :root {
-  --bugs-red: #FF0000;
-  --bugs-green: #00AA00;
-  --bugs-purple: #8A2BE2;
-  --bugs-orange: #FF8800;
-  --bugs-blue: #0066CC;
-  --bugs-gray: #666666;
-  --bugs-light-gray: #F5F5F5;
-  --bugs-dark-gray: #333333;
+  --Snowlight-red: #ff0000;
+  --Snowlight-green: #00aa00;
+  --Snowlight-purple: #8a2be2;
+  --Snowlight-orange: #ff8800;
+  --Snowlight-blue: #0066cc;
+  --Snowlight-gray: #666666;
+  --Snowlight-light-gray: #f5f5f5;
+  --Snowlight-dark-gray: #333333;
 }
 
 /* Base Styles */
@@ -23,267 +23,322 @@
     line-height: 1.4;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
   }
 }
 
-/* Bugs Specific Components */
+/* Snowlight Specific Components */
 @layer components {
   /* Header Styles */
-  .bugs-header {
+  .Snowlight-header {
     @apply bg-white border-b border-gray-200;
   }
 
-  .bugs-logo {
+  .Snowlight-logo {
     @apply text-3xl font-bold;
-    color: var(--bugs-red);
+    color: var(--Snowlight-red);
   }
 
-  .bugs-search-button {
+  .Snowlight-search-button {
     @apply px-4 py-2 text-white rounded-r-md hover:opacity-90 transition-all;
-    background-color: var(--bugs-green);
+    background-color: var(--Snowlight-green);
   }
 
   /* Navigation Styles */
-  .bugs-nav {
+  .Snowlight-nav {
     @apply bg-white border-b border-gray-200;
   }
 
-  .bugs-nav-item {
+  .Snowlight-nav-item {
     @apply text-gray-700 hover:text-gray-900 font-medium text-sm py-2 px-3;
   }
 
   /* Sidebar Styles */
-  .bugs-sidebar-section {
+  .Snowlight-sidebar-section {
     @apply p-2 text-center text-sm font-medium rounded;
   }
 
-  .bugs-sidebar-vip {
-    background-color: var(--bugs-purple);
+  .Snowlight-sidebar-vip {
+    background-color: var(--Snowlight-purple);
     @apply text-white;
   }
 
-  .bugs-sidebar-orange {
-    background-color: var(--bugs-orange);
+  .Snowlight-sidebar-orange {
+    background-color: var(--Snowlight-orange);
     @apply text-white;
   }
 
-  .bugs-sidebar-green {
+  .Snowlight-sidebar-green {
     @apply bg-green-100 border-l-4 border-green-500 p-2;
   }
 
-  .bugs-sidebar-green a {
+  .Snowlight-sidebar-green a {
     @apply text-green-700 font-medium text-sm;
   }
 
-  .bugs-sidebar-red {
+  .Snowlight-sidebar-red {
     @apply bg-red-100 border-l-4 border-red-500 p-2;
   }
 
-  .bugs-sidebar-red a {
+  .Snowlight-sidebar-red a {
     @apply text-red-700 font-medium text-sm;
   }
 
-  .bugs-sidebar-blue {
+  .Snowlight-sidebar-blue {
     @apply bg-blue-100 border-l-4 border-blue-500 p-2;
   }
 
-  .bugs-sidebar-blue a {
+  .Snowlight-sidebar-blue a {
     @apply text-blue-700 font-medium text-sm;
   }
 
-  .bugs-sidebar-purple {
+  .Snowlight-sidebar-purple {
     @apply bg-purple-100 border-l-4 border-purple-500 p-2;
   }
 
-  .bugs-sidebar-purple a {
+  .Snowlight-sidebar-purple a {
     @apply text-purple-700 font-medium text-sm;
   }
 
   /* Album Card Styles */
-  .bugs-album-card {
+  .Snowlight-album-card {
     @apply relative group cursor-pointer;
   }
 
-  .bugs-album-cover {
+  .Snowlight-album-cover {
     @apply w-full aspect-square object-cover rounded;
   }
 
-  .bugs-rank-overlay {
+  .Snowlight-rank-overlay {
     @apply absolute top-2 left-2 w-6 h-6 text-white text-xs font-bold rounded-full flex items-center justify-center;
   }
 
-  .bugs-rank-1 { @apply bg-red-500; }
-  .bugs-rank-2 { @apply bg-orange-500; }
-  .bugs-rank-3 { @apply bg-yellow-500; }
-  .bugs-rank-4 { @apply bg-green-500; }
-  .bugs-rank-5 { @apply bg-blue-500; }
-  .bugs-rank-6 { @apply bg-indigo-500; }
-  .bugs-rank-7 { @apply bg-purple-500; }
-  .bugs-rank-8 { @apply bg-pink-500; }
-  .bugs-rank-9 { @apply bg-red-400; }
-  .bugs-rank-10 { @apply bg-orange-400; }
+  .Snowlight-rank-1 {
+    @apply bg-red-500;
+  }
+  .Snowlight-rank-2 {
+    @apply bg-orange-500;
+  }
+  .Snowlight-rank-3 {
+    @apply bg-yellow-500;
+  }
+  .Snowlight-rank-4 {
+    @apply bg-green-500;
+  }
+  .Snowlight-rank-5 {
+    @apply bg-blue-500;
+  }
+  .Snowlight-rank-6 {
+    @apply bg-indigo-500;
+  }
+  .Snowlight-rank-7 {
+    @apply bg-purple-500;
+  }
+  .Snowlight-rank-8 {
+    @apply bg-pink-500;
+  }
+  .Snowlight-rank-9 {
+    @apply bg-red-400;
+  }
+  .Snowlight-rank-10 {
+    @apply bg-orange-400;
+  }
 
-  .bugs-play-overlay {
+  .Snowlight-play-overlay {
     @apply absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded flex items-center justify-center;
   }
 
-  .bugs-play-button {
+  .Snowlight-play-button {
     @apply w-12 h-12 bg-white bg-opacity-90 rounded-full flex items-center justify-center hover:bg-opacity-100 transition-all duration-200;
   }
 
   /* Button Styles */
-  .bugs-button-green {
-    background-color: var(--bugs-green);
+  .Snowlight-button-green {
+    background-color: var(--Snowlight-green);
     @apply text-white text-xs py-1 px-2 rounded hover:opacity-90 transition-all;
   }
 
-  .bugs-button-primary {
-    background-color: var(--bugs-red);
+  .Snowlight-button-primary {
+    background-color: var(--Snowlight-red);
     @apply text-white px-4 py-2 rounded hover:opacity-90 transition-all;
   }
 
-  .bugs-button-secondary {
+  .Snowlight-button-secondary {
     @apply bg-gray-100 text-gray-700 px-4 py-2 rounded hover:bg-gray-200 transition-all;
   }
 
   /* Tab Styles */
-  .bugs-tab {
+  .Snowlight-tab {
     @apply px-4 py-2 text-sm font-medium rounded;
   }
 
-  .bugs-tab-active {
-    background-color: var(--bugs-green);
+  .Snowlight-tab-active {
+    background-color: var(--Snowlight-green);
     @apply text-white;
   }
 
-  .bugs-tab-inactive {
+  .Snowlight-tab-inactive {
     @apply bg-gray-100 text-gray-700 hover:bg-gray-200;
   }
 
   /* Text Styles */
-  .bugs-title {
+  .Snowlight-title {
     @apply text-lg font-bold text-gray-900;
   }
 
-  .bugs-subtitle {
+  .Snowlight-subtitle {
     @apply text-sm font-medium text-gray-700;
   }
 
-  .bugs-text {
+  .Snowlight-text {
     @apply text-xs text-gray-600;
   }
 
-  .bugs-link {
+  .Snowlight-link {
     @apply text-blue-600 hover:text-blue-800 transition-colors;
   }
 
   /* Layout Styles */
-  .bugs-container {
+  .Snowlight-container {
     @apply max-w-7xl mx-auto px-4;
   }
 
-  .bugs-main-layout {
+  .Snowlight-main-layout {
     @apply flex gap-4 py-4;
   }
 
-  .bugs-sidebar {
+  .Snowlight-sidebar {
     @apply w-48 flex-shrink-0;
   }
 
-  .bugs-content {
+  .Snowlight-content {
     @apply flex-1;
   }
 
   /* Service Links Bar */
-  .bugs-service-bar {
+  .Snowlight-service-bar {
     @apply bg-gray-100 border-b py-1 px-4 text-xs;
   }
 
-  .bugs-service-link {
+  .Snowlight-service-link {
     @apply text-gray-600 hover:text-gray-900 transition-colors;
   }
 
   /* Top Banner */
-  .bugs-banner {
+  .Snowlight-banner {
     @apply bg-gradient-to-r from-blue-400 to-blue-600 text-white py-1 px-4 text-sm;
   }
 
   /* Footer */
-  .bugs-footer {
+  .Snowlight-footer {
     @apply bg-gray-100 border-t border-gray-200 mt-8;
   }
 
   /* Pagination */
-  .bugs-pagination {
+  .Snowlight-pagination {
     @apply flex items-center justify-center space-x-2;
   }
 
-  .bugs-page-button {
+  .Snowlight-page-button {
     @apply px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 transition-colors;
   }
 
-  .bugs-page-active {
-    background-color: var(--bugs-green);
+  .Snowlight-page-active {
+    background-color: var(--Snowlight-green);
     @apply text-white border-green-500;
   }
 
   /* Form Styles */
-  .bugs-input {
+  .Snowlight-input {
     @apply w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-gray-400 text-sm;
   }
 
-  .bugs-label {
+  .Snowlight-label {
     @apply block text-sm font-medium text-gray-700 mb-1;
   }
 
   /* Card Styles */
-  .bugs-card {
+  .Snowlight-card {
     @apply bg-white border border-gray-200 rounded-lg p-4 shadow-sm;
   }
 
   /* Hover Effects */
-  .bugs-hover-scale {
+  .Snowlight-hover-scale {
     @apply transition-transform duration-200 hover:scale-105;
   }
 
-  .bugs-hover-shadow {
+  .Snowlight-hover-shadow {
     @apply transition-shadow duration-200 hover:shadow-lg;
   }
 
   /* Responsive Text */
-  .bugs-responsive-text {
+  .Snowlight-responsive-text {
     @apply text-xs sm:text-sm md:text-base;
   }
 
   /* Compact Layout */
-  .bugs-compact {
+  .Snowlight-compact {
     @apply space-y-2;
   }
 
-  .bugs-compact-item {
+  .Snowlight-compact-item {
     @apply py-1 px-2 text-sm;
   }
 
   /* Color Utilities */
-  .text-bugs-red { color: var(--bugs-red); }
-  .text-bugs-green { color: var(--bugs-green); }
-  .text-bugs-purple { color: var(--bugs-purple); }
-  .text-bugs-orange { color: var(--bugs-orange); }
-  .text-bugs-blue { color: var(--bugs-blue); }
+  .text-Snowlight-red {
+    color: var(--Snowlight-red);
+  }
+  .text-Snowlight-green {
+    color: var(--Snowlight-green);
+  }
+  .text-Snowlight-purple {
+    color: var(--Snowlight-purple);
+  }
+  .text-Snowlight-orange {
+    color: var(--Snowlight-orange);
+  }
+  .text-Snowlight-blue {
+    color: var(--Snowlight-blue);
+  }
 
-  .bg-bugs-red { background-color: var(--bugs-red); }
-  .bg-bugs-green { background-color: var(--bugs-green); }
-  .bg-bugs-purple { background-color: var(--bugs-purple); }
-  .bg-bugs-orange { background-color: var(--bugs-orange); }
-  .bg-bugs-blue { background-color: var(--bugs-blue); }
+  .bg-Snowlight-red {
+    background-color: var(--Snowlight-red);
+  }
+  .bg-Snowlight-green {
+    background-color: var(--Snowlight-green);
+  }
+  .bg-Snowlight-purple {
+    background-color: var(--Snowlight-purple);
+  }
+  .bg-Snowlight-orange {
+    background-color: var(--Snowlight-orange);
+  }
+  .bg-Snowlight-blue {
+    background-color: var(--Snowlight-blue);
+  }
 
-  .border-bugs-red { border-color: var(--bugs-red); }
-  .border-bugs-green { border-color: var(--bugs-green); }
-  .border-bugs-purple { border-color: var(--bugs-purple); }
-  .border-bugs-orange { border-color: var(--bugs-orange); }
-  .border-bugs-blue { border-color: var(--bugs-blue); }
+  .border-Snowlight-red {
+    border-color: var(--Snowlight-red);
+  }
+  .border-Snowlight-green {
+    border-color: var(--Snowlight-green);
+  }
+  .border-Snowlight-purple {
+    border-color: var(--Snowlight-purple);
+  }
+  .border-Snowlight-orange {
+    border-color: var(--Snowlight-orange);
+  }
+  .border-Snowlight-blue {
+    border-color: var(--Snowlight-blue);
+  }
 }
 
 /* Utility Classes */
@@ -305,7 +360,7 @@
   /* Scrollbar Styles */
   .scrollbar-thin {
     scrollbar-width: thin;
-    scrollbar-color: #CBD5E0 #F7FAFC;
+    scrollbar-color: #cbd5e0 #f7fafc;
   }
 
   .scrollbar-thin::-webkit-scrollbar {
@@ -313,16 +368,16 @@
   }
 
   .scrollbar-thin::-webkit-scrollbar-track {
-    background: #F7FAFC;
+    background: #f7fafc;
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: #CBD5E0;
+    background: #cbd5e0;
     border-radius: 3px;
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background: #A0AEC0;
+    background: #a0aec0;
   }
 
   /* Animation Classes */
@@ -361,7 +416,11 @@
 }
 
 @keyframes bounceSubtle {
-  0%, 20%, 50%, 80%, 100% {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateY(0);
   }
   40% {
@@ -374,45 +433,44 @@
 
 /* Mobile Responsive Adjustments */
 @media (max-width: 768px) {
-  .bugs-sidebar {
+  .Snowlight-sidebar {
     @apply hidden;
   }
-  
-  .bugs-main-layout {
+
+  .Snowlight-main-layout {
     @apply block;
   }
-  
-  .bugs-container {
+
+  .Snowlight-container {
     @apply px-2;
   }
-  
+
   body {
     font-size: 11px;
   }
-  
-  .bugs-nav-item {
+
+  .Snowlight-nav-item {
     @apply text-xs px-2;
   }
-  
-  .bugs-album-card {
+
+  .Snowlight-album-card {
     @apply text-xs;
   }
 }
 
 /* Print Styles */
 @media print {
-  .bugs-sidebar,
-  .bugs-banner,
-  .bugs-service-bar {
+  .Snowlight-sidebar,
+  .Snowlight-banner,
+  .Snowlight-service-bar {
     @apply hidden;
   }
-  
-  .bugs-main-layout {
+
+  .Snowlight-main-layout {
     @apply block;
   }
-  
+
   * {
     @apply text-black bg-white;
   }
 }
-
