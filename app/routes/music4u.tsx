@@ -11,8 +11,41 @@ import {
   Users,
   Clock,
 } from "lucide-react";
-import { usePlayer, mockTracks } from "~/contexts/PlayerContext";
-import { useLanguage } from "~/contexts/LanguageContext";
+import { usePlayer } from "~/contexts/PlayerContext";
+// import mockTracks from the correct location or define it here if needed
+// Define mockTracks locally since '~/mock/mockTracks' cannot be found
+const mockTracks = [
+  {
+    id: "1",
+    title: "서우젯소리",
+    artist: "사우스 카니발(South Carnival)",
+    album: "서우젯소리",
+    duration: 272, // 4 minutes 32 seconds
+    coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=1",
+    reason: "최근 들은 인디록 장르와 유사",
+    audioUrl: "https://example.com/audio/1.mp3",
+  },
+  {
+    id: "2",
+    title: "Golden",
+    artist: "HUNTR/X",
+    album: "KPop Demon Hunters",
+    duration: 245, // 4 minutes 5 seconds
+    coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=2",
+    reason: "좋아요 표시한 아티스트의 신곡",
+    audioUrl: "https://example.com/audio/2.mp3",
+  },
+  {
+    id: "3",
+    title: "Dream",
+    artist: "HANZI(한지)",
+    album: "Dream",
+    duration: 208, // 3 minutes 28 seconds
+    coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=3",
+    reason: "자주 듣는 시간대에 인기",
+    audioUrl: "https://example.com/audio/3.mp3",
+  },
+];
 
 export const meta: MetaFunction = () => {
   return [
@@ -23,7 +56,6 @@ export const meta: MetaFunction = () => {
 
 export default function Music4U() {
   const { playTrack } = usePlayer();
-  const { t } = useLanguage();
 
   const handlePlayTrack = (trackId: string) => {
     const track = mockTracks.find((t) => t.id === trackId);
@@ -56,6 +88,7 @@ export default function Music4U() {
       coverUrl: "https://via.placeholder.com/200x200/ff1493/ffffff?text=Rec3",
       trackCount: 20,
       playCount: 2100000,
+      reason: "자주 듣는 시간대에 인기",
     },
   ];
 
@@ -65,27 +98,30 @@ export default function Music4U() {
       title: "서우젯소리",
       artist: "사우스 카니발(South Carnival)",
       album: "서우젯소리",
-      duration: "4:32",
+      duration: 272, // 4 minutes 32 seconds
       coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=1",
       reason: "최근 들은 인디록 장르와 유사",
+      audioUrl: "https://example.com/audio/1.mp3",
     },
     {
       id: "2",
       title: "Golden",
       artist: "HUNTR/X",
       album: "KPop Demon Hunters",
-      duration: "4:05",
+      duration: 245, // 4 minutes 5 seconds
       coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=2",
       reason: "좋아요 표시한 아티스트의 신곡",
+      audioUrl: "https://example.com/audio/2.mp3",
     },
     {
       id: "3",
       title: "Dream",
       artist: "HANZI(한지)",
       album: "Dream",
-      duration: "3:28",
+      duration: 208, // 3 minutes 28 seconds
       coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=3",
       reason: "자주 듣는 시간대에 인기",
+      audioUrl: "https://example.com/audio/3.mp3",
     },
   ];
 
@@ -222,7 +258,9 @@ export default function Music4U() {
                         {track.album}
                       </Link>
                       <span>•</span>
-                      <span>{track.duration}</span>
+                      <span>
+                        {`${Math.floor(track.duration / 60)}:${(track.duration % 60).toString().padStart(2, "0")}`}
+                      </span>
                     </div>
                     <p className="text-xs text-Snowlight-pink mt-1">
                       {track.reason}

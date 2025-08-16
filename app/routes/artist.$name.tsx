@@ -6,15 +6,46 @@ import {
   Heart,
   Share2,
   Users,
-  Calendar,
   Music,
   Video,
-  Star,
   MoreHorizontal,
   Plus,
 } from "lucide-react";
-import { usePlayer, mockTracks } from "~/contexts/PlayerContext";
-import { useLanguage } from "~/contexts/LanguageContext";
+import { usePlayer } from "~/contexts/PlayerContext";
+
+// Local mockTracks array for demonstration
+const mockTracks = [
+  {
+    id: "1",
+    title: "서우젯소리",
+    album: "서우젯소리",
+    duration: 272, // 4 minutes 32 seconds
+    playCount: 1250000,
+    isTitle: true,
+    artist: "사우스 카니발",
+    audioUrl: "https://example.com/audio/1.mp3",
+  },
+  {
+    id: "2",
+    title: "멀구야",
+    album: "서우젯소리",
+    duration: 273, // 4 minutes 33 seconds
+    playCount: 890000,
+    isTitle: false,
+    artist: "사우스 카니발",
+    audioUrl: "https://example.com/audio/2.mp3",
+  },
+  {
+    id: "3",
+    title: "도시의 밤",
+    album: "Urban Nights",
+    duration: 225, // 3 minutes 45 seconds
+    playCount: 750000,
+    isTitle: true,
+    artist: "사우스 카니발",
+    audioUrl: "https://example.com/audio/3.mp3",
+  },
+];
 
 export const meta: MetaFunction = () => {
   return [
@@ -113,7 +144,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 export default function ArtistDetail() {
   const { artist } = useLoaderData<typeof loader>();
   const { playTrack } = usePlayer();
-  const { t } = useLanguage();
+
   const [activeTab, setActiveTab] = useState("overview");
   const [isFollowing, setIsFollowing] = useState(false);
 

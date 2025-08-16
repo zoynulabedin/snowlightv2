@@ -1,5 +1,5 @@
 import type { MetaFunction, LoaderFunctionArgs } from "@remix-run/node";
-import { useLoaderData, useSearchParams, Link } from "@remix-run/react";
+import { useLoaderData, Link } from "@remix-run/react";
 import { useState } from "react";
 import {
   Play,
@@ -10,8 +10,41 @@ import {
   Search as SearchIcon,
   Filter,
 } from "lucide-react";
-import { usePlayer, mockTracks } from "~/contexts/PlayerContext";
-import { useLanguage } from "~/contexts/LanguageContext";
+import { usePlayer } from "~/contexts/PlayerContext";
+
+// Local mockTracks definition (copy from loader if needed)
+const mockTracks = [
+  {
+    id: "1",
+    title: "서우젯소리",
+    artist: "사우스 카니발(South Carnival)",
+    album: "서우젯소리",
+    duration: 272, // 4:32 in seconds
+    coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=1",
+    isTitle: true,
+    audioUrl: "https://example.com/audio/1.mp3",
+  },
+  {
+    id: "2",
+    title: "Golden",
+    artist: "HUNTR/X",
+    album: "KPop Demon Hunters",
+    duration: 245, // 4:05 in seconds
+    coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=2",
+    isTitle: false,
+    audioUrl: "https://example.com/audio/2.mp3",
+  },
+  {
+    id: "3",
+    title: "서울의 밤",
+    artist: "Various Artists",
+    album: "서울 컴필레이션",
+    duration: 208, // 3:28 in seconds
+    coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=3",
+    isTitle: false,
+    audioUrl: "https://example.com/audio/3.mp3",
+  },
+];
 
 export const meta: MetaFunction = () => {
   return [
@@ -114,8 +147,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function Search() {
   const { searchResults } = useLoaderData<typeof loader>();
   const { playTrack } = usePlayer();
-  const { t } = useLanguage();
-  const [searchParams] = useSearchParams();
+
   const [activeTab, setActiveTab] = useState("all");
   const [sortBy, setSortBy] = useState("relevance");
   const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
@@ -156,7 +188,7 @@ export default function Search() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">
-            '{searchResults.query}' 검색 결과
+            &#39;{searchResults.query}&#39; 검색 결과
           </h1>
           <p className="text-gray-600 mt-1">
             총 {searchResults.totalResults.toLocaleString()}개의 결과를

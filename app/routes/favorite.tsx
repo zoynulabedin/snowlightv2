@@ -10,7 +10,7 @@ import {
   Music,
   User,
 } from "lucide-react";
-import { usePlayer, mockTracks } from "~/contexts/PlayerContext";
+import { usePlayer } from "~/contexts/PlayerContext";
 import { useLanguage } from "~/contexts/LanguageContext";
 
 export const meta: MetaFunction = () => {
@@ -22,12 +22,11 @@ export const meta: MetaFunction = () => {
 
 export default function Favorite() {
   const { playTrack } = usePlayer();
-  const { t } = useLanguage();
 
   const handlePlayTrack = (trackId: string) => {
-    const track = mockTracks.find((t) => t.id === trackId);
+    const track = favoriteTracks.find((t) => t.id === trackId);
     if (track) {
-      playTrack(track, mockTracks);
+      playTrack(track, favoriteTracks);
     }
   };
 
@@ -40,6 +39,7 @@ export default function Favorite() {
       duration: "4:32",
       coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=1",
       addedDate: "2025.08.08",
+      audioUrl: "https://example.com/audio/1.mp3",
     },
     {
       id: "2",
@@ -49,6 +49,7 @@ export default function Favorite() {
       duration: "4:05",
       coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=2",
       addedDate: "2025.08.07",
+      audioUrl: "https://example.com/audio/2.mp3",
     },
     {
       id: "3",
@@ -58,6 +59,7 @@ export default function Favorite() {
       duration: "3:28",
       coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=3",
       addedDate: "2025.08.06",
+      audioUrl: "https://example.com/audio/3.mp3",
     },
   ];
 
