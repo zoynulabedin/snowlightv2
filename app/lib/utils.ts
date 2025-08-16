@@ -20,12 +20,15 @@ export function formatDate(date: string): string {
 }
 
 // Download helper for audio/video
-export function downloadMedia(url: string, filename?: string) {
+// Download helper for audio/video
+export async function downloadMedia(url: string, filename?: string) {
+  const response = await fetch(url);
+  const blob = await response.blob();
   const link = document.createElement("a");
-  console.log(link);
-  link.href = url;
-  link.download = filename || "download";
+  link.href = URL.createObjectURL(blob);
+  link.download = filename ?? "download";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  URL.revokeObjectURL(link.href);
 }

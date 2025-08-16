@@ -1,4 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import ReactDOM from "react-dom";
+
 import {
   Play,
   Pause,
@@ -14,33 +16,27 @@ import {
   Maximize2,
   List,
   X,
+  Minus,
 } from "lucide-react";
 import { usePlayer, Track } from "~/contexts/PlayerContext";
 
 export type AudioPlayerProps = {
-  src: string;
-  coverImage?: string;
-  title?: string;
-  artist?: string;
-  album?: string;
-  duration?: number;
+  userId?: string;
   onClose?: () => void;
 };
 
-export default function AudioPlayer({
-  src,
-  coverImage,
-  title,
-  artist,
-  album,
-  duration,
-  onClose,
-}: AudioPlayerProps) {
-  const { currentTrack, playlist, closeAudioPlayer, playTrack } = usePlayer();
+export default function AudioPlayer({ userId }: AudioPlayerProps) {
+  const {
+    currentTrack,
+    playlist,
+    removeFromPlaylist,
+    closeAudioPlayer,
+    playTrack,
+  } = usePlayer();
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const [audioDuration, setAudioDuration] = useState(duration || 0);
+  const [audioDuration, setAudioDuration] = useState(0);
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const [isShuffled, setIsShuffled] = useState(false);
@@ -48,7 +44,7 @@ export default function AudioPlayer({
   const [showPlaylist, setShowPlaylist] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [previousVolume, setPreviousVolume] = useState(volume);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
@@ -56,15 +52,14 @@ export default function AudioPlayer({
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.src = src;
+      audioRef.current.src = currentTrack?.audioUrl || "";
       audioRef.current.load();
       setIsPlaying(false); // Stop playback when src changes
     }
-    if (duration) setAudioDuration(duration);
-  }, [src, duration]);
+    if (currentTrack?.duration) setAudioDuration(currentTrack.duration);
+  }, [currentTrack]);
 
-  // --- Handler functions must be defined before useEffect ---
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (playlist.length === 0) return;
     let nextIndex;
     if (isShuffled) {
@@ -76,7 +71,7 @@ export default function AudioPlayer({
     if (nextTrack) {
       playTrack(nextTrack, playlist);
     }
-  };
+  }, [playlist, isShuffled, currentIndex, playTrack]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -84,7 +79,7 @@ export default function AudioPlayer({
 
     const updateTime = () => setCurrentTime(audio.currentTime);
     const updateDuration = () =>
-      setAudioDuration(audio.duration || duration || 0);
+      setAudioDuration(audio.duration || currentTrack?.duration || 0);
     const handleEnded = () => {
       if (repeatMode === "one") {
         audio.currentTime = 0;
@@ -109,7 +104,7 @@ export default function AudioPlayer({
       audio.removeEventListener("play", () => setIsPlaying(true));
       audio.removeEventListener("pause", () => setIsPlaying(false));
     };
-  }, [repeatMode, currentIndex, playlist.length, duration, handleNext]);
+  }, [repeatMode, currentIndex, playlist.length, currentTrack, handleNext]);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -216,25 +211,51 @@ export default function AudioPlayer({
     const idx = playlist.findIndex((t) => t.id === track.id);
     if (idx !== -1) setCurrentIndex(idx);
   };
-
-  // Use props if provided, otherwise fallback to currentTrack from context
-  const displayCover =
-    coverImage || currentTrack?.coverImage || "https://placehold.co/600x400";
-  const displayTitle = title || currentTrack?.title || "";
-  const displayArtist = artist || currentTrack?.artist || "";
-  const displayAlbum = album || currentTrack?.album || "";
-  const displayDuration = audioDuration || currentTrack?.duration || 0;
+  const handleRemoveFromPlaylist = async (track: Track) => {
+    const res = await fetch(
+      `/api/removeplaylistitem?userId=${userId || ""}&songId=${track.id}`,
+      { method: "GET" }
+    );
+    const result = await res.json();
+    console.log(result);
+    if (result.success) {
+      // Remove from local playlist using context method if available
+      if (typeof removeFromPlaylist === "function") {
+        removeFromPlaylist(track.id);
+      }
+    } else {
+      console.log(result.error || "Failed to remove song from playlist.");
+    }
+  };
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Only show player if audio is available
-  if (!src) return null;
+  if (!currentTrack?.audioUrl) return null;
 
-  return (
+  const theme = currentTrack?.theme || undefined;
+
+  // Only render portal on client
+  if (!isClient) return null;
+  return ReactDOM.createPortal(
     <>
-      <audio ref={audioRef} src={src}>
+      <audio ref={audioRef} src={currentTrack.audioUrl}>
         <track kind="captions" srcLang="en" label="English captions" />
       </audio>
       {/* Bottom Player */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
+      <div
+        className="fixed bottom-0 bg-opacity-90 backdrop-blur-2xl  left-0 right-0 border-t bg-white bg-blend-overlay border-gray-200 shadow-lg z-[12000]"
+        style={{
+          backgroundImage: currentTrack?.coverImage
+            ? `url(${currentTrack.coverImage})`
+            : undefined,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         {/* Progress Bar */}
         <div
           ref={progressRef}
@@ -244,13 +265,13 @@ export default function AudioPlayer({
           tabIndex={0}
           aria-valuenow={currentTime}
           aria-valuemin={0}
-          aria-valuemax={displayDuration}
+          aria-valuemax={currentTrack?.duration || 0}
           aria-label="Audio progress"
           onKeyDown={(e) => {
             if (e.key === "ArrowLeft") {
               seekTo(Math.max(0, currentTime - 5));
             } else if (e.key === "ArrowRight") {
-              seekTo(Math.min(displayDuration, currentTime + 5));
+              seekTo(Math.min(currentTrack?.duration || 0, currentTime + 5));
             } else if (e.key === "Enter" || e.key === " ") {
               // Simulate click on progress bar for accessibility
               handleProgressClick(
@@ -263,8 +284,8 @@ export default function AudioPlayer({
             className="h-full bg-Snowlight-pink transition-all duration-100"
             style={{
               width:
-                displayDuration > 0
-                  ? `${(currentTime / displayDuration) * 100}%`
+                (currentTrack?.duration ?? 0) > 0
+                  ? `${(currentTime / (currentTrack?.duration ?? 0)) * 100}%`
                   : "0%",
             }}
           />
@@ -274,16 +295,18 @@ export default function AudioPlayer({
             {/* Track Info */}
             <div className="flex items-center space-x-3 flex-1 min-w-0">
               <img
-                src={displayCover}
-                alt={displayTitle}
-                className="w-12 h-12 rounded-md object-cover"
+                src={currentTrack?.coverImage || "https://placehold.co/600x400"}
+                alt={currentTrack?.title}
+                className={`w-12 h-12 rounded-md object-cover ${
+                  theme ? `border-2 border-${theme}` : ""
+                }`}
               />
               <div className="min-w-0 flex-1">
                 <h4 className="text-sm font-medium text-gray-900 truncate">
-                  {displayTitle}
+                  {currentTrack?.title}
                 </h4>
                 <p className="text-xs text-gray-600 truncate">
-                  {displayArtist}
+                  {currentTrack?.artist}
                 </p>
               </div>
               <button className="p-1 hover:bg-gray-100 rounded">
@@ -338,7 +361,8 @@ export default function AudioPlayer({
             {/* Time and Volume */}
             <div className="flex items-center space-x-4 flex-1 justify-end">
               <span className="text-xs text-gray-600 tabular-nums">
-                {formatTime(currentTime)} / {formatTime(displayDuration)}
+                {formatTime(currentTime)} /{" "}
+                {formatTime(currentTrack?.duration || 0)}
               </span>
               <div className="flex items-center space-x-2">
                 <button
@@ -400,7 +424,7 @@ export default function AudioPlayer({
                   <Maximize2 className="w-4 h-4" />
                 </button>
                 <button
-                  onClick={() => (onClose ? onClose() : closeAudioPlayer())}
+                  onClick={() => closeAudioPlayer()}
                   className="p-2 text-gray-600 hover:bg-gray-100 rounded-md"
                 >
                   <X className="w-4 h-4" />
@@ -413,7 +437,7 @@ export default function AudioPlayer({
 
       {/* Playlist Sidebar */}
       {showPlaylist && (
-        <div className="fixed right-0 bottom-20 top-0 w-80 bg-white border-l border-gray-200 shadow-lg z-40 overflow-y-auto">
+        <div className="fixed right-0 bottom-20 top-0 w-80 bg-white border-l border-gray-200 shadow-lg z-[12001] overflow-y-auto">
           <div className="p-4 border-b border-gray-200">
             <div className="flex items-center justify-between">
               <h3 className="font-semibold text-gray-900">재생목록</h3>
@@ -431,7 +455,7 @@ export default function AudioPlayer({
             {playlist?.map((track, index) => (
               <div
                 key={track.id}
-                className={`flex items-center space-x-3 p-2 rounded-md cursor-pointer hover:bg-gray-50 ${
+                className={`flex items-center space-x-3 p-2 group rounded-md cursor-pointer hover:bg-gray-50 ${
                   index === currentIndex
                     ? "bg-pink-50 border border-pink-200"
                     : ""
@@ -478,6 +502,15 @@ export default function AudioPlayer({
                 <span className="text-xs text-gray-500 tabular-nums">
                   {formatDuration(track.duration ?? 0)}
                 </span>
+                <button
+                  className="ml-2 p-1 rounded hover:bg-gray-200 text-gray-400 group-hover:text-red-500 group-hover:block hidden"
+                  title="Remove from playlist"
+                  onClick={async () => {
+                    handleRemoveFromPlaylist(track);
+                  }}
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
             ))}
           </div>
@@ -490,7 +523,7 @@ export default function AudioPlayer({
           {/* Backdrop */}
           <button
             type="button"
-            className="fixed inset-0 bg-black/50 z-50"
+            className="fixed inset-0 bg-black/50 !z-[12002]"
             aria-label="Close expanded audio player"
             tabIndex={0}
             onClick={() => setIsExpanded(false)}
@@ -507,186 +540,304 @@ export default function AudioPlayer({
             style={{ cursor: "pointer" }}
           />
 
-          {/* Expanded Player */}
-          <div className="fixed inset-4 md:inset-8 bg-white rounded-lg shadow-2xl z-50 flex flex-col">
-            {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-200">
-              <h2 className="text-lg font-bold text-gray-900">재생 중</h2>
-              <button
-                onClick={() => {
-                  setIsExpanded(false);
-                  closeAudioPlayer();
-                }}
-                className="p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Main Player Content */}
-            <div className="flex-1 flex flex-col justify-center p-8">
-              {/* Album Art */}
-              <div className="text-center mb-8">
-                <img
-                  src={displayCover}
-                  alt={displayTitle}
-                  className="w-64 h-64 mx-auto rounded-lg shadow-lg object-cover"
-                />
+          {/* Expanded Player Modal with Playlist Sidebar */}
+          <div
+            style={{
+              backgroundImage: currentTrack?.coverImage
+                ? `url(${currentTrack.coverImage})`
+                : undefined,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+            className="fixed inset-4 backdrop-blur-2xl bac md:inset-8 bg-opacity-90 bg-blend-overlay bg-white rounded-lg shadow-2xl z-[12003] flex flex-row overflow-y-auto"
+          >
+            {/* Playlist Sidebar (left column, only if open) */}
+            {showPlaylist && (
+              <div className="w-80 h-full bg-white border-r border-gray-200 shadow-lg overflow-y-auto flex-shrink-0">
+                <div className="p-4 border-b border-gray-200">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-semibold text-gray-900">재생목록</h3>
+                    <button
+                      onClick={() => setShowPlaylist(false)}
+                      className="p-1 hover:bg-gray-100 rounded"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <p className="text-sm text-gray-600 mt-1">
+                    {playlist?.length}곡
+                  </p>
+                </div>
+                <div className="p-2">
+                  {playlist?.map((track, index) => (
+                    <div
+                      key={track.id}
+                      className={`flex items-center space-x-3 group p-2 rounded-md cursor-pointer hover:bg-gray-50 ${
+                        index === currentIndex
+                          ? "bg-pink-50 border border-pink-200"
+                          : ""
+                      }`}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`Play ${track.title} by ${track.artist}`}
+                      onClick={() => handlePlaylistTrack(track)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          handlePlaylistTrack(track);
+                        }
+                      }}
+                      onMouseDown={(e) => e.preventDefault()}
+                      onTouchStart={() => handlePlaylistTrack(track)}
+                      aria-pressed={index === currentIndex && isPlaying}
+                    >
+                      <div className="w-6 text-center">
+                        {index === currentIndex && isPlaying ? (
+                          <div className="w-4 h-4 bg-Snowlight-pink rounded-full animate-pulse" />
+                        ) : (
+                          <span className="text-sm text-gray-500">
+                            {index + 1}
+                          </span>
+                        )}
+                      </div>
+                      <img
+                        src={track.coverImage || "https://placehold.co/600x400"}
+                        alt={track.title}
+                        className="w-10 h-10 rounded object-cover"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <h4
+                          className={`text-sm font-medium truncate ${
+                            index === currentIndex
+                              ? "text-Snowlight-pink"
+                              : "text-gray-900"
+                          }`}
+                        >
+                          {track.title}
+                        </h4>
+                        <p className="text-xs text-gray-600 truncate">
+                          {track.artist}
+                        </p>
+                      </div>
+                      <span className="text-xs text-gray-500 tabular-nums">
+                        {formatDuration(track.duration ?? 0)}
+                      </span>
+                      <button
+                        className="ml-2 p-1 rounded hover:bg-gray-200 text-gray-400 group-hover:text-red-500 group-hover:block hidden"
+                        title="Remove from playlist"
+                        onClick={async () => {
+                          handleRemoveFromPlaylist(track);
+                        }}
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
-
-              {/* Track Info */}
-              <div className="text-center mb-8">
-                <h1 className="text-2xl font-bold text-gray-900 mb-2">
-                  {displayTitle}
-                </h1>
-                <p className="text-lg text-gray-600 mb-4">{displayArtist}</p>
-                <p className="text-sm text-gray-500">{displayAlbum}</p>
-              </div>
-
-              {/* Progress */}
-              <div className="mb-8">
-                <div
-                  ref={progressRef}
-                  className="w-full h-2 bg-gray-200 rounded-full cursor-pointer mb-2"
-                  onClick={handleProgressClick}
-                  role="slider"
-                  tabIndex={0}
-                  aria-valuenow={currentTime}
-                  aria-valuemin={0}
-                  aria-valuemax={displayDuration}
-                  aria-label="Audio progress"
-                  onKeyDown={(e) => {
-                    if (e.key === "ArrowLeft") {
-                      seekTo(Math.max(0, currentTime - 5));
-                    } else if (e.key === "ArrowRight") {
-                      seekTo(Math.min(displayDuration, currentTime + 5));
-                    }
+            )}
+            {/* Main Player Content (right column) */}
+            <div className="flex-1 flex flex-col justify-center p-4">
+              {/* Header */}
+              <div className="flex items-center justify-between p-4 border-b border-gray-200">
+                <h2 className="text-lg font-bold text-gray-900">재생 중</h2>
+                <button
+                  onClick={() => {
+                    setIsExpanded(false);
                   }}
+                  className="p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors"
                 >
-                  <div
-                    className="h-full bg-Snowlight-pink rounded-full transition-all duration-100"
-                    style={{
-                      width:
-                        displayDuration > 0
-                          ? `${(currentTime / displayDuration) * 100}%`
-                          : "0%",
-                    }}
+                  <Minus className="w-5 h-5" />
+                </button>
+              </div>
+              {/* Main Player Section */}
+              <div className="flex-1 flex flex-col justify-center">
+                {/* Album Art */}
+                <div className="text-center mb-8">
+                  <img
+                    src={
+                      currentTrack?.coverImage || "https://placehold.co/600x400"
+                    }
+                    alt={currentTrack?.title}
+                    className="w-64 h-64 mx-auto rounded-lg shadow-lg object-cover"
                   />
                 </div>
-                <div className="flex justify-between text-sm text-gray-500">
-                  <span>{formatTime(currentTime)}</span>
-                  <span>{formatTime(displayDuration)}</span>
+                {/* Track Info */}
+                <div className="text-center mb-8">
+                  <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                    {typeof currentTrack?.title === "string"
+                      ? currentTrack.title
+                      : ""}
+                  </h1>
+                  <p className="text-lg text-gray-600 mb-4">
+                    {typeof currentTrack?.artist === "string"
+                      ? currentTrack.artist
+                      : ""}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    {typeof currentTrack?.album === "string"
+                      ? currentTrack.album
+                      : typeof currentTrack?.album === "object" &&
+                        "title" in currentTrack.album &&
+                        typeof currentTrack.album.title === "string"
+                      ? currentTrack.album.title
+                      : ""}
+                  </p>
                 </div>
-              </div>
-
-              {/* Controls */}
-              <div className="flex items-center justify-center space-x-6 mb-8">
-                <button
-                  onClick={toggleShuffle}
-                  className={`p-2 rounded-md transition-colors ${
-                    isShuffled
-                      ? "text-Snowlight-pink bg-pink-50"
-                      : "text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50"
-                  }`}
-                >
-                  <Shuffle className="w-5 h-5" />
-                </button>
-
-                <button
-                  onClick={handlePrevious}
-                  className="p-3 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors"
-                >
-                  <SkipBack className="w-6 h-6" />
-                </button>
-
-                <button
-                  onClick={togglePlay}
-                  className="w-16 h-16 bg-Snowlight-pink text-white rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors"
-                >
-                  {isPlaying ? (
-                    <Pause className="w-8 h-8" />
-                  ) : (
-                    <Play className="w-8 h-8 ml-1" />
-                  )}
-                </button>
-
-                <button
-                  onClick={handleNext}
-                  className="p-3 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors"
-                >
-                  <SkipForward className="w-6 h-6" />
-                </button>
-
-                <button
-                  onClick={toggleRepeat}
-                  className={`p-2 rounded-md transition-colors ${
-                    repeatMode !== "off"
-                      ? "text-Snowlight-pink bg-pink-50"
-                      : "text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50"
-                  }`}
-                >
-                  <Repeat className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* Volume and Actions */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <button
-                    onClick={toggleMute}
-                    className="p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors"
-                  >
-                    {isMuted || volume === 0 ? (
-                      <VolumeX className="w-5 h-5" />
-                    ) : (
-                      <Volume2 className="w-5 h-5" />
-                    )}
-                  </button>
+                {/* Progress */}
+                <div className="mb-8">
                   <div
-                    ref={volumeRef}
-                    className="w-24 h-1 bg-gray-200 rounded-full cursor-pointer"
-                    onClick={handleVolumeClick}
+                    ref={progressRef}
+                    className="w-full h-2 bg-gray-200 rounded-full cursor-pointer mb-2"
+                    onClick={handleProgressClick}
                     role="slider"
                     tabIndex={0}
-                    aria-valuenow={volume}
+                    aria-valuenow={currentTime}
                     aria-valuemin={0}
-                    aria-valuemax={1}
-                    aria-label="Volume"
+                    aria-valuemax={currentTrack?.duration || 0}
+                    aria-label="Audio progress"
                     onKeyDown={(e) => {
                       if (e.key === "ArrowLeft") {
-                        setVolume(Math.max(0, volume - 0.05));
+                        seekTo(Math.max(0, currentTime - 5));
                       } else if (e.key === "ArrowRight") {
-                        setVolume(Math.min(1, volume + 0.05));
-                      } else if (e.key === "Enter" || e.key === " ") {
-                        handleVolumeClick(
-                          e as unknown as React.MouseEvent<HTMLDivElement>
+                        seekTo(
+                          Math.min(currentTrack?.duration || 0, currentTime + 5)
                         );
                       }
                     }}
                   >
                     <div
-                      className="h-full bg-Snowlight-pink rounded-full"
-                      style={{ width: `${volume * 100}%` }}
+                      className="h-full bg-Snowlight-pink rounded-full transition-all duration-100"
+                      style={{
+                        width:
+                          (currentTrack?.duration ?? 0) > 0
+                            ? `${
+                                (currentTime / (currentTrack?.duration ?? 0)) *
+                                100
+                              }%`
+                            : "0%",
+                      }}
                     />
                   </div>
+                  <div className="flex justify-between text-sm text-gray-500">
+                    <span>{formatTime(currentTime)}</span>
+                    <span>{formatTime(currentTrack?.duration ?? 0)}</span>
+                  </div>
                 </div>
-
-                <div className="flex items-center space-x-2">
-                  <button className="p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors">
-                    <Heart className="w-5 h-5" />
+                {/* Controls */}
+                <div className="flex items-center justify-center space-x-6 mb-8">
+                  <button
+                    onClick={toggleShuffle}
+                    className={`p-2 rounded-md transition-colors ${
+                      isShuffled
+                        ? "text-Snowlight-pink bg-pink-50"
+                        : "text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50"
+                    }`}
+                  >
+                    <Shuffle className="w-5 h-5" />
                   </button>
-                  <button className="p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors">
-                    <Download className="w-5 h-5" />
+                  <button
+                    onClick={handlePrevious}
+                    className="p-3 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors"
+                  >
+                    <SkipBack className="w-6 h-6" />
                   </button>
-                  <button className="p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors">
-                    <MoreHorizontal className="w-5 h-5" />
+                  <button
+                    onClick={togglePlay}
+                    className="w-16 h-16 bg-Snowlight-pink text-white rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors"
+                  >
+                    {isPlaying ? (
+                      <Pause className="w-8 h-8" />
+                    ) : (
+                      <Play className="w-8 h-8 ml-1" />
+                    )}
                   </button>
+                  <button
+                    onClick={handleNext}
+                    className="p-3 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors"
+                  >
+                    <SkipForward className="w-6 h-6" />
+                  </button>
+                  <button
+                    onClick={toggleRepeat}
+                    className={`p-2 rounded-md transition-colors ${
+                      repeatMode !== "off"
+                        ? "text-Snowlight-pink bg-pink-50"
+                        : "text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50"
+                    }`}
+                  >
+                    <Repeat className="w-5 h-5" />
+                  </button>
+                </div>
+                {/* Volume and Actions */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={toggleMute}
+                      className="p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors"
+                    >
+                      {isMuted || volume === 0 ? (
+                        <VolumeX className="w-5 h-5" />
+                      ) : (
+                        <Volume2 className="w-5 h-5" />
+                      )}
+                    </button>
+                    <div
+                      ref={volumeRef}
+                      className="w-24 h-1 bg-gray-200 rounded-full cursor-pointer"
+                      onClick={handleVolumeClick}
+                      role="slider"
+                      tabIndex={0}
+                      aria-valuenow={volume}
+                      aria-valuemin={0}
+                      aria-valuemax={1}
+                      aria-label="Volume"
+                      onKeyDown={(e) => {
+                        if (e.key === "ArrowLeft") {
+                          setVolume(Math.max(0, volume - 0.05));
+                        } else if (e.key === "ArrowRight") {
+                          setVolume(Math.min(1, volume + 0.05));
+                        } else if (e.key === "Enter" || e.key === " ") {
+                          handleVolumeClick(
+                            e as unknown as React.MouseEvent<HTMLDivElement>
+                          );
+                        }
+                      }}
+                    >
+                      <div
+                        className="h-full bg-Snowlight-pink rounded-full"
+                        style={{ width: `${volume * 100}%` }}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <button className="p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors">
+                      <Heart className="w-5 h-5" />
+                    </button>
+                    <button className="p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors">
+                      <Download className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={() => setShowPlaylist(!showPlaylist)}
+                      className={`p-2 rounded-md transition-colors ${
+                        showPlaylist
+                          ? "text-Snowlight-pink bg-pink-50"
+                          : "text-gray-600 hover:bg-gray-100"
+                      }`}
+                    >
+                      <List className="w-4 h-4" />
+                    </button>
+                    <button className="p-2 text-gray-600 hover:text-Snowlight-pink hover:bg-pink-50 rounded-md transition-colors">
+                      <MoreHorizontal className="w-5 h-5" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </>
       )}
-    </>
+    </>,
+    document.body
   );
 }

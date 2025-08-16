@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import type { PlaylistItem, Song } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -26,7 +27,9 @@ export async function getAlbumById(id: string) {
 
 // Get all albums (basic)
 export async function getAllAlbums() {
-  return await prisma.album.findMany();
+  return await prisma.album.findMany({
+    where: { isPublished: true, isApproved: true },
+  });
 }
 
 // Get latest published and approved albums
@@ -174,7 +177,6 @@ export async function getLatestVideos(limit = 6) {
     return [];
   }
 }
-
 // Get verified artists
 export async function getFeaturedArtists(limit = 6) {
   try {
@@ -463,9 +465,32 @@ export async function findPlaylistItemsByUserId(userId: string) {
   try {
     return await prisma.playlistItem.findMany({
       where: { userId },
+      include: {
+        song: true,
+      },
     });
   } catch (error) {
     console.error("Error finding playlist items by userId:", error);
+    return [];
+  }
+}
+
+// Get all playlists
+export async function getAllPlaylistItems(): Promise<
+  (PlaylistItem & { song: Song | null })[]
+> {
+  try {
+    return await prisma.playlistItem.findMany({
+      include: {
+        song: {
+          include: {
+            album: true,
+          },
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching all playlists:", error);
     return [];
   }
 }

@@ -20,7 +20,7 @@ export default function SidebarMenu() {
   const menuData = [
     {
       label: "스노우라이트차트",
-      link: "/chart",
+      link: "/snowlightchart",
       icon: <BarChart2 className="w-4 h-4 mr-2" />,
     },
     {

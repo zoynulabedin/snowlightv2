@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import ReactDOM from "react-dom";
 import {
   Play,
   Pause,
@@ -188,21 +189,21 @@ export default function VideoPlayer({
   const isValidVideoUrl =
     typeof videoUrl === "string" && videoUrl.trim() !== "";
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center">
+  return ReactDOM.createPortal(
+    <div className="fixed inset-0 bg-opacity-90 bg-slate-300  z-[9999999] flex items-center justify-center">
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 z-10 w-10 h-10 bg-slate-400/50 text-white rounded-full flex items-center justify-center hover:bg-slate-500/70 transition-colors"
+      >
+        <X className="w-5 h-5" />
+      </button>
       <div
         ref={containerRef}
-        className="relative w-full h-full max-w-6xl max-h-full bg-black"
+        className="relative w-1/2 h-1/2 max-w-6xl max-h-6xl bg-white"
         onMouseMove={handleMouseMove}
         onMouseLeave={() => isPlaying && setShowControls(false)}
       >
         {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors"
-        >
-          <X className="w-5 h-5" />
-        </button>
 
         {/* Video Element */}
         {isValidVideoUrl ? (
@@ -213,6 +214,15 @@ export default function VideoPlayer({
             src={videoUrl}
             autoPlay={autoPlay}
             controls={false}
+            role="button"
+            tabIndex={0}
+            aria-label="Toggle play/pause"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                togglePlay();
+              }
+            }}
           >
             <track
               kind="captions"
@@ -385,6 +395,7 @@ export default function VideoPlayer({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

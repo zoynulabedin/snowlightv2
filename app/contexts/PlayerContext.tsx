@@ -4,11 +4,12 @@ export interface Track {
   id: string;
   title: string;
   artist: string;
-  album?: string;
+  album?: string | { title: string };
   duration?: number;
   coverImage?: string;
   audioUrl: string;
   imageUrl?: string;
+  theme?: string;
 }
 
 export interface Video {
@@ -46,11 +47,12 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
   const [playlist, setPlaylist] = useState<Track[]>([]);
   const [isAudioPlayerVisible, setIsAudioPlayerVisible] = useState(false);
-
+  console.log(playlist);
   const [currentVideo, setCurrentVideo] = useState<Video | null>(null);
   const [isVideoPlayerVisible, setIsVideoPlayerVisible] = useState(false);
 
   const playTrack = (track: Track, newPlaylist?: Track[]) => {
+    console.log(track, newPlaylist);
     setCurrentTrack(track);
     if (newPlaylist) {
       setPlaylist(newPlaylist);
@@ -124,58 +126,3 @@ export function usePlayer() {
   }
   return context;
 }
-
-// Mock data for testing
-export const mockTracks: Track[] = [
-  {
-    id: "1",
-    title: "서우젯소리",
-    artist: "사우스 카니발(South Carnival)",
-    album: "서우젯소리",
-    duration: 332, // 5:32
-    coverImage:
-      "https://via.placeholder.com/300x300/ff1493/ffffff?text=서우젯소리",
-    audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav", // Demo audio
-  },
-  {
-    id: "2",
-    title: "Golden",
-    artist: "HUNTR/X",
-    album: "KPop Demon Hunters",
-    duration: 245, // 4:05
-    coverImage: "https://via.placeholder.com/300x300/ff1493/ffffff?text=Golden",
-    audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-  },
-  {
-    id: "3",
-    title: "뛰어(JUMP)",
-    artist: "BLACKPINK",
-    album: "뛰어(JUMP)",
-    duration: 198, // 3:18
-    coverImage: "https://via.placeholder.com/300x300/ff1493/ffffff?text=JUMP",
-    audioUrl: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-  },
-];
-
-export const mockVideos: Video[] = [
-  {
-    id: "1",
-    title: "서우젯소리 뮤직비디오",
-    artist: "사우스 카니발(South Carnival)",
-    duration: 332,
-    thumbnailUrl:
-      "https://via.placeholder.com/640x360/ff1493/ffffff?text=서우젯소리+MV",
-    videoUrl:
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-  },
-  {
-    id: "2",
-    title: "Golden 뮤직비디오",
-    artist: "HUNTR/X",
-    duration: 245,
-    thumbnailUrl:
-      "https://via.placeholder.com/640x360/ff1493/ffffff?text=Golden+MV",
-    videoUrl:
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-  },
-];

@@ -19,8 +19,16 @@ import Layout from "~/components/Layout";
 import AudioPlayer from "~/components/AudioPlayer";
 import VideoPlayer from "~/components/VideoPlayer";
 import { getSidebarAlbums } from "../lib/server";
+import { validateSession } from "../lib/auth";
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
+  const cookieHeader = request.headers.get("Cookie") || "";
+  const token = cookieHeader
+    ?.split(";")
+    .find((c) => c.trim().startsWith("auth-token="))
+    ?.split("=")[1];
+
+  const user = await validateSession(token ?? "");
   const songId = params.id;
 
   if (!songId) {
@@ -80,7 +88,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
       },
     ];
 
-    return json({ song, videos, sidebarAlbums });
+    return json({ song, videos, sidebarAlbums, user });
   } catch (error) {
     console.error("Error loading song:", error);
     throw new Response("Internal Server Error", { status: 500 });
@@ -88,7 +96,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 }
 
 export default function SongDetails() {
-  const { song, videos, sidebarAlbums } = useLoaderData<typeof loader>();
+  const { song, videos, user, sidebarAlbums } = useLoaderData<typeof loader>();
   const { playTrack } = usePlayer();
   const [liked, setLiked] = useState(false);
   const [comment, setComment] = useState("");
@@ -321,20 +329,7 @@ export default function SongDetails() {
                           {song.artists.map((a) => a.artist.name).join(", ")}
                         </div>
                         {/* AudioPlayer for song preview */}
-                        <AudioPlayer
-                          src={
-                            song.audioUrl && song.audioUrl !== ""
-                              ? song.audioUrl
-                              : ""
-                          }
-                          coverImage={song.coverImage || placeholderImg}
-                          title={song.title}
-                          artist={song.artists
-                            .map((a) => a.artist.name)
-                            .join(", ")}
-                          album={song.album?.title || ""}
-                          duration={song.duration || 0}
-                        />
+                        <AudioPlayer userId={user?.id} />
                       </div>
                     </div>
                     <div className="flex items-center space-x-3">

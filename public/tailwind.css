@@ -1268,10 +1268,6 @@ h1,
   min-height: 100vh;
 }
 
-.min-h-\[200px\] {
-  min-height: 200px;
-}
-
 .w-0 {
   width: 0px;
 }
@@ -1545,10 +1541,6 @@ h1,
 
 .grid-cols-7 {
   grid-template-columns: repeat(7, minmax(0, 1fr));
-}
-
-.grid-cols-6 {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
 .grid-rows-2 {
@@ -2055,10 +2047,6 @@ h1,
 
 .bg-black\/50 {
   background-color: rgb(0 0 0 / 0.5);
-}
-
-.bg-black\/60 {
-  background-color: rgb(0 0 0 / 0.6);
 }
 
 .bg-black\/70 {
@@ -2710,11 +2698,6 @@ h1,
   padding-right: 1.5rem;
 }
 
-.px-8 {
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-
 .py-0\.5 {
   padding-top: 0.125rem;
   padding-bottom: 0.125rem;
@@ -2763,10 +2746,6 @@ h1,
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
-}
-
-.pb-2 {
-  padding-bottom: 0.5rem;
 }
 
 .pb-20 {
@@ -3301,11 +3280,6 @@ h1,
 
 .filter {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
-}
-
-.backdrop-blur-2xl {
-  --tw-backdrop-blur: blur(40px);
-  backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
 }
 
 .backdrop-blur-sm {
@@ -4073,23 +4047,8 @@ h1,
   color: rgb(37 99 235 / var(--tw-text-opacity, 1));
 }
 
-.group:hover .group-hover\:text-red-500 {
-  --tw-text-opacity: 1;
-  color: rgb(239 68 68 / var(--tw-text-opacity, 1));
-}
-
 .group:hover .group-hover\:opacity-100 {
   opacity: 1;
-}
-
-@media not all and (min-width: 1536px) {
-  .max-2xl\:min-h-\[400px\] {
-    min-height: 400px;
-  }
-
-  .max-2xl\:min-h-\[300px\] {
-    min-height: 300px;
-  }
 }
 
 @media not all and (min-width: 768px) {
@@ -4343,10 +4302,6 @@ h1,
 }
 
 @media (min-width: 1280px) {
-  .xl\:min-h-\[400px\] {
-    min-height: 400px;
-  }
-
   .xl\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -4357,16 +4312,6 @@ h1,
 
   .xl\:grid-cols-6 {
     grid-template-columns: repeat(6, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 1536px) {
-  .\32xl\:min-h-\[400px\] {
-    min-height: 400px;
-  }
-
-  .\32xl\:min-h-\[300px\] {
-    min-height: 300px;
   }
 }
 

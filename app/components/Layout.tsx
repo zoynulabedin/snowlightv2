@@ -41,27 +41,30 @@ export default function Layout({ children }: LayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-white min-w-full">
+    <div className="min-h-screen bg-white w-full">
       {/* Main Header */}
-      <header className="bg-white border-b border-gray-200 min-w-full sticky top-0 z-20">
-        <div className=" max-w-full mx-auto px-4 py-3">
-          <div className="flex items-center justify-between">
+      <header
+        style={{ minWidth: "calc(100vw-75px)" }}
+        className="bg-white border-b border-gray-200 sticky top-0 z-[9999] w-full"
+      >
+        <div className="w-full px-4 py-3">
+          <div className="flex items-center justify-between w-full">
             {/* Logo */}
-            <div className="flex items-center">
+            <div className="flex items-center w-full">
               <Link to="/" className="text-3xl font-bold text-red-600">
                 Snowlight!
               </Link>
             </div>
-
             {/* Search Bar */}
-            <SearchDropdown
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-              onSubmit={handleSearch}
-            />
-
+            <div className="w-full flex justify-center">
+              <SearchDropdown
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                onSubmit={handleSearch}
+              />
+            </div>
             {/* Right Actions */}
-            <div className="flex items-center space-x-4 text-sm">
+            <div className="flex items-center space-x-4 text-sm w-full justify-end">
               {user ? (
                 <>
                   <span className="text-gray-700">
@@ -114,10 +117,10 @@ export default function Layout({ children }: LayoutProps) {
       </header>
 
       {/* Main Content with Sidebar */}
-      <div className=" max-w-full mx-auto  py-4 z-0">
+      <div className=" w-full mx-auto  py-4 z-[9999]">
         <div className="flex">
           {/* Left Sidebar */}
-          <div className="z-[99999] sticky top-[75px] h-[calc(100vh-75px)] border-r-2 border-r-gray-200 w-60">
+          <div className="z-[9999] sticky top-[75px] h-[calc(100vh-75px)] border-r-2 border-r-gray-200 w-auto flex-shrink-0">
             <button
               className={`absolute top-4 z-[9999] left-[100%] py-5 border border-l-0 bg-white transition-all duration-300 hover:w-[4.5rem] w-8 rounded-tr-md rounded-br-md group md:block sm:block hidden cursor-pointer`}
               id="gnbHandleBtn"
@@ -132,7 +135,7 @@ export default function Layout({ children }: LayoutProps) {
             </button>
 
             <aside
-              className={`w-52 flex-shrink-0 px-5 transition-all duration-500 ease-in-out ${
+              className={`w-60 flex-shrink-0 px-5 transition-all duration-500 ease-in-out ${
                 sidebarOpen ? "block" : "hidden"
               }`}
             >
@@ -141,12 +144,14 @@ export default function Layout({ children }: LayoutProps) {
           </div>
 
           {/* Main Content */}
-          <main className="flex-1 z-0">
+          <main
+            style={{ minWidth: "1200px" }}
+            className="z-0 flex-1 min-w-0 shrink-0 "
+          >
             {children}
-
             {/* Footer */}
             <footer className="bg-gray-100 border-t border-gray-200 mt-8">
-              <div className="max-w-7xl mx-auto px-4 py-8">
+              <div className="mx-auto px-4 py-8 w-full">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
                   <div>
                     <h3 className="font-bold text-red-600 mb-4">Snowlight!</h3>
