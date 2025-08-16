@@ -552,7 +552,7 @@ export default function HomePage() {
               </button>
               <div className={` relative h-auto shrink-0`}>
                 <div
-                  className={`grid grid-cols-7 grid-rows-2  gap-4 transition-transform duration-350 ease-in-out ${
+                  className={`flex flex-wrap gap-4  transition-transform duration-350 ease-in-out ${
                     isSliding && slideDirection === "left"
                       ? "-translate-x-16 opacity-60"
                       : isSliding && slideDirection === "right"
@@ -1024,7 +1024,7 @@ export default function HomePage() {
                 style={{ minHeight: "220px" }}
               >
                 <div
-                  className={`grid grid-cols-7  grid-rows-2 gap-4 transition-transform duration-350 e duration-350 ease-in-out ${
+                  className={`flex flex-wrap gap-4 transition-transform duration-350 e duration-350 ease-in-out ${
                     isVideoSliding && videoSlideDirection === "left"
                       ? "-translate-x-16 opacity-60"
                       : isVideoSliding && videoSlideDirection === "right"
@@ -1226,7 +1226,7 @@ export default function HomePage() {
             </Link>
           </div>
           {pdAlbums?.length > 0 ? (
-            <div className="grid grid-cols-7 gap-4">
+            <div className="flex flex-wrap gap-4 ">
               {pdAlbums.filter(Boolean).map(
                 (album) =>
                   album && (

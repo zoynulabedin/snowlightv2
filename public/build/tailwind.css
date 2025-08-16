@@ -1252,8 +1252,12 @@ h1,
   max-height: 90vh;
 }
 
-.min-h-\[160px\] {
-  min-height: 160px;
+.min-h-\[150px\] {
+  min-height: 150px;
+}
+
+.min-h-\[200px\] {
+  min-height: 200px;
 }
 
 .min-h-\[250px\] {
@@ -1266,10 +1270,6 @@ h1,
 
 .min-h-screen {
   min-height: 100vh;
-}
-
-.min-h-\[200px\] {
-  min-height: 200px;
 }
 
 .w-0 {
@@ -1539,16 +1539,12 @@ h1,
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.grid-cols-4 {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+.grid-cols-6 {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
 .grid-cols-7 {
   grid-template-columns: repeat(7, minmax(0, 1fr));
-}
-
-.grid-cols-6 {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
 .grid-rows-2 {
@@ -4083,12 +4079,8 @@ h1,
 }
 
 @media not all and (min-width: 1536px) {
-  .max-2xl\:min-h-\[400px\] {
-    min-height: 400px;
-  }
-
-  .max-2xl\:min-h-\[300px\] {
-    min-height: 300px;
+  .max-2xl\:min-h-\[250px\] {
+    min-height: 250px;
   }
 }
 
@@ -4343,10 +4335,6 @@ h1,
 }
 
 @media (min-width: 1280px) {
-  .xl\:min-h-\[400px\] {
-    min-height: 400px;
-  }
-
   .xl\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -4361,12 +4349,16 @@ h1,
 }
 
 @media (min-width: 1536px) {
-  .\32xl\:min-h-\[400px\] {
-    min-height: 400px;
+  .\32xl\:grid {
+    display: grid;
   }
 
-  .\32xl\:min-h-\[300px\] {
-    min-height: 300px;
+  .\32xl\:min-h-\[250px\] {
+    min-height: 250px;
+  }
+
+  .\32xl\:grid-cols-10 {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
   }
 }
 
