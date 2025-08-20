@@ -1,6 +1,15 @@
-import { LoaderFunctionArgs, redirect } from "@remix-run/node";
-import { useLoaderData, Link } from "@remix-run/react";
-import { Music, Disc, Users, UserCheck, Eye, Settings } from "lucide-react";
+import { LoaderFunctionArgs, redirect, json } from "@remix-run/node";
+import { useLoaderData, Link, useSearchParams } from "@remix-run/react";
+import {
+  Music,
+  Disc,
+  Users,
+  UserCheck,
+  Eye,
+  Settings,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { validateSession } from "~/lib/auth";
 import { db } from "~/lib/db";
 import DashboardSidebar from "~/components/DashboardSidebar";
@@ -40,9 +49,19 @@ export async function loader({ request }: LoaderFunctionArgs) {
       db.user.count(),
     ]);
 
-    // Get recent songs
+    const url = new URL(request.url);
+    const page = parseInt(url.searchParams.get("page") || "1");
+    const limit = 7; // items per page
+    const skip = (page - 1) * limit;
+
+    // Get total count for pagination
+    const totalSongs = await db.song.count();
+    const totalPages = Math.ceil(totalSongs / limit);
+
+    // Get paginated songs
     const recentSongs = await db.song.findMany({
-      take: 10,
+      skip,
+      take: limit,
       orderBy: { createdAt: "desc" },
       include: {
         uploadedBy: {
@@ -57,19 +76,25 @@ export async function loader({ request }: LoaderFunctionArgs) {
       },
     });
 
-    return {
+    return json({
       user,
       stats: {
-        totalSongs: stats[0],
-        totalAlbums: stats[1],
-        totalArtists: stats[2],
-        totalUsers: stats[3],
+        totalSongs,
+        totalAlbums: await db.album.count(),
+        totalArtists: await db.artist.count(),
+        totalUsers: await db.user.count(),
+      },
+      pagination: {
+        currentPage: page,
+        totalPages,
+        hasNextPage: page < totalPages,
+        hasPrevPage: page > 1,
       },
       recentSongs: recentSongs.map((song) => ({
         ...song,
         artist: song.artists[0]?.artist,
       })),
-    };
+    });
   } catch (error) {
     console.error("Dashboard loader error:", error);
     return redirect("/login");
@@ -78,11 +103,15 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function Dashboard() {
   const data = useLoaderData<typeof loader>();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = parseInt(searchParams.get("page") || "1", 10);
+
+  const handlePageChange = (newPage: number) => {
+    setSearchParams({ page: newPage.toString() });
+  };
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      {/* Sidebar */}
-      <DashboardSidebar user={data.user} />
+    <>
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
@@ -157,8 +186,8 @@ export default function Dashboard() {
               <h2 className="text-lg font-semibold text-gray-800">Table</h2>
             </div>
 
-            <div className="overflow-x-auto">
-              <table className="w-full">
+            <div className="overflow-x-auto ">
+              <table className="w-full min-w-7xl">
                 <thead className="bg-gray-50">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -197,7 +226,7 @@ export default function Dashboard() {
                             )}
                           </div>
                           <div className="ml-4">
-                            <div className="text-sm font-medium text-gray-900">
+                            <div className="text-sm truncate font-medium text-gray-900 max-w-32">
                               {song.title}
                             </div>
                           </div>
@@ -233,9 +262,89 @@ export default function Dashboard() {
                 </tbody>
               </table>
             </div>
+
+            {/* Pagination Controls */}
+            <div className="px-6 py-4 border-t border-gray-200">
+              <div className="flex items-center justify-center">
+                <div className="flex-1 flex justify-between sm:hidden">
+                  {/* Mobile pagination */}
+                  <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={!data.pagination.hasPrevPage}
+                    className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <ChevronLeft className="w-4 h-4 mr-2" />
+                    Previous
+                  </button>
+                  <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={!data.pagination.hasNextPage}
+                    className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Next
+                    <ChevronRight className="w-4 h-4 ml-2" />
+                  </button>
+                </div>
+                <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-sm text-gray-700">
+                      Showing page{" "}
+                      <span className="font-medium">{currentPage}</span> of{" "}
+                      <span className="font-medium">
+                        {data.pagination.totalPages}
+                      </span>
+                    </p>
+                  </div>
+                  <div>
+                    <nav
+                      className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+                      aria-label="Pagination"
+                    >
+                      <button
+                        onClick={() => handlePageChange(1)}
+                        disabled={currentPage === 1}
+                        className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <span className="sr-only">First</span>
+                        <span>First</span>
+                      </button>
+                      <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={!data.pagination.hasPrevPage}
+                        className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <span className="sr-only">Previous</span>
+                        <ChevronLeft className="w-4 h-4" />
+                      </button>
+                      <span className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-gray-100 text-sm font-medium text-gray-700">
+                        {currentPage}
+                      </span>
+                      <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={!data.pagination.hasNextPage}
+                        className="relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <span className="sr-only">Next</span>
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() =>
+                          handlePageChange(data.pagination.totalPages)
+                        }
+                        disabled={currentPage === data.pagination.totalPages}
+                        className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <span className="sr-only">Last</span>
+                        <span>Last</span>
+                      </button>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </main>
       </div>
-    </div>
+    </>
   );
 }

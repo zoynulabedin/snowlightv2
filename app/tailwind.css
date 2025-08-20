@@ -21,6 +21,7 @@
     font-family: "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
     font-size: 12px;
     line-height: 1.4;
+    overflow-y: hidden;
   }
 
   h1,

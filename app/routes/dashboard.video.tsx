@@ -492,91 +492,26 @@ export default function VideoDashboard() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Left Sidebar */}
-      <div className="flex">
-        <DashboardSidebar user={user} />
-
-        {/* Main Content */}
-        <div className="ml-10 w-full">
-          {/* Header */}
-          <header className="bg-white shadow-sm border-b">
-            <div className="px-6 py-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h1 className="text-2xl font-bold text-gray-900">
-                    Video Management
-                  </h1>
-                  <p className="text-gray-600 mt-1">
-                    Manage your video content
-                  </p>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <button
-                    onClick={() => setIsModalOpen(true)}
-                    className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors flex items-center"
-                  >
-                    <svg
-                      className="w-4 h-4 mr-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 4v16m8-8H4"
-                      />
-                    </svg>
-                    Upload Video
-                  </button>
-                </div>
+    <>
+      {/* Main Content */}
+      <div className="ml-10 w-full">
+        {/* Header */}
+        <header className="bg-white shadow-sm border-b">
+          <div className="px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">
+                  Video Management
+                </h1>
+                <p className="text-gray-600 mt-1">Manage your video content</p>
               </div>
-            </div>
-          </header>
-
-          {/* Main Content Area */}
-          <main className="p-6">
-            {/* Search and Filters */}
-            <div className="mb-6">
-              <div className="flex items-center justify-between">
-                <div className="flex-1 max-w-md">
-                  <div className="relative">
-                    <input
-                      type="text"
-                      placeholder="Search videos, artists..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    />
-                    <svg
-                      className="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div className="ml-4 text-sm text-gray-500">
-                  {filteredVideos.length} of {videos.length} videos
-                </div>
-              </div>
-            </div>
-
-            {/* Status Messages */}
-            {actionData?.success && (
-              <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
-                <div className="flex">
+              <div className="flex items-center space-x-4">
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors flex items-center"
+                >
                   <svg
-                    className="h-5 w-5 text-green-400"
+                    className="w-4 h-4 mr-2"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -585,19 +520,32 @@ export default function VideoDashboard() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      d="M12 4v16m8-8H4"
                     />
                   </svg>
-                  <p className="ml-3 text-green-800">{actionData.success}</p>
-                </div>
+                  Upload Video
+                </button>
               </div>
-            )}
+            </div>
+          </div>
+        </header>
 
-            {actionData?.error && (
-              <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-                <div className="flex">
+        {/* Main Content Area */}
+        <main className="p-6">
+          {/* Search and Filters */}
+          <div className="mb-6">
+            <div className="flex items-center justify-between">
+              <div className="flex-1 max-w-md">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search videos, artists..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  />
                   <svg
-                    className="h-5 w-5 text-red-400"
+                    className="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -606,76 +554,154 @@ export default function VideoDashboard() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                     />
                   </svg>
-                  <p className="ml-3 text-red-800">{actionData.error}</p>
                 </div>
               </div>
-            )}
+              <div className="ml-4 text-sm text-gray-500">
+                {filteredVideos.length} of {videos.length} videos
+              </div>
+            </div>
+          </div>
 
-            {/* Video Table */}
-            <div className="bg-white rounded-lg shadow overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
+          {/* Status Messages */}
+          {actionData?.success && (
+            <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+              <div className="flex">
+                <svg
+                  className="h-5 w-5 text-green-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <p className="ml-3 text-green-800">{actionData.success}</p>
+              </div>
+            </div>
+          )}
+
+          {actionData?.error && (
+            <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <div className="flex">
+                <svg
+                  className="h-5 w-5 text-red-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <p className="ml-3 text-red-800">{actionData.error}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Video Table */}
+          <div className="bg-white rounded-lg shadow overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Video Details
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Artist
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Associated Song
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Views
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Created
+                    </th>
+                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {filteredVideos.length === 0 ? (
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Video Details
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Artist
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Associated Song
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Views
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Status
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Created
-                      </th>
-                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {filteredVideos.length === 0 ? (
-                      <tr>
-                        <td colSpan={7} className="px-6 py-12 text-center">
-                          <div className="flex flex-col items-center">
-                            <svg
-                              className="mx-auto h-12 w-12 text-gray-400"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
+                      <td colSpan={7} className="px-6 py-12 text-center">
+                        <div className="flex flex-col items-center">
+                          <svg
+                            className="mx-auto h-12 w-12 text-gray-400"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                            />
+                          </svg>
+                          <h3 className="mt-2 text-sm font-medium text-gray-900">
+                            No videos found
+                          </h3>
+                          <p className="mt-1 text-sm text-gray-500">
+                            {searchTerm
+                              ? "No videos match your search criteria."
+                              : "Get started by uploading your first video."}
+                          </p>
+                          <div className="mt-6">
+                            <button
+                              onClick={() => setIsModalOpen(true)}
+                              className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700"
                             >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-                              />
-                            </svg>
-                            <h3 className="mt-2 text-sm font-medium text-gray-900">
-                              No videos found
-                            </h3>
-                            <p className="mt-1 text-sm text-gray-500">
-                              {searchTerm
-                                ? "No videos match your search criteria."
-                                : "Get started by uploading your first video."}
-                            </p>
-                            <div className="mt-6">
-                              <button
-                                onClick={() => setIsModalOpen(true)}
-                                className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700"
+                              <svg
+                                className="w-4 h-4 mr-2"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
                               >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M12 4v16m8-8H4"
+                                />
+                              </svg>
+                              Upload Video
+                            </button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredVideos.map((video) => (
+                      <tr key={video.id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            {video.thumbnailUrl ? (
+                              <img
+                                src={video.thumbnailUrl}
+                                alt={video.title}
+                                className="h-12 w-12 rounded-lg object-cover mr-4"
+                              />
+                            ) : (
+                              <div className="h-12 w-12 rounded-lg bg-gray-200 flex items-center justify-center mr-4">
                                 <svg
-                                  className="w-4 h-4 mr-2"
+                                  className="h-6 w-6 text-gray-400"
                                   fill="none"
                                   stroke="currentColor"
                                   viewBox="0 0 24 24"
@@ -684,239 +710,147 @@ export default function VideoDashboard() {
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                     strokeWidth={2}
-                                    d="M12 4v16m8-8H4"
+                                    d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
                                   />
                                 </svg>
-                                Upload Video
-                              </button>
+                              </div>
+                            )}
+                            <div>
+                              <div className="text-sm font-medium text-gray-900">
+                                {video.title}
+                              </div>
+                              <div className="text-sm text-gray-500">
+                                {video.genre ? `${video.genre} • ` : ""}
+                                Duration:{" "}
+                                {video.duration
+                                  ? `${Math.floor(
+                                      video.duration / 60
+                                    )}:${String(video.duration % 60).padStart(
+                                      2,
+                                      "0"
+                                    )}`
+                                  : "Unknown"}
+                              </div>
                             </div>
                           </div>
                         </td>
-                      </tr>
-                    ) : (
-                      filteredVideos.map((video) => (
-                        <tr key={video.id} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              {video.thumbnailUrl ? (
-                                <img
-                                  src={video.thumbnailUrl}
-                                  alt={video.title}
-                                  className="h-12 w-12 rounded-lg object-cover mr-4"
-                                />
-                              ) : (
-                                <div className="h-12 w-12 rounded-lg bg-gray-200 flex items-center justify-center mr-4">
-                                  <svg
-                                    className="h-6 w-6 text-gray-400"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-                                    />
-                                  </svg>
-                                </div>
-                              )}
-                              <div>
-                                <div className="text-sm font-medium text-gray-900">
-                                  {video.title}
-                                </div>
-                                <div className="text-sm text-gray-500">
-                                  {video.genre ? `${video.genre} • ` : ""}
-                                  Duration:{" "}
-                                  {video.duration
-                                    ? `${Math.floor(
-                                        video.duration / 60
-                                      )}:${String(video.duration % 60).padStart(
-                                        2,
-                                        "0"
-                                      )}`
-                                    : "Unknown"}
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">
-                              {video.artists.length > 0
-                                ? video.artists
-                                    .map(
-                                      (artistRel) =>
-                                        artistRel.artist.stageName ||
-                                        artistRel.artist.name
-                                    )
-                                    .join(", ")
-                                : "No Artist"}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">
-                              {video.song?.title || (
-                                <span className="text-gray-400 italic">
-                                  No Song
-                                </span>
-                              )}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">
-                              {video.views.toLocaleString()}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <span
-                              className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                                video.isPublished
-                                  ? "bg-green-100 text-green-800"
-                                  : "bg-yellow-100 text-yellow-800"
-                              }`}
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {video.artists.length > 0
+                              ? video.artists
+                                  .map(
+                                    (artistRel) =>
+                                      artistRel.artist.stageName ||
+                                      artistRel.artist.name
+                                  )
+                                  .join(", ")
+                              : "No Artist"}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {video.song?.title || (
+                              <span className="text-gray-400 italic">
+                                No Song
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {video.views.toLocaleString()}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span
+                            className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                              video.isPublished
+                                ? "bg-green-100 text-green-800"
+                                : "bg-yellow-100 text-yellow-800"
+                            }`}
+                          >
+                            {video.isPublished ? "Published" : "Draft"}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {new Date(video.createdAt).toLocaleDateString()}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <div className="flex items-center justify-end space-x-2">
+                            {/* View Button */}
+                            <a
+                              href={video.videoUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:text-blue-900 inline-flex items-center px-2 py-1 text-xs rounded transition-colors"
+                              title="View Video"
                             >
-                              {video.isPublished ? "Published" : "Draft"}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {new Date(video.createdAt).toLocaleDateString()}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <div className="flex items-center justify-end space-x-2">
-                              {/* View Button */}
-                              <a
-                                href={video.videoUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-600 hover:text-blue-900 inline-flex items-center px-2 py-1 text-xs rounded transition-colors"
-                                title="View Video"
+                              <svg
+                                className="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
                               >
-                                <svg
-                                  className="w-4 h-4"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                  />
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                  />
-                                </svg>
-                              </a>
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                />
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                />
+                              </svg>
+                            </a>
 
-                              {/* Edit Button */}
-                              <Link
-                                to={`/dashboard/video/${video.id}`}
-                                className="text-indigo-600 hover:text-indigo-900 inline-flex items-center px-2 py-1 text-xs rounded transition-colors"
-                                title="Edit Video"
+                            {/* Edit Button */}
+                            <Link
+                              to={`/dashboard/video/${video.id}`}
+                              className="text-indigo-600 hover:text-indigo-900 inline-flex items-center px-2 py-1 text-xs rounded transition-colors"
+                              title="Edit Video"
+                            >
+                              <svg
+                                className="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
                               >
-                                <svg
-                                  className="w-4 h-4"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                                  />
-                                </svg>
-                              </Link>
-
-                              {/* Toggle Publish Button */}
-                              <Form method="post" className="inline">
-                                <input
-                                  type="hidden"
-                                  name="videoId"
-                                  value={video.id}
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                                 />
-                                <input
-                                  type="hidden"
-                                  name="intent"
-                                  value="toggle-publish"
-                                />
-                                <button
-                                  type="submit"
-                                  className={`inline-flex items-center px-2 py-1 text-xs rounded transition-colors ${
-                                    video.isPublished
-                                      ? "text-yellow-600 hover:text-yellow-900"
-                                      : "text-green-600 hover:text-green-900"
-                                  }`}
-                                  title={
-                                    video.isPublished ? "Unpublish" : "Publish"
-                                  }
-                                >
-                                  {video.isPublished ? (
-                                    <svg
-                                      className="w-4 h-4"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      viewBox="0 0 24 24"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
-                                      />
-                                    </svg>
-                                  ) : (
-                                    <svg
-                                      className="w-4 h-4"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      viewBox="0 0 24 24"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                      />
-                                    </svg>
-                                  )}
-                                </button>
-                              </Form>
+                              </svg>
+                            </Link>
 
-                              {/* Delete Button */}
-                              <Form
-                                method="post"
-                                className="inline"
-                                onSubmit={(e) => {
-                                  if (
-                                    !confirm(
-                                      `Are you sure you want to delete "${video.title}"? This action cannot be undone.`
-                                    )
-                                  ) {
-                                    e.preventDefault();
-                                  }
-                                }}
+                            {/* Toggle Publish Button */}
+                            <Form method="post" className="inline">
+                              <input
+                                type="hidden"
+                                name="videoId"
+                                value={video.id}
+                              />
+                              <input
+                                type="hidden"
+                                name="intent"
+                                value="toggle-publish"
+                              />
+                              <button
+                                type="submit"
+                                className={`inline-flex items-center px-2 py-1 text-xs rounded transition-colors ${
+                                  video.isPublished
+                                    ? "text-yellow-600 hover:text-yellow-900"
+                                    : "text-green-600 hover:text-green-900"
+                                }`}
+                                title={
+                                  video.isPublished ? "Unpublish" : "Publish"
+                                }
                               >
-                                <input
-                                  type="hidden"
-                                  name="videoId"
-                                  value={video.id}
-                                />
-                                <input
-                                  type="hidden"
-                                  name="intent"
-                                  value="delete"
-                                />
-                                <button
-                                  type="submit"
-                                  className="text-red-600 hover:text-red-900 inline-flex items-center px-2 py-1 text-xs rounded transition-colors"
-                                  title="Delete Video"
-                                >
+                                {video.isPublished ? (
                                   <svg
                                     className="w-4 h-4"
                                     fill="none"
@@ -927,55 +861,114 @@ export default function VideoDashboard() {
                                       strokeLinecap="round"
                                       strokeLinejoin="round"
                                       strokeWidth={2}
-                                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                      d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
                                     />
                                   </svg>
-                                </button>
-                              </Form>
-                            </div>
-                          </td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
+                                ) : (
+                                  <svg
+                                    className="w-4 h-4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                  </svg>
+                                )}
+                              </button>
+                            </Form>
+
+                            {/* Delete Button */}
+                            <Form
+                              method="post"
+                              className="inline"
+                              onSubmit={(e) => {
+                                if (
+                                  !confirm(
+                                    `Are you sure you want to delete "${video.title}"? This action cannot be undone.`
+                                  )
+                                ) {
+                                  e.preventDefault();
+                                }
+                              }}
+                            >
+                              <input
+                                type="hidden"
+                                name="videoId"
+                                value={video.id}
+                              />
+                              <input
+                                type="hidden"
+                                name="intent"
+                                value="delete"
+                              />
+                              <button
+                                type="submit"
+                                className="text-red-600 hover:text-red-900 inline-flex items-center px-2 py-1 text-xs rounded transition-colors"
+                                title="Delete Video"
+                              >
+                                <svg
+                                  className="w-4 h-4"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                  />
+                                </svg>
+                              </button>
+                            </Form>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Table Stats */}
+          {videos.length > 0 && (
+            <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
+              <div>
+                Showing {filteredVideos.length} of {videos.length} videos
+              </div>
+              <div className="flex items-center space-x-4">
+                <span>
+                  Published: {videos.filter((v) => v.isPublished).length}
+                </span>
+                <span>
+                  Draft: {videos.filter((v) => !v.isPublished).length}
+                </span>
               </div>
             </div>
+          )}
+        </main>
 
-            {/* Table Stats */}
-            {videos.length > 0 && (
-              <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
-                <div>
-                  Showing {filteredVideos.length} of {videos.length} videos
-                </div>
-                <div className="flex items-center space-x-4">
-                  <span>
-                    Published: {videos.filter((v) => v.isPublished).length}
-                  </span>
-                  <span>
-                    Draft: {videos.filter((v) => !v.isPublished).length}
-                  </span>
-                </div>
+        {/* Footer */}
+        <footer className="bg-white border-t mt-8">
+          <div className="px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="text-sm text-gray-500">
+                © 2024 Music Platform. All rights reserved.
               </div>
-            )}
-          </main>
-
-          {/* Footer */}
-          <footer className="bg-white border-t mt-8">
-            <div className="px-6 py-4">
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-500">
-                  © 2024 Music Platform. All rights reserved.
-                </div>
-                <div className="flex items-center space-x-4 text-sm text-gray-500">
-                  <span>Total Videos: {videos.length}</span>
-                  <span>•</span>
-                  <span>Admin: {user.username}</span>
-                </div>
+              <div className="flex items-center space-x-4 text-sm text-gray-500">
+                <span>Total Videos: {videos.length}</span>
+                <span>•</span>
+                <span>Admin: {user.username}</span>
               </div>
             </div>
-          </footer>
-        </div>
+          </div>
+        </footer>
       </div>
 
       {/* Upload Modal */}
@@ -1398,6 +1391,6 @@ export default function VideoDashboard() {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }

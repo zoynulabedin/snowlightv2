@@ -194,10 +194,7 @@ export default function VideoManagement() {
   );
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      {/* Sidebar */}
-      <DashboardSidebar user={user} />
-
+    <>
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
@@ -453,6 +450,6 @@ export default function VideoManagement() {
           )}
         </main>
       </div>
-    </div>
+    </>
   );
 }

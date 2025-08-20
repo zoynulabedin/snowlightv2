@@ -118,7 +118,7 @@ export default function Layout({ children }: LayoutProps) {
 
       {/* Main Content with Sidebar */}
       <div className=" w-full mx-auto  py-4 z-[9999]">
-        <div className="flex">
+        <div className="flex w-full">
           {/* Left Sidebar */}
           <div className="z-[9999] sticky top-[75px] h-[calc(100vh-75px)] border-r-2 border-r-gray-200 w-auto flex-shrink-0">
             <button
@@ -145,10 +145,14 @@ export default function Layout({ children }: LayoutProps) {
 
           {/* Main Content */}
           <main
-            style={{ minWidth: "1200px" }}
-            className="z-0 flex-1 min-w-0 shrink-0 "
+            className="z-0 flex-1 overflow-x-auto overflow-y-auto relative"
+            style={{
+              width: "100%",
+              height: "calc(100vh - 75px)",
+              maxHeight: "calc(100vh - 75px)",
+            }}
           >
-            {children}
+            <div className="w-full min-w-[1200px]">{children}</div>
             {/* Footer */}
             <footer className="bg-gray-100 border-t border-gray-200 mt-8">
               <div className="mx-auto px-4 py-8 w-full">

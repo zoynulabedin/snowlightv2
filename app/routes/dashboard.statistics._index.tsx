@@ -166,8 +166,7 @@ export default function Statistics() {
   };
 
   return (
-    <div className="min-h-screen flex bg-gray-50">
-      <DashboardSidebar user={user} />
+    <>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -539,6 +538,6 @@ export default function Statistics() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

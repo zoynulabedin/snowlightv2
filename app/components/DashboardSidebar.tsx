@@ -17,9 +17,13 @@ interface DashboardSidebarProps {
     avatar?: string | null;
     role: string;
   };
+  sidebarOpen?: boolean;
 }
 
-export default function DashboardSidebar({ user }: DashboardSidebarProps) {
+export default function DashboardSidebar({
+  user,
+  sidebarOpen,
+}: DashboardSidebarProps) {
   const location = useLocation();
 
   const menuItems = [
@@ -69,7 +73,11 @@ export default function DashboardSidebar({ user }: DashboardSidebarProps) {
   };
 
   return (
-    <div className="w-64 bg-white shadow-md flex flex-col">
+    <div
+      className={`w-64 bg-slate-200 shadow-md border-r-2 border-r-slate-200  flex min-h-screen max-h-screen flex-col ${
+        sidebarOpen ? "hidden" : "block"
+      }`}
+    >
       {/* Administrator Section */}
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center space-x-3">
@@ -123,7 +131,7 @@ export default function DashboardSidebar({ user }: DashboardSidebarProps) {
       </nav>
 
       {/* Settings at bottom */}
-      <div className="p-4 border-t border-gray-200">
+      <div className="p-4 mt-auto border-t border-gray-200">
         <Link
           to="/dashboard/settings"
           className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${

@@ -192,11 +192,7 @@ export default function AlbumManagement() {
   );
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      {/* Sidebar */}
-      <DashboardSidebar user={user} />
-
-      {/* Main Content Area */}
+    <>
       <div className="flex-1 flex flex-col">
         {/* Header */}
         <header className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
@@ -458,6 +454,6 @@ export default function AlbumManagement() {
           )}
         </main>
       </div>
-    </div>
+    </>
   );
 }

@@ -25,15 +25,34 @@ export interface UploadOptions {
   folder?: string;
   public_id?: string;
   tags?: string[];
-  transformation?: any;
+  transformation?: Record<string, unknown>;
 }
+
+// ...existing code...
 
 export async function uploadToCloudinary(
   file: File | Buffer | string,
   options: UploadOptions = { resource_type: "auto" }
 ): Promise<UploadResult> {
   try {
-    const result = await cloudinary.uploader.upload(file as string, {
+    let uploadData;
+
+    if (file instanceof File) {
+      // Convert File to Buffer and then to base64 data URI
+      const arrayBuffer = await file.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      const mimeType = file.type || "application/octet-stream";
+      uploadData = `data:${mimeType};base64,${buffer.toString("base64")}`;
+    } else if (Buffer.isBuffer(file)) {
+      // If it's a Buffer, convert to base64 data URI
+      uploadData = `data:application/octet-stream;base64,${file.toString(
+        "base64"
+      )}`;
+    } else {
+      uploadData = file;
+    }
+
+    const result = await cloudinary.uploader.upload(uploadData, {
       ...options,
       folder: options.folder || "Snowlight-music",
     });
@@ -54,6 +73,8 @@ export async function uploadToCloudinary(
     throw new Error("Failed to upload file to Cloudinary");
   }
 }
+
+// ...existing code...
 
 export async function deleteFromCloudinary(publicId: string): Promise<void> {
   try {
@@ -99,3 +120,29 @@ export function getVideoStreamUrl(
 }
 
 export default cloudinary;
+// Add this helper function to split Cloudinary URLs
+export function getPublicIdFromUrl(url: string): string | null {
+  try {
+    // Check if it's a Cloudinary URL
+    if (!url.includes("cloudinary.com")) {
+      return null;
+    }
+
+    // Extract the public ID from the URL
+    const urlParts = url.split("/");
+    const uploadIndex = urlParts.indexOf("upload");
+
+    if (uploadIndex === -1) return null;
+
+    // Join all parts after 'upload' except the version number (v1234567890)
+    const relevantParts = urlParts.slice(uploadIndex + 2);
+
+    // Remove file extension
+    const publicId = relevantParts.join("/").replace(/\.[^/.]+$/, "");
+
+    return publicId;
+  } catch (error) {
+    console.error("Error extracting public ID:", error);
+    return null;
+  }
+}

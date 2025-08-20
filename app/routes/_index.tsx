@@ -478,7 +478,7 @@ export default function HomePage() {
   };
   return (
     <Layout sidebarAlbums={data.sidebarAlbums as SidebarAlbum[]}>
-      <div className="space-y-8 w-full overflow-x-auto ">
+      <div className="space-y-8 w-full ">
         {/* Section 1: Hero - Latest Albums */}
         <section className="bg-slate-300 px-10 py-5 w-full">
           <div className="flex items-center justify-between mb-4 w-full px-10">
@@ -569,6 +569,13 @@ export default function HomePage() {
                       song ? (
                         <div
                           key={String(song.id)}
+                          style={{
+                            width: "calc((100% - 6rem) / 7)", // 7 items per row with gap
+                            maxWidth: "200px", // Maximum width
+                            minWidth: "150px", // Minimum width
+                            flex: "0 0 auto", // Prevent stretching
+                            height: "280px", // Fixed height
+                          }}
                           className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow group relative shrink-0 min-w-[150px] min-h-[250px] max-2xl:min-h-[250px]"
                         >
                           <div className="relative">
@@ -1036,6 +1043,13 @@ export default function HomePage() {
                     (video) =>
                       video && (
                         <div
+                          style={{
+                            width: "calc((100% - 6rem) / 7)", // 7 items per row with gap
+                            maxWidth: "200px", // Maximum width
+                            minWidth: "150px", // Minimum width
+                            flex: "0 0 auto", // Prevent stretching
+                            height: "280px", // Fixed height
+                          }}
                           key={video.id}
                           className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
                         >
@@ -1231,6 +1245,13 @@ export default function HomePage() {
                 (album) =>
                   album && (
                     <Link
+                      style={{
+                        width: "calc((100% - 6rem) / 7)", // 7 items per row with gap
+                        maxWidth: "200px", // Maximum width
+                        minWidth: "150px", // Minimum width
+                        flex: "0 0 auto", // Prevent stretching
+                        height: "280px", // Fixed height
+                      }}
                       to={`/album/${album?.id}`}
                       key={album.id}
                       className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
@@ -1238,10 +1259,10 @@ export default function HomePage() {
                       <img
                         src={album.imageUrl}
                         alt={album.title}
-                        className="w-full h-32 object-cover min-h-[150px] 2xl:min-h-[250px]"
+                        className="w-full h-32 object-cover min-h-[150px] 2xl:min-h-[150px]"
                       />
                       <div className="p-3">
-                        <h3 className="text-sm font-medium text-gray-900 mb-1">
+                        <h3 className="text-sm truncate font-medium text-gray-900 mb-1">
                           {album.title}
                         </h3>
                         <p className="text-xs text-gray-600 mb-2">

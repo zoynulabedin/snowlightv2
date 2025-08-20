@@ -480,8 +480,7 @@ export default function DashboardUsers() {
   };
 
   return (
-    <div className="min-h-screen flex bg-gray-50 w-full">
-      <DashboardSidebar user={user} />
+    <>
       {/* Header */}
       <div className="w-full">
         <div className="bg-white shadow-sm border-b">
@@ -1380,6 +1379,6 @@ export default function DashboardUsers() {
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 }
