@@ -81,8 +81,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
             ? song.artists[0].artist.name
             : "Unknown Artist",
         album: song.album?.title || "",
-        imageUrl:
-          song.coverImage || "https://via.placeholder.com/64x64?text=Song",
+        imageUrl: song.coverImage || "https://placehold.co/64x64?text=Song",
         duration: song.duration || 0,
       })),
       albums: albums.map((album) => ({
@@ -92,16 +91,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
           album.artists.length > 0
             ? album.artists[0].artist.name
             : "Unknown Artist",
-        imageUrl:
-          album.coverImage || "https://via.placeholder.com/64x64?text=Album",
+        imageUrl: album.coverImage || "https://placehold.co/64x64?text=Album",
         releaseDate: album.releaseDate || new Date(),
         songCount: Math.floor(Math.random() * 15) + 1,
       })),
       artists: artists.map((artist) => ({
         id: artist.id,
         name: artist.stageName || artist.name,
-        imageUrl:
-          artist.avatar || "https://via.placeholder.com/64x64?text=Artist",
+        imageUrl: artist.avatar || "https://placehold.co/64x64?text=Artist",
         followers: artist.followers,
       })),
       videos: videos.map((video) => ({
@@ -111,8 +108,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
           video.artists.length > 0
             ? video.artists[0].artist.name
             : "Unknown Artist",
-        imageUrl:
-          video.thumbnailUrl || "https://via.placeholder.com/64x64?text=Video",
+        imageUrl: video.thumbnailUrl || "https://placehold.co/64x64?text=Video",
         duration: video.duration || 0,
         views: video.views || 0,
       })),

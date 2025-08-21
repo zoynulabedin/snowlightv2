@@ -80,7 +80,7 @@ interface TrackWithCover {
 interface Video {
   id: string;
   title: string;
-  url: string;
+  videoUrl: string;
   thumbnail: string;
   thumbnailUrl?: string;
   duration?: number;
@@ -141,6 +141,8 @@ import { validateSession } from "../lib/auth";
 import MenuDropdown from "../components/MenuDropdown";
 import VideoMenuDropdown from "../components/VideoMenuDropdown";
 import { downloadMedia } from "../lib/utils";
+import GridSwiperSlider from "../components/GridSwiperSlider";
+import { SwiperSlide } from "swiper/react";
 
 export async function loader({ request }: { request: Request }) {
   try {
@@ -167,12 +169,12 @@ export async function loader({ request }: { request: Request }) {
       favorites,
       playlists,
     ] = await Promise.all([
-      getLatestAlbums(8),
-      getChartSongs(20),
-      getLatestVideos(6),
-      getFeaturedArtists(6),
-      getFeaturedSongs(8),
-      getSidebarAlbums(15),
+      getLatestAlbums(),
+      getChartSongs(),
+      getLatestVideos(),
+      getFeaturedArtists(),
+      getFeaturedSongs(),
+      getSidebarAlbums(),
       findPlaylistItemsByUserId(user?.id ?? ""),
       findFavoritesByUserId(user?.id ?? ""),
       getAllPlaylistItems(),
@@ -296,7 +298,6 @@ export default function HomePage() {
 
   const fetcher = useFetcher();
   const userId = data.user?.id || "";
-
   const [loadingSongId, setLoadingSongId] = useState<string | number | null>(
     null
   );
@@ -306,6 +307,7 @@ export default function HomePage() {
 
   // Add modal state for audio/video preview
   const [previewVideo, setPreviewVideo] = useState<Video | null>(null);
+
   // Helper: check if song is in playlist or favorites
   const isSongInPlaylist = (songId: string | number) => {
     // data.playlistItems is an array of playlist items, each with a .song property
@@ -394,30 +396,6 @@ export default function HomePage() {
   );
 
   // 앨범 슬라이더 상태
-  const [albumPage, setAlbumPage] = useState(0);
-  const albumsPerPage = 14; // Show 14 albums per page (7 columns x 2 rows)
-  const totalAlbumPages = Math.ceil(filteredAlbums.length / albumsPerPage);
-
-  // 슬라이드 애니메이션 상태
-  const [isSliding, setIsSliding] = useState(false);
-  const [slideDirection, setSlideDirection] = useState<"left" | "right" | null>(
-    null
-  );
-
-  const handleAlbumNav = (dir: "left" | "right") => {
-    if (isSliding) return;
-    setSlideDirection(dir);
-    setIsSliding(true);
-    setTimeout(() => {
-      setAlbumPage((p) => {
-        if (dir === "left") return Math.max(0, p - 1);
-        return Math.min(totalAlbumPages - 1, p + 1);
-      });
-      setIsSliding(false);
-      setSlideDirection(null);
-    }, 350); // duration matches transition
-  };
-
   // 노래 차트 필터 (노래 차트 탭)
   const [chartTab, setChartTab] = useState<"전체" | "국내" | "해외">("전체");
   const filteredChartSongs = chartSongs.filter(
@@ -428,32 +406,6 @@ export default function HomePage() {
         (chartTab === "해외" && song.album?.isKorean === false))
   );
 
-  // Video slider state
-  const [videoPage, setVideoPage] = useState(0);
-  const videosPerPage = 3; // Show 3 videos per page
-  const totalVideoPages = Math.ceil(latestVideos.length / videosPerPage);
-  const pagedVideos = latestVideos.slice(
-    videoPage * videosPerPage,
-    videoPage * videosPerPage + videosPerPage
-  );
-  const [isVideoSliding, setIsVideoSliding] = useState(false);
-  const [videoSlideDirection, setVideoSlideDirection] = useState<
-    "left" | "right" | null
-  >(null);
-
-  const handleVideoNav = (dir: "left" | "right") => {
-    if (isVideoSliding) return;
-    setVideoSlideDirection(dir);
-    setIsVideoSliding(true);
-    setTimeout(() => {
-      setVideoPage((p) => {
-        if (dir === "left") return Math.max(0, p - 1);
-        return Math.min(totalVideoPages - 1, p + 1);
-      });
-      setIsVideoSliding(false);
-      setVideoSlideDirection(null);
-    }, 350); // duration matches transition
-  };
   useEffect(() => {
     if (Array.isArray(data.playlists)) {
       data.playlists.forEach((item: any) => {
@@ -480,7 +432,7 @@ export default function HomePage() {
     <Layout sidebarAlbums={data.sidebarAlbums as SidebarAlbum[]}>
       <div className="space-y-8 w-full ">
         {/* Section 1: Hero - Latest Albums */}
-        <section className="bg-slate-300 px-10 py-5 w-full">
+        <section className="bg-slate-300 max-sm:px-5 px-10 py-5 w-full">
           <div className="flex items-center justify-between mb-4 w-full px-10">
             <div className="flex items-center justify-start gap-10">
               <h2 className="text-lg font-bold text-gray-900">최신 노래</h2>
@@ -509,139 +461,74 @@ export default function HomePage() {
           </div>
           {filteredChartSongs.length > 0 ? (
             <div className="relative">
-              {/* Slider Controls */}
-              <button
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-slate-500 bg-opacity-50 rounded-md  text-white py-6 shadow hover:bg-opacity-100 transition disabled:opacity-40 cursor-pointer"
-                onClick={() => handleAlbumNav("left")}
-                disabled={albumPage === 0 || isSliding}
-                aria-label="이전 곡"
-                style={{ left: "-2rem" }}
-              >
-                <svg
-                  width="24"
-                  height="24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-chevron-left"
-                >
-                  <polyline points="15 18 9 12 15 6" />
-                </svg>
-              </button>
-              <button
-                className="absolute cursor-pointer right-0 top-1/2 -translate-y-1/2 z-10 bg-slate-500 bg-opacity-50 rounded-md  text-white py-6 shadow hover:bg-opacity-100 transition disabled:opacity-40"
-                onClick={() => handleAlbumNav("right")}
-                disabled={albumPage >= totalAlbumPages - 1 || isSliding}
-                aria-label="다음 곡"
-                style={{ right: "-2rem" }}
-              >
-                <svg
-                  width="24"
-                  height="24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-chevron-right"
-                >
-                  <polyline points="9 18 15 12 9 6" />
-                </svg>
-              </button>
-              <div className={` relative h-auto shrink-0`}>
-                <div
-                  className={`flex flex-wrap gap-4  transition-transform duration-350 ease-in-out ${
-                    isSliding && slideDirection === "left"
-                      ? "-translate-x-16 opacity-60"
-                      : isSliding && slideDirection === "right"
-                      ? "translate-x-16 opacity-60"
-                      : "translate-x-0 opacity-100"
-                  }`}
-                >
-                  {filteredChartSongs
-                    .slice(
-                      albumPage * albumsPerPage,
-                      albumPage * albumsPerPage + albumsPerPage
-                    )
-                    .map((song) =>
-                      song ? (
-                        <div
-                          key={String(song.id)}
-                          style={{
-                            width: "calc((100% - 6rem) / 7)", // 7 items per row with gap
-                            maxWidth: "200px", // Maximum width
-                            minWidth: "150px", // Minimum width
-                            flex: "0 0 auto", // Prevent stretching
-                            height: "280px", // Fixed height
-                          }}
-                          className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow group relative shrink-0 min-w-[150px] min-h-[250px] max-2xl:min-h-[250px]"
-                        >
-                          <div className="relative">
-                            <img
-                              src={
-                                song.coverImage ||
-                                song.album?.coverImage ||
-                                "https://placehold.co/600x400"
-                              }
-                              alt={song.title}
-                              className="w-full min-h-[200px] h-40 object-cover  max-2xl:min-h-[250px]"
-                              loading="lazy"
-                            />
-                            {/* Song details on hover */}
-                            <div className="absolute inset-0 bg-black bg-opacity-80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col justify-center items-center p-4 text-white">
-                              <button
-                                onClick={() => handlePreview(song)}
-                                className="w-12 h-12 bg-white bg-opacity-90 rounded-full flex items-center justify-center hover:bg-opacity-100 transition-all duration-200 mb-2"
-                              >
-                                <Play className="w-6 h-6 text-gray-800 ml-1" />
-                              </button>
-                              <p className="text-xs text-center line-clamp-3 mt-2">
-                                {song.title}
-                              </p>
-                              <p className="text-xs mt-1">{song.artist}</p>
-                            </div>
-                          </div>
-                          <div className="p-3 flex justify-between items-start">
-                            <div>
-                              <Link
-                                to={`/song/${song.id}`}
-                                className="text-sm font-medium text-gray-900 hover:text-pink-600 w-32 hover:underline truncate block"
-                              >
-                                {song.title}
-                              </Link>
-                              <p className="text-xs text-gray-600 truncate">
-                                {song.artist}
-                              </p>
-                              <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
-                                <span>{song.album?.title || ""}</span>
+              <div className={` relative h-auto w-full`}>
+                <GridSwiperSlider>
+                  {filteredChartSongs.map(
+                    (song) =>
+                      song && (
+                        <SwiperSlide key={song.id}>
+                          <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow group relative  min-w-[150px] min-h-[250px] max-2xl:min-h-[250px]">
+                            <div className="relative">
+                              <div className=" aspect-[4/3] relative w-full overflow-hidden">
+                                <img
+                                  src={
+                                    song.coverImage ||
+                                    song.album?.coverImage ||
+                                    "https://placehold.co/600x400"
+                                  }
+                                  alt={song.title}
+                                  className={`w-full h-full object-cover transition-all duration-300 `}
+                                  loading="lazy"
+                                />
+                              </div>
+                              {/* Song details on hover */}
+                              <div className="absolute inset-0 bg-black bg-opacity-80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col justify-center items-center p-4 text-white">
+                                <button
+                                  onClick={() => handlePreview(song)}
+                                  className="w-12 h-12 bg-white bg-opacity-90 rounded-full flex items-center justify-center hover:bg-opacity-100 transition-all duration-200 mb-2"
+                                >
+                                  <Play className="w-6 h-6 text-gray-800 ml-1" />
+                                </button>
+                                <p className="text-xs text-center line-clamp-3 mt-2">
+                                  {song.title}
+                                </p>
+                                <p className="text-xs mt-1">{song.artist}</p>
                               </div>
                             </div>
+                            <div className="p-3 flex justify-between items-start">
+                              <div>
+                                <Link
+                                  to={`/song/${song.id}`}
+                                  className="text-sm font-medium text-gray-900 hover:text-pink-600 w-32 hover:underline truncate block"
+                                >
+                                  {song.title}
+                                </Link>
+                                <p className="text-xs text-gray-600 truncate">
+                                  {song.artist}
+                                </p>
+                                <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
+                                  <span>{song.album?.title || ""}</span>
+                                </div>
+                              </div>
 
-                            <div className="z-10">
-                              <MenuDropdown
-                                song={song}
-                                isFavorite={isSongFavorite(song.id)}
-                                isPlaylist={isSongInPlaylist(song.id)}
-                                loadingSongId={loadingSongId}
-                                loadingType={loadingType}
-                                onToggleFavorite={handleToggleFavorite}
-                                onDownload={handleDownload}
-                                onMore={handleMore}
-                              />
+                              <div className="z-10">
+                                <MenuDropdown
+                                  song={song}
+                                  isFavorite={isSongFavorite(song.id)}
+                                  isPlaylist={isSongInPlaylist(song.id)}
+                                  loadingSongId={loadingSongId}
+                                  loadingType={loadingType}
+                                  onToggleFavorite={handleToggleFavorite}
+                                  onDownload={handleDownload}
+                                  onMore={handleMore}
+                                />
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ) : null
-                    )}
-                </div>
-              </div>
-              {/* Page indicator (optional) */}
-              <div className="flex justify-center mt-2">
-                <span className="text-xs text-gray-500">
-                  {albumPage + 1} / {totalAlbumPages}
-                </span>
+                        </SwiperSlide>
+                      )
+                  )}
+                </GridSwiperSlider>
               </div>
             </div>
           ) : (
@@ -652,19 +539,22 @@ export default function HomePage() {
           )}
         </section>
         {/* Section 2: Chart */}
-        <section className="px-10 py-5 flex flex-shrink-0 min-w-0 md:min-w-[1200px] gap-5 w-full">
-          <div className="w-7/12 min-w-0 max-md:min-w-[1200px]">
+        <section className="px-10 max-sm:px-5 max-sm:min-w-full py-5 flex max-sm:flex-col  gap-5 w-full">
+          <div
+            className="w-7/12 max-sm:w-full  
+overflow-x-auto"
+          >
             <div className="flex items-center justify-between mb-4 border-b-2 border-b-slate-700 py-1">
               <h2 className="text-lg font-bold text-gray-900">노래 차트</h2>
               <Link className="flex items-center gap-1" to="/snowlight-songs">
-                More <ChevronRight className="w-3 h-3" />
+                더보기 <ChevronRight className="w-3 h-3" />
               </Link>
             </div>
 
             <div className="bg-white border border-gray-200 rounded-lg">
               {/* Header row */}
 
-              <ul className="divide-y divide-gray-200">
+              <ul className="divide-y divide-gray-200 min-w-min shrink-0">
                 {filteredChartSongs.filter(Boolean).map((song, idx) =>
                   song ? (
                     <li
@@ -682,7 +572,7 @@ export default function HomePage() {
                             "https://placehold.co/50x50"
                           }
                           alt={song.title}
-                          className="w-10 h-10 hidden group-hover:block transition-all duration-300 ease-in-out rounded object-cover"
+                          className="w-10 h-10 shrink-0 hidden group-hover:block transition-all duration-300 ease-in-out rounded object-cover"
                         />
                         <div className="truncate whitespace-pre-wrap">
                           <Link
@@ -852,7 +742,7 @@ export default function HomePage() {
               <div className="bg-gray-50 px-4 py-3 border-t border-gray-200">
                 <div className="flex items-center space-x-4">
                   <button
-                    className="bg-green-500 text-white text-sm py-2 px-4 rounded hover:bg-green-600 transition-colors flex items-center gap-1"
+                    className="bg-green-500 text-white text-sm py-2 px-4 rounded hover:bg-green-600 transition-colors flex items-center gap-1 shrink-0"
                     onClick={() => {
                       // 전체 재생: play all filtered chart songs not already in playlist
                       const notInPlaylist = filteredChartSongs.filter(
@@ -878,7 +768,7 @@ export default function HomePage() {
                     전체 재생
                   </button>
                   <button
-                    className="bg-gray-200 text-gray-700 text-sm py-2 px-4 rounded hover:bg-gray-300 transition-colors flex items-center gap-1"
+                    className="bg-gray-200 text-gray-700 text-sm py-2 px-4 rounded hover:bg-gray-300 transition-colors flex items-center gap-1 shrink-0"
                     onClick={() => {
                       // 전체 플레이리스트에 추가 (skip songs already in playlist)
                       filteredChartSongs.forEach((song) => {
@@ -892,7 +782,7 @@ export default function HomePage() {
                     전체 플레이리스트에 추가
                   </button>
                   <button
-                    className="bg-gray-200 text-gray-700 text-sm py-2 px-4 rounded hover:bg-gray-300 transition-colors flex items-center gap-1"
+                    className="bg-gray-200 text-gray-700 text-sm py-2 px-4 rounded hover:bg-gray-300 transition-colors flex items-center gap-1 shrink-0"
                     onClick={() => {
                       // 전체 다운로드
                       filteredChartSongs.forEach((song) => {
@@ -909,25 +799,28 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-          <div className="w-5/12">
+          <div
+            className="w-5/12 max-sm:w-full
+overflow-x-auto "
+          >
             <div className="flex items-center justify-between mb-4 border-b-2 border-b-slate-700 py-1">
               <h2 className="text-lg font-bold text-gray-900">
-                Popular Music PD Albums
+                인기 뮤직PD 앨범
               </h2>
               <Link className="flex items-center gap-1" to="/pb-album">
-                More <ChevronRight className="w-3 h-3" />
+                더보기 <ChevronRight className="w-3 h-3" />
               </Link>
             </div>
 
-            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-              <ul className="divide-y divide-gray-200">
+            <div className="bg-white border border-gray-200 rounded-lg ">
+              <ul className="divide-y divide-gray-200 ">
                 {filteredChartSongs.filter(Boolean).map((song, idx) =>
                   song ? (
                     <li
                       key={song.id || idx}
                       className="flex items-center py-4 hover:bg-gray-50"
                     >
-                      <div className="flex-shrink-0 ml-4">
+                      <div className="flex- ml-4">
                         <img
                           src={
                             song.coverImage ||
@@ -972,7 +865,7 @@ export default function HomePage() {
           </div>
         </section>
         {/* Section 3: Latest Videos */}
-        <section className="bg-slate-200 px-10 py-5 w-full">
+        <section className="bg-slate-200 px-10 max-sm:px-5 py-5 w-full">
           <div className="flex items-center justify-between mb-4 w-full px-10">
             <h2 className="text-lg font-bold text-gray-900">최신 영상</h2>
             <Link
@@ -985,134 +878,79 @@ export default function HomePage() {
 
           {latestVideos.length > 0 ? (
             <div className="relative">
-              {/* Slider Controls */}
-              <button
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-slate-400 text-white cursor-pointer bg-opacity-80 rounded-md py-6 shadow hover:bg-opacity-100 transition disabled:opacity-40"
-                onClick={() => handleVideoNav("left")}
-                disabled={videoPage === 0 || isVideoSliding}
-                aria-label="이전 영상"
-                style={{ left: "-2rem" }}
-              >
-                <svg
-                  width="24"
-                  height="24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-chevron-left"
-                >
-                  <polyline points="15 18 9 12 15 6" />
-                </svg>
-              </button>
-              <button
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-slate-400 text-white cursor-pointer bg-opacity-80 rounded-md py-6 shadow hover:bg-opacity-100 transition disabled:opacity-40"
-                onClick={() => handleVideoNav("right")}
-                disabled={videoPage >= totalVideoPages - 1 || isVideoSliding}
-                aria-label="다음 영상"
-                style={{ right: "-2rem" }}
-              >
-                <svg
-                  width="24"
-                  height="24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-chevron-right"
-                >
-                  <polyline points="9 18 15 12 9 6" />
-                </svg>
-              </button>
               <div
-                className={`overflow-hidden relative h-auto shrink-0`}
+                className={`overflow-hidden relative h-auto `}
                 style={{ minHeight: "220px" }}
               >
                 <div
-                  className={`flex flex-wrap gap-4 transition-transform duration-350 e duration-350 ease-in-out ${
-                    isVideoSliding && videoSlideDirection === "left"
-                      ? "-translate-x-16 opacity-60"
-                      : isVideoSliding && videoSlideDirection === "right"
-                      ? "translate-x-16 opacity-60"
-                      : "translate-x-0 opacity-100"
-                  }`}
+                  className={`flex flex-wrap gap-4 transition-transform duration-350 e duration-350 ease-in-out`}
                 >
-                  {pagedVideos.filter(Boolean).map(
-                    (video) =>
-                      video && (
-                        <div
-                          style={{
-                            width: "calc((100% - 6rem) / 7)", // 7 items per row with gap
-                            maxWidth: "200px", // Maximum width
-                            minWidth: "150px", // Minimum width
-                            flex: "0 0 auto", // Prevent stretching
-                            height: "280px", // Fixed height
-                          }}
-                          key={video.id}
-                          className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
-                        >
-                          <div className="relative">
-                            <img
-                              src={
-                                video.thumbnailUrl ||
-                                "https://placehold.co/200x120"
-                              }
-                              alt={video.title}
-                              className="w-full h-32 object-cover min-h-[200px] max-2xl:min-h-[250px]"
-                            />
-                            <div className="absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">
-                              {video.duration}
-                            </div>
-                            <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                              <button
-                                className="w-12 h-12 bg-white bg-opacity-90 rounded-full flex items-center justify-center hover:bg-opacity-100 transition-all duration-200"
-                                onClick={() => setPreviewVideo(video)}
-                                title="비디오 미리보기"
-                              >
-                                <Play className="w-6 h-6 text-gray-800 ml-1" />
-                              </button>
-                            </div>
-                          </div>
-                          <div className="p-3">
-                            <h3 className="text-sm font-medium text-gray-900 truncate">
-                              영상 제목
-                            </h3>
-                            <p className="text-xs text-gray-600 truncate">
-                              아티스트명
-                            </p>
-                            <div className="flex items-center justify-between mt-2">
-                              <span className="text-xs text-gray-500">
-                                조회수{" "}
-                                {typeof video.views === "number"
-                                  ? video.views.toLocaleString()
-                                  : "0"}
-                              </span>
-                              <button className="text-gray-400 hover:text-gray-600">
-                                <VideoMenuDropdown
-                                  video={video}
-                                  isFavorite={false}
-                                  loadingSongId={loadingSongId}
-                                  loadingType={loadingType}
-                                  onToggleFavorite={() => {}}
-                                  onDownload={() => {}}
-                                  onMore={() => {}}
+                  <GridSwiperSlider>
+                    {latestVideos?.filter(Boolean).map(
+                      (video) =>
+                        video.videoUrl && (
+                          <SwiperSlide key={video.id}>
+                            <div
+                              key={video.id}
+                              className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+                            >
+                              <div className="relative">
+                                <img
+                                  src={
+                                    video.thumbnailUrl ||
+                                    "https://placehold.co/200x120"
+                                  }
+                                  alt={video.title}
+                                  className="w-full h-32 object-cover min-h-[200px] max-2xl:min-h-[250px]"
                                 />
-                              </button>
+                                <div className="absolute bottom-2 right-2 bg-black bg-opacity-75 text-white text-xs px-2 py-1 rounded">
+                                  {video.duration}
+                                </div>
+                                <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                                  <button
+                                    className="w-12 h-12 bg-white bg-opacity-90 rounded-full flex items-center justify-center hover:bg-opacity-100 transition-all duration-200"
+                                    onClick={() => setPreviewVideo(video)}
+                                    title="비디오 미리보기"
+                                  >
+                                    <Play className="w-6 h-6 text-gray-800 ml-1" />
+                                  </button>
+                                </div>
+                              </div>
+                              <div className="p-3">
+                                <h3 className="text-sm font-medium text-gray-900 truncate">
+                                  영상 제목
+                                </h3>
+                                <p className="text-xs text-gray-600 truncate">
+                                  아티스트명
+                                </p>
+                                <div className="flex items-center justify-between mt-2">
+                                  <span className="text-xs text-gray-500">
+                                    조회수{" "}
+                                    {typeof video.views === "number"
+                                      ? video.views.toLocaleString()
+                                      : "0"}
+                                  </span>
+                                  <button className="text-gray-400 hover:text-gray-600">
+                                    <VideoMenuDropdown
+                                      video={video}
+                                      isFavorite={false}
+                                      loadingSongId={loadingSongId}
+                                      loadingType={loadingType}
+                                      onToggleFavorite={() => {}}
+                                      onDownload={() => {}}
+                                      onMore={() => {}}
+                                    />
+                                  </button>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                      )
-                  )}
+                          </SwiperSlide>
+                        )
+                    )}
+                  </GridSwiperSlider>
                 </div>
               </div>
               {/* Page indicator (optional) */}
-              <div className="flex justify-center mt-2">
-                <span className="text-xs text-gray-500">
-                  {videoPage + 1} / {totalVideoPages}
-                </span>
-              </div>
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-10 text-gray-500">
@@ -1122,7 +960,7 @@ export default function HomePage() {
           )}
         </section>
         {/* Section 4: Music Posts */}
-        <section className="px-10 py-5 w-full">
+        <section className="px-10 max-sm:px-5 py-5 w-full">
           <div className="flex items-center justify-between mb-4 w-full px-10">
             <h2 className="text-lg font-bold text-gray-900">뮤직포스트</h2>
             <Link
@@ -1133,50 +971,54 @@ export default function HomePage() {
             </Link>
           </div>
           {musicPosts?.length > 0 ? (
-            <div className="space-y-4">
-              {musicPosts?.filter(Boolean).map(
-                (post) =>
-                  post && (
-                    <div
-                      key={post.id}
-                      className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow"
-                    >
-                      <h3 className="text-sm font-medium text-gray-900 mb-2">
-                        {post.title}
-                      </h3>
-                      <p className="text-sm text-gray-600 mb-3">
-                        {post.content}
-                      </p>
-                      <div className="flex items-center justify-between text-xs text-gray-500">
-                        <div className="flex items-center space-x-4">
-                          <span>{post.author}</span>
-                          <span>{post.timestamp}</span>
+            <GridSwiperSlider>
+              <div className="space-y-4">
+                {musicPosts?.filter(Boolean).map(
+                  (post) =>
+                    post && (
+                      <SwiperSlide key={post.id}>
+                        <div
+                          key={post.id}
+                          className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow"
+                        >
+                          <h3 className="text-sm font-medium text-gray-900 mb-2">
+                            {post.title}
+                          </h3>
+                          <p className="text-sm text-gray-600 mb-3">
+                            {post.content}
+                          </p>
+                          <div className="flex items-center justify-between text-xs text-gray-500">
+                            <div className="flex items-center space-x-4">
+                              <span>{post.author}</span>
+                              <span>{post.timestamp}</span>
+                            </div>
+                            <div className="flex items-center space-x-4">
+                              <div className="flex items-center space-x-1">
+                                <Heart className="w-3 h-3" />
+                                <span>{post.likes}</span>
+                              </div>
+                              <div className="flex items-center space-x-1">
+                                <MessageCircle className="w-3 h-3" />
+                                <span>{post.comments}</span>
+                              </div>
+                              <div className="flex items-center space-x-1">
+                                <Eye className="w-3 h-3" />
+                                <span>{post.views}</span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div className="flex items-center space-x-4">
-                          <div className="flex items-center space-x-1">
-                            <Heart className="w-3 h-3" />
-                            <span>{post.likes}</span>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            <MessageCircle className="w-3 h-3" />
-                            <span>{post.comments}</span>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            <Eye className="w-3 h-3" />
-                            <span>{post.views}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )
-              )}
-            </div>
+                      </SwiperSlide>
+                    )
+                )}
+              </div>
+            </GridSwiperSlider>
           ) : (
-            <p>No Post</p>
+            <p className="w-full text-center">게시물이 없습니다</p>
           )}
         </section>
         {/* Section 5: Artist Connect Stories */}
-        <section className="bg-slate-200 px-10 py-5 w-full">
+        <section className="bg-slate-200 px-10 max-sm:px-5 py-5 w-full">
           <div className="flex items-center justify-between mb-4 w-full px-10">
             <h2 className="text-lg font-bold text-gray-900">
               아티스트가 쓴 커넥트 스토리
@@ -1189,45 +1031,52 @@ export default function HomePage() {
             </Link>
           </div>
           {artistStories?.length > 0 ? (
-            <div className="grid grid-cols-2 gap-4">
-              {artistStories.filter(Boolean).map(
-                (story) =>
-                  story && (
-                    <div
-                      key={story.id}
-                      className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow"
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="text-sm font-medium text-gray-900">
-                          {story.artist}
-                        </h3>
-                        <span className="text-xs text-gray-500">
-                          {story.timestamp}
-                        </span>
-                      </div>
-                      <p className="text-sm text-gray-600 mb-3">
-                        {story.content}
-                      </p>
-                      <div className="flex items-center space-x-4 text-xs text-gray-500">
-                        <div className="flex items-center space-x-1">
-                          <MessageCircle className="w-3 h-3" />
-                          <span>{story.comments}</span>
+            <GridSwiperSlider>
+              <div className="grid grid-cols-2 gap-4">
+                {artistStories.filter(Boolean).map(
+                  (story) =>
+                    story && (
+                      <SwiperSlide key={story.id}>
+                        <div
+                          key={story.id}
+                          className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow"
+                        >
+                          <div className="flex items-center justify-between mb-2">
+                            <h3 className="text-sm font-medium text-gray-900">
+                              {story.artist}
+                            </h3>
+                            <span className="text-xs text-gray-500">
+                              {story.timestamp}
+                            </span>
+                          </div>
+                          <p className="text-sm text-gray-600 mb-3">
+                            {story.content}
+                          </p>
+                          <div className="flex items-center space-x-4 text-xs text-gray-500">
+                            <div className="flex items-center space-x-1">
+                              <MessageCircle className="w-3 h-3" />
+                              <span>{story.comments}</span>
+                            </div>
+                            <div className="flex items-center space-x-1">
+                              <Eye className="w-3 h-3" />
+                              <span>{story.views}</span>
+                            </div>
+                          </div>
                         </div>
-                        <div className="flex items-center space-x-1">
-                          <Eye className="w-3 h-3" />
-                          <span>{story.views}</span>
-                        </div>
-                      </div>
-                    </div>
-                  )
-              )}
-            </div>
+                      </SwiperSlide>
+                    )
+                )}
+              </div>
+            </GridSwiperSlider>
           ) : (
-            <p>No stroy</p>
+            <div className="flex flex-col items-center justify-center py-10 text-gray-500">
+              <p className="text-lg">스토리가 없습니다</p>
+              <p className="text-sm mt-2">아직 작성된 스토리가 없습니다</p>
+            </div>
           )}
         </section>
         {/* Section 6: PD Albums */}
-        <section className="px-10 py-5 w-full">
+        <section className="px-10 max-sm:px-5 py-5 w-full">
           <div className="flex items-center justify-between mb-4 w-full px-10">
             <h2 className="text-lg font-bold text-gray-900">
               테마별 음악은 뮤직PD 앨범
@@ -1240,49 +1089,48 @@ export default function HomePage() {
             </Link>
           </div>
           {pdAlbums?.length > 0 ? (
-            <div className="flex flex-wrap gap-4 ">
-              {pdAlbums.filter(Boolean).map(
-                (album) =>
-                  album && (
-                    <Link
-                      style={{
-                        width: "calc((100% - 6rem) / 7)", // 7 items per row with gap
-                        maxWidth: "200px", // Maximum width
-                        minWidth: "150px", // Minimum width
-                        flex: "0 0 auto", // Prevent stretching
-                        height: "280px", // Fixed height
-                      }}
-                      to={`/album/${album?.id}`}
-                      key={album.id}
-                      className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
-                    >
-                      <img
-                        src={album.imageUrl}
-                        alt={album.title}
-                        className="w-full h-32 object-cover min-h-[150px] 2xl:min-h-[150px]"
-                      />
-                      <div className="p-3">
-                        <h3 className="text-sm truncate font-medium text-gray-900 mb-1">
-                          {album.title}
-                        </h3>
-                        <p className="text-xs text-gray-600 mb-2">
-                          {album.description}
-                        </p>
-                        <div className="flex items-center justify-between text-xs text-gray-500">
-                          <span>{album.curator}</span>
-                          <span>{album.trackCount}곡</span>
-                        </div>
-                      </div>
-                    </Link>
-                  )
-              )}
-            </div>
+            <GridSwiperSlider>
+              <div className="flex flex-wrap gap-4 ">
+                {pdAlbums.filter(Boolean).map(
+                  (album) =>
+                    album && (
+                      <SwiperSlide key={album.id}>
+                        <Link
+                          to={`/album/${album?.id}`}
+                          key={album.id}
+                          className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+                        >
+                          <div className=" aspect-[4/3] relative w-full overflow-hidden">
+                            <img
+                              src={album.imageUrl}
+                              alt={album.title}
+                              className={`w-full h-full object-cover transition-all duration-300 `}
+                            />
+                          </div>
+                          <div className="p-3">
+                            <h3 className="text-sm truncate font-medium text-gray-900 mb-1">
+                              {album.title}
+                            </h3>
+                            <p className="text-xs text-gray-600 mb-2">
+                              {album.description}
+                            </p>
+                            <div className="flex items-center justify-between text-xs text-gray-500">
+                              <span>{album.curator}</span>
+                              <span>{album.trackCount}곡</span>
+                            </div>
+                          </div>
+                        </Link>
+                      </SwiperSlide>
+                    )
+                )}
+              </div>
+            </GridSwiperSlider>
           ) : (
             <p>No album</p>
           )}
         </section>
         {/* Section 7: Knowledge Content */}
-        <section className="bg-slate-200 px-10 py-5 w-full">
+        <section className="bg-slate-200 px-10 max-sm:px-5 py-5 w-full">
           <div className="flex items-center justify-between mb-4 w-full px-10">
             <h2 className="text-lg font-bold text-gray-900">
               음악, 아는만큼 들린다
@@ -1336,11 +1184,12 @@ export default function HomePage() {
             {(() => {
               return (
                 <VideoPlayer
-                  videoUrl={previewVideo?.url}
+                  videoUrl={previewVideo?.videoUrl || ""}
                   title={previewVideo.title || ""}
                   isVisible={!!previewVideo}
                   onClose={() => setPreviewVideo(null)}
                   autoPlay={true}
+                  duration={previewVideo.duration}
                 />
               );
             })()}

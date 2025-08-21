@@ -33,12 +33,11 @@ export async function getAllAlbums() {
 }
 
 // Get latest published and approved albums
-export async function getLatestAlbums(limit = 8) {
+export async function getLatestAlbums() {
   try {
     const albums = await prisma.album.findMany({
       where: { isPublished: true, isApproved: true },
       orderBy: { createdAt: "desc" },
-      take: limit,
       include: {
         artists: { include: { artist: true } },
         favorites: true,
@@ -84,9 +83,7 @@ export async function getLatestAlbums(limit = 8) {
           ? album.releaseDate.toISOString().split("T")[0]
           : "2025.08.08",
         albumType: album.type || "ALBUM",
-        imageUrl:
-          album.coverImage ||
-          `https://via.placeholder.com/150x150/ff6b6b/ffffff?text=${index + 1}`,
+        imageUrl: album.coverImage || `https://placehold.co/150x150`,
         rank: index + 1,
         isKorean: isKorean, // Determined by heuristic
         artists: album.artists,
@@ -105,12 +102,11 @@ export async function getLatestAlbums(limit = 8) {
 }
 
 // Get most played songs for chart
-export async function getChartSongs(limit = 20) {
+export async function getChartSongs() {
   try {
     return await prisma.song.findMany({
       where: { isPublished: true, isApproved: true },
       orderBy: { plays: "desc" },
-      take: limit,
       include: {
         artists: { include: { artist: true } },
         album: true,
@@ -128,14 +124,28 @@ export async function getChartSongs(limit = 20) {
 }
 
 // Get latest published and approved videos
-export async function getLatestVideos(limit = 6) {
+export async function getLatestVideos() {
   try {
     const videos = await prisma.video.findMany({
       where: { isPublished: true, isApproved: true },
       orderBy: { createdAt: "desc" },
-      take: limit,
-      include: {
-        artists: { include: { artist: true } },
+      select: {
+        id: true,
+        title: true,
+        duration: true,
+        thumbnailUrl: true,
+        videoUrl: true,
+        views: true,
+        likes: true,
+        isFeatured: true,
+        isPublished: true,
+        isApproved: true,
+        createdAt: true,
+        artists: {
+          include: {
+            artist: true,
+          },
+        },
         song: {
           include: {
             artists: { include: { artist: true } },
@@ -162,7 +172,7 @@ export async function getLatestVideos(limit = 6) {
             .padStart(2, "0")}`
         : "-",
       thumbnailUrl: video.thumbnailUrl,
-      videoUrl: video.videoUrl,
+      videoUrl: video.videoUrl, // Now this will be properly included
       views: video.views,
       likes: video.likes,
       isFeatured: video.isFeatured,
@@ -178,12 +188,11 @@ export async function getLatestVideos(limit = 6) {
   }
 }
 // Get verified artists
-export async function getFeaturedArtists(limit = 6) {
+export async function getFeaturedArtists() {
   try {
     const artists = await prisma.artist.findMany({
       where: { isVerified: true },
       orderBy: { createdAt: "desc" },
-      take: limit,
     });
 
     return artists.map((artist, index) => ({
@@ -203,14 +212,25 @@ export async function getFeaturedArtists(limit = 6) {
 }
 
 // Get featured songs for PD albums
-export async function getFeaturedSongs(limit = 8) {
+export async function getFeaturedSongs() {
   try {
     const songs = await prisma.song.findMany({
-      where: { isPublished: true, isApproved: true, isFeatured: true },
+      where: {
+        isPublished: true,
+        isApproved: true,
+        isFeatured: true,
+      },
       orderBy: { createdAt: "desc" },
-      take: limit,
-      include: {
-        artists: { include: { artist: true } },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        coverImage: true,
+        artists: {
+          include: {
+            artist: true,
+          },
+        },
         album: true,
         uploadedBy: true,
         videos: true,
@@ -220,14 +240,12 @@ export async function getFeaturedSongs(limit = 8) {
       },
     });
 
-    return songs.map((song, index) => ({
+    return songs.map((song) => ({
       id: song.id,
       title: song.title,
       description: song.description || "추천 음악",
       curator: "Music PD",
-      imageUrl:
-        song.coverImage ||
-        `https://via.placeholder.com/150x150/96ceb4/ffffff?text=PD${index + 1}`,
+      imageUrl: song.coverImage || "https://placehold.co/500x500/orange/white",
       trackCount: 1,
       artists: song.artists,
       albumData: song.album,
@@ -244,11 +262,10 @@ export async function getFeaturedSongs(limit = 8) {
 }
 
 // Get albums for sidebar
-export async function getSidebarAlbums(limit = 15) {
+export async function getSidebarAlbums() {
   try {
     const albums = await prisma.album.findMany({
       orderBy: { createdAt: "desc" },
-      take: limit,
       include: {
         artists: {
           include: { artist: { select: { name: true, stageName: true } } },

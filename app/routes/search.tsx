@@ -20,7 +20,7 @@ const mockTracks = [
     artist: "사우스 카니발(South Carnival)",
     album: "서우젯소리",
     duration: 272, // 4:32 in seconds
-    coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=1",
+    coverUrl: "https://placehold.co/60x60/ff1493/ffffff?text=1",
     isTitle: true,
     audioUrl: "https://example.com/audio/1.mp3",
   },
@@ -30,7 +30,7 @@ const mockTracks = [
     artist: "HUNTR/X",
     album: "KPop Demon Hunters",
     duration: 245, // 4:05 in seconds
-    coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=2",
+    coverUrl: "https://placehold.co/60x60/ff1493/ffffff?text=2",
     isTitle: false,
     audioUrl: "https://example.com/audio/2.mp3",
   },
@@ -40,7 +40,7 @@ const mockTracks = [
     artist: "Various Artists",
     album: "서울 컴필레이션",
     duration: 208, // 3:28 in seconds
-    coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=3",
+    coverUrl: "https://placehold.co/60x60/ff1493/ffffff?text=3",
     isTitle: false,
     audioUrl: "https://example.com/audio/3.mp3",
   },
@@ -68,7 +68,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         artist: "사우스 카니발(South Carnival)",
         album: "서우젯소리",
         duration: "4:32",
-        coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=1",
+        coverUrl: "https://placehold.co/60x60/ff1493/ffffff?text=1",
         isTitle: true,
       },
       {
@@ -77,7 +77,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         artist: "HUNTR/X",
         album: "KPop Demon Hunters",
         duration: "4:05",
-        coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=2",
+        coverUrl: "https://placehold.co/60x60/ff1493/ffffff?text=2",
         isTitle: false,
       },
       {
@@ -86,7 +86,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         artist: "Various Artists",
         album: "서울 컴필레이션",
         duration: "3:28",
-        coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=3",
+        coverUrl: "https://placehold.co/60x60/ff1493/ffffff?text=3",
         isTitle: false,
       },
     ],
@@ -94,16 +94,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
       {
         id: "1",
         name: "사우스 카니발(South Carnival)",
-        profileImage:
-          "https://via.placeholder.com/100x100/ff1493/ffffff?text=Artist1",
+        profileImage: "https://placehold.co/100x100/ff1493/ffffff?text=Artist1",
         genre: "인디록",
         followers: 15420,
       },
       {
         id: "2",
         name: "서태지",
-        profileImage:
-          "https://via.placeholder.com/100x100/ff1493/ffffff?text=Artist2",
+        profileImage: "https://placehold.co/100x100/ff1493/ffffff?text=Artist2",
         genre: "록",
         followers: 89234,
       },
@@ -115,8 +113,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         artist: "사우스 카니발(South Carnival)",
         releaseDate: "2025.08.08",
         type: "싱글",
-        coverUrl:
-          "https://via.placeholder.com/120x120/ff1493/ffffff?text=Album1",
+        coverUrl: "https://placehold.co/120x120/ff1493/ffffff?text=Album1",
       },
       {
         id: "2",
@@ -124,8 +121,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         artist: "City Lights",
         releaseDate: "2024.12.15",
         type: "정규",
-        coverUrl:
-          "https://via.placeholder.com/120x120/ff1493/ffffff?text=Album2",
+        coverUrl: "https://placehold.co/120x120/ff1493/ffffff?text=Album2",
       },
     ],
     videos: [
@@ -135,8 +131,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         artist: "사우스 카니발(South Carnival)",
         duration: "4:32",
         views: 2100000,
-        thumbnail:
-          "https://via.placeholder.com/160x90/ff1493/ffffff?text=Video1",
+        thumbnail: "https://placehold.co/160x90/ff1493/ffffff?text=Video1",
       },
     ],
   };

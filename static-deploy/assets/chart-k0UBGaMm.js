@@ -303,7 +303,7 @@ function D() {
                   e.jsx("div", {
                     className: "col-span-1 flex items-center",
                     children: e.jsx("img", {
-                      src: `https://via.placeholder.com/60x60/ff1493/ffffff?text=${s.rank}`,
+                      src: `https://placehold.co/60x60/ff1493/ffffff?text=${s.rank}`,
                       alt: s.title,
                       className: "w-12 h-12 rounded-md object-cover",
                     }),

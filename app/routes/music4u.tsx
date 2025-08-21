@@ -21,7 +21,7 @@ const mockTracks = [
     artist: "사우스 카니발(South Carnival)",
     album: "서우젯소리",
     duration: 272, // 4 minutes 32 seconds
-    coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=1",
+    coverUrl: "https://placehold.co/60x60/ff1493/ffffff?text=1",
     reason: "최근 들은 인디록 장르와 유사",
     audioUrl: "https://example.com/audio/1.mp3",
   },
@@ -31,7 +31,7 @@ const mockTracks = [
     artist: "HUNTR/X",
     album: "KPop Demon Hunters",
     duration: 245, // 4 minutes 5 seconds
-    coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=2",
+    coverUrl: "https://placehold.co/60x60/ff1493/ffffff?text=2",
     reason: "좋아요 표시한 아티스트의 신곡",
     audioUrl: "https://example.com/audio/2.mp3",
   },
@@ -41,7 +41,7 @@ const mockTracks = [
     artist: "HANZI(한지)",
     album: "Dream",
     duration: 208, // 3 minutes 28 seconds
-    coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=3",
+    coverUrl: "https://placehold.co/60x60/ff1493/ffffff?text=3",
     reason: "자주 듣는 시간대에 인기",
     audioUrl: "https://example.com/audio/3.mp3",
   },
@@ -69,7 +69,7 @@ export default function Music4U() {
       id: "1",
       title: "당신이 좋아할 만한 곡들",
       description: "최근 들은 음악을 바탕으로 추천",
-      coverUrl: "https://via.placeholder.com/200x200/ff1493/ffffff?text=Rec1",
+      coverUrl: "https://placehold.co/200x200/ff1493/ffffff?text=Rec1",
       trackCount: 25,
       playCount: 1250000,
     },
@@ -77,7 +77,7 @@ export default function Music4U() {
       id: "2",
       title: "비슷한 취향의 사용자들이 듣는 음악",
       description: "당신과 비슷한 음악 취향을 가진 사용자들의 선택",
-      coverUrl: "https://via.placeholder.com/200x200/ff1493/ffffff?text=Rec2",
+      coverUrl: "https://placehold.co/200x200/ff1493/ffffff?text=Rec2",
       trackCount: 30,
       playCount: 890000,
     },
@@ -85,7 +85,7 @@ export default function Music4U() {
       id: "3",
       title: "요즘 뜨는 신곡",
       description: "당신의 취향에 맞는 최신 트렌드 음악",
-      coverUrl: "https://via.placeholder.com/200x200/ff1493/ffffff?text=Rec3",
+      coverUrl: "https://placehold.co/200x200/ff1493/ffffff?text=Rec3",
       trackCount: 20,
       playCount: 2100000,
       reason: "자주 듣는 시간대에 인기",
@@ -99,7 +99,7 @@ export default function Music4U() {
       artist: "사우스 카니발(South Carnival)",
       album: "서우젯소리",
       duration: 272, // 4 minutes 32 seconds
-      coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=1",
+      coverUrl: "https://placehold.co/60x60/ff1493/ffffff?text=1",
       reason: "최근 들은 인디록 장르와 유사",
       audioUrl: "https://example.com/audio/1.mp3",
     },
@@ -109,7 +109,7 @@ export default function Music4U() {
       artist: "HUNTR/X",
       album: "KPop Demon Hunters",
       duration: 245, // 4 minutes 5 seconds
-      coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=2",
+      coverUrl: "https://placehold.co/60x60/ff1493/ffffff?text=2",
       reason: "좋아요 표시한 아티스트의 신곡",
       audioUrl: "https://example.com/audio/2.mp3",
     },
@@ -119,7 +119,7 @@ export default function Music4U() {
       artist: "HANZI(한지)",
       album: "Dream",
       duration: 208, // 3 minutes 28 seconds
-      coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=3",
+      coverUrl: "https://placehold.co/60x60/ff1493/ffffff?text=3",
       reason: "자주 듣는 시간대에 인기",
       audioUrl: "https://example.com/audio/3.mp3",
     },
@@ -259,7 +259,11 @@ export default function Music4U() {
                       </Link>
                       <span>•</span>
                       <span>
-                        {`${Math.floor(track.duration / 60)}:${(track.duration % 60).toString().padStart(2, "0")}`}
+                        {`${Math.floor(track.duration / 60)}:${(
+                          track.duration % 60
+                        )
+                          .toString()
+                          .padStart(2, "0")}`}
                       </span>
                     </div>
                     <p className="text-xs text-Snowlight-pink mt-1">

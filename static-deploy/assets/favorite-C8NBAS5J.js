@@ -29,7 +29,7 @@ function E() {
         artist: "사우스 카니발(South Carnival)",
         album: "서우젯소리",
         duration: "4:32",
-        coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=1",
+        coverUrl: "https://placehold.co/60x60/ff1493/ffffff?text=1",
         addedDate: "2025.08.08",
       },
       {
@@ -38,7 +38,7 @@ function E() {
         artist: "HUNTR/X",
         album: "KPop Demon Hunters",
         duration: "4:05",
-        coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=2",
+        coverUrl: "https://placehold.co/60x60/ff1493/ffffff?text=2",
         addedDate: "2025.08.07",
       },
       {
@@ -47,7 +47,7 @@ function E() {
         artist: "HANZI(한지)",
         album: "Dream",
         duration: "3:28",
-        coverUrl: "https://via.placeholder.com/60x60/ff1493/ffffff?text=3",
+        coverUrl: "https://placehold.co/60x60/ff1493/ffffff?text=3",
         addedDate: "2025.08.06",
       },
     ],
@@ -56,16 +56,14 @@ function E() {
         id: "1",
         name: "사우스 카니발(South Carnival)",
         genre: "인디록",
-        profileImage:
-          "https://via.placeholder.com/100x100/ff1493/ffffff?text=Artist1",
+        profileImage: "https://placehold.co/100x100/ff1493/ffffff?text=Artist1",
         followDate: "2025.08.05",
       },
       {
         id: "2",
         name: "HUNTR/X",
         genre: "일렉트로닉",
-        profileImage:
-          "https://via.placeholder.com/100x100/ff1493/ffffff?text=Artist2",
+        profileImage: "https://placehold.co/100x100/ff1493/ffffff?text=Artist2",
         followDate: "2025.08.04",
       },
     ],
@@ -74,16 +72,14 @@ function E() {
         id: "1",
         title: "서우젯소리",
         artist: "사우스 카니발(South Carnival)",
-        coverUrl:
-          "https://via.placeholder.com/120x120/ff1493/ffffff?text=Album1",
+        coverUrl: "https://placehold.co/120x120/ff1493/ffffff?text=Album1",
         addedDate: "2025.08.03",
       },
       {
         id: "2",
         title: "KPop Demon Hunters",
         artist: "HUNTR/X",
-        coverUrl:
-          "https://via.placeholder.com/120x120/ff1493/ffffff?text=Album2",
+        coverUrl: "https://placehold.co/120x120/ff1493/ffffff?text=Album2",
         addedDate: "2025.08.02",
       },
     ];

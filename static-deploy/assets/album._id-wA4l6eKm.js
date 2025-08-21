@@ -36,7 +36,7 @@ function C() {
                 "relative aspect-square rounded-lg overflow-hidden bg-gray-200 group",
               children: [
                 s.jsx("img", {
-                  src: `https://via.placeholder.com/400x400/ff1493/ffffff?text=${encodeURIComponent(
+                  src: `https://placehold.co/400x400/ff1493/ffffff?text=${encodeURIComponent(
                     t.title
                   )}`,
                   alt: t.title,

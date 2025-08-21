@@ -22,8 +22,7 @@ function N() {
         description: "한국 대중음악",
         color: "bg-gradient-to-br from-pink-500 to-rose-600",
         trackCount: 15420,
-        coverUrl:
-          "https://via.placeholder.com/300x200/ff1493/ffffff?text=K-POP",
+        coverUrl: "https://placehold.co/300x200/ff1493/ffffff?text=K-POP",
       },
       {
         id: "pop",
@@ -31,7 +30,7 @@ function N() {
         description: "팝 음악",
         color: "bg-gradient-to-br from-blue-500 to-cyan-600",
         trackCount: 28950,
-        coverUrl: "https://via.placeholder.com/300x200/3b82f6/ffffff?text=POP",
+        coverUrl: "https://placehold.co/300x200/3b82f6/ffffff?text=POP",
       },
       {
         id: "rock",
@@ -39,7 +38,7 @@ function N() {
         description: "록 음악",
         color: "bg-gradient-to-br from-red-500 to-orange-600",
         trackCount: 12340,
-        coverUrl: "https://via.placeholder.com/300x200/ef4444/ffffff?text=ROCK",
+        coverUrl: "https://placehold.co/300x200/ef4444/ffffff?text=ROCK",
       },
       {
         id: "indie",
@@ -47,8 +46,7 @@ function N() {
         description: "인디 음악",
         color: "bg-gradient-to-br from-purple-500 to-indigo-600",
         trackCount: 8760,
-        coverUrl:
-          "https://via.placeholder.com/300x200/8b5cf6/ffffff?text=INDIE",
+        coverUrl: "https://placehold.co/300x200/8b5cf6/ffffff?text=INDIE",
       },
       {
         id: "hiphop",
@@ -56,8 +54,7 @@ function N() {
         description: "힙합/랩",
         color: "bg-gradient-to-br from-gray-700 to-gray-900",
         trackCount: 9850,
-        coverUrl:
-          "https://via.placeholder.com/300x200/374151/ffffff?text=HIPHOP",
+        coverUrl: "https://placehold.co/300x200/374151/ffffff?text=HIPHOP",
       },
       {
         id: "rnb",
@@ -65,8 +62,7 @@ function N() {
         description: "알앤비/소울",
         color: "bg-gradient-to-br from-amber-500 to-yellow-600",
         trackCount: 6420,
-        coverUrl:
-          "https://via.placeholder.com/300x200/f59e0b/ffffff?text=R%26B",
+        coverUrl: "https://placehold.co/300x200/f59e0b/ffffff?text=R%26B",
       },
       {
         id: "electronic",
@@ -74,7 +70,7 @@ function N() {
         description: "전자음악",
         color: "bg-gradient-to-br from-cyan-500 to-teal-600",
         trackCount: 7890,
-        coverUrl: "https://via.placeholder.com/300x200/06b6d4/ffffff?text=EDM",
+        coverUrl: "https://placehold.co/300x200/06b6d4/ffffff?text=EDM",
       },
       {
         id: "jazz",
@@ -82,7 +78,7 @@ function N() {
         description: "재즈",
         color: "bg-gradient-to-br from-emerald-500 to-green-600",
         trackCount: 4320,
-        coverUrl: "https://via.placeholder.com/300x200/10b981/ffffff?text=JAZZ",
+        coverUrl: "https://placehold.co/300x200/10b981/ffffff?text=JAZZ",
       },
       {
         id: "classical",
@@ -90,8 +86,7 @@ function N() {
         description: "클래식",
         color: "bg-gradient-to-br from-violet-500 to-purple-600",
         trackCount: 5670,
-        coverUrl:
-          "https://via.placeholder.com/300x200/8b5cf6/ffffff?text=CLASSIC",
+        coverUrl: "https://placehold.co/300x200/8b5cf6/ffffff?text=CLASSIC",
       },
       {
         id: "folk",
@@ -99,7 +94,7 @@ function N() {
         description: "포크/컨트리",
         color: "bg-gradient-to-br from-orange-500 to-red-600",
         trackCount: 3450,
-        coverUrl: "https://via.placeholder.com/300x200/f97316/ffffff?text=FOLK",
+        coverUrl: "https://placehold.co/300x200/f97316/ffffff?text=FOLK",
       },
       {
         id: "ballad",
@@ -107,8 +102,7 @@ function N() {
         description: "발라드",
         color: "bg-gradient-to-br from-rose-500 to-pink-600",
         trackCount: 11230,
-        coverUrl:
-          "https://via.placeholder.com/300x200/f43f5e/ffffff?text=BALLAD",
+        coverUrl: "https://placehold.co/300x200/f43f5e/ffffff?text=BALLAD",
       },
       {
         id: "trot",
@@ -116,7 +110,7 @@ function N() {
         description: "트로트",
         color: "bg-gradient-to-br from-yellow-500 to-orange-600",
         trackCount: 2890,
-        coverUrl: "https://via.placeholder.com/300x200/eab308/ffffff?text=TROT",
+        coverUrl: "https://placehold.co/300x200/eab308/ffffff?text=TROT",
       },
     ],
     a = r.slice(0, 6),

@@ -30,8 +30,7 @@ function E() {
         views: 15420,
         likes: 892,
         comments: 156,
-        thumbnail:
-          "https://via.placeholder.com/400x250/ff1493/ffffff?text=KPOP+Trend",
+        thumbnail: "https://placehold.co/400x250/ff1493/ffffff?text=KPOP+Trend",
         featured: !0,
       },
       {
@@ -46,7 +45,7 @@ function E() {
         likes: 445,
         comments: 89,
         thumbnail:
-          "https://via.placeholder.com/400x250/8b5cf6/ffffff?text=Indie+Artists",
+          "https://placehold.co/400x250/8b5cf6/ffffff?text=Indie+Artists",
         featured: !1,
       },
       {
@@ -60,8 +59,7 @@ function E() {
         views: 12340,
         likes: 678,
         comments: 234,
-        thumbnail:
-          "https://via.placeholder.com/400x250/f59e0b/ffffff?text=Festival",
+        thumbnail: "https://placehold.co/400x250/f59e0b/ffffff?text=Festival",
         featured: !1,
       },
       {
@@ -75,8 +73,7 @@ function E() {
         views: 6780,
         likes: 321,
         comments: 67,
-        thumbnail:
-          "https://via.placeholder.com/400x250/10b981/ffffff?text=Streaming",
+        thumbnail: "https://placehold.co/400x250/10b981/ffffff?text=Streaming",
         featured: !1,
       },
     ],

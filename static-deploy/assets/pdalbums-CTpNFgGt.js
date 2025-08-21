@@ -24,7 +24,7 @@ function k() {
         description: "무더운 여름밤, 마음을 시원하게 해줄 감성 발라드 모음",
         curator: "벅스 PD 김민수",
         coverUrl:
-          "https://via.placeholder.com/300x300/ff1493/ffffff?text=Summer+Ballad",
+          "https://placehold.co/300x300/ff1493/ffffff?text=Summer+Ballad",
         trackCount: 15,
         playCount: 245e4,
         rating: 4.8,
@@ -37,7 +37,7 @@ function k() {
         description: "월요일 아침을 활기차게 시작할 수 있는 업템포 곡들",
         curator: "벅스 PD 이지은",
         coverUrl:
-          "https://via.placeholder.com/300x300/3b82f6/ffffff?text=Energy+Boost",
+          "https://placehold.co/300x300/3b82f6/ffffff?text=Energy+Boost",
         trackCount: 20,
         playCount: 189e4,
         rating: 4.6,
@@ -49,8 +49,7 @@ function k() {
         title: "힙합 신예들의 등장",
         description: "2025년 주목해야 할 힙합 신예 아티스트들의 대표곡",
         curator: "벅스 PD 박준호",
-        coverUrl:
-          "https://via.placeholder.com/300x300/374151/ffffff?text=New+Hiphop",
+        coverUrl: "https://placehold.co/300x300/374151/ffffff?text=New+Hiphop",
         trackCount: 12,
         playCount: 156e4,
         rating: 4.7,
@@ -62,8 +61,7 @@ function k() {
         title: "카페에서 듣기 좋은 재즈",
         description: "여유로운 오후 시간을 위한 모던 재즈 컬렉션",
         curator: "벅스 PD 최수진",
-        coverUrl:
-          "https://via.placeholder.com/300x300/10b981/ffffff?text=Cafe+Jazz",
+        coverUrl: "https://placehold.co/300x300/10b981/ffffff?text=Cafe+Jazz",
         trackCount: 18,
         playCount: 98e4,
         rating: 4.9,
@@ -75,8 +73,7 @@ function k() {
         title: "인디 록의 새로운 물결",
         description: "독립 음악씬에서 주목받는 록 밴드들의 신곡 모음",
         curator: "벅스 PD 정민우",
-        coverUrl:
-          "https://via.placeholder.com/300x300/8b5cf6/ffffff?text=Indie+Rock",
+        coverUrl: "https://placehold.co/300x300/8b5cf6/ffffff?text=Indie+Rock",
         trackCount: 14,
         playCount: 123e4,
         rating: 4.5,
@@ -88,8 +85,7 @@ function k() {
         title: "K-POP 글로벌 히트곡",
         description: "전 세계를 사로잡은 K-POP 대표 히트곡들",
         curator: "벅스 PD 김하늘",
-        coverUrl:
-          "https://via.placeholder.com/300x300/f59e0b/ffffff?text=KPOP+Global",
+        coverUrl: "https://placehold.co/300x300/f59e0b/ffffff?text=KPOP+Global",
         trackCount: 25,
         playCount: 345e4,
         rating: 4.8,

@@ -180,7 +180,7 @@ export default function AlbumDetail() {
                   (album.coverImage.startsWith("http") ||
                     album.coverImage.startsWith("/"))
                     ? album.coverImage
-                    : `https://via.placeholder.com/400x400/ff1493/ffffff?text=${encodeURIComponent(
+                    : `https://placehold.co/400x400/ff1493/ffffff?text=${encodeURIComponent(
                         album.title || ""
                       )}`
                 }

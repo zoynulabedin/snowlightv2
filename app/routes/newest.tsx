@@ -260,7 +260,7 @@ export default function Newest() {
           <div key={album.id} className="group">
             <div className="relative aspect-square mb-3 overflow-hidden rounded-lg bg-gray-200">
               <img
-                src={`https://via.placeholder.com/300x300/ff1493/ffffff?text=${encodeURIComponent(
+                src={`https://placehold.co/300x300/ff1493/ffffff?text=${encodeURIComponent(
                   album.title
                 )}`}
                 alt={album.title}

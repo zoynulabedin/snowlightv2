@@ -119,7 +119,7 @@ export default function AlbumsPage() {
                   <img
                     src={
                       album.coverImage ||
-                      "https://via.placeholder.com/300x300?text=No+Cover"
+                      "https://placehold.co/300x300?text=No+Cover"
                     }
                     alt={album.title}
                     className="absolute inset-0 w-full h-full object-cover"

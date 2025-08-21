@@ -277,7 +277,7 @@ function b() {
                     "relative aspect-square mb-3 overflow-hidden rounded-lg bg-gray-200",
                   children: [
                     e.jsx("img", {
-                      src: `https://via.placeholder.com/300x300/ff1493/ffffff?text=${encodeURIComponent(
+                      src: `https://placehold.co/300x300/ff1493/ffffff?text=${encodeURIComponent(
                         t.title
                       )}`,
                       alt: t.title,

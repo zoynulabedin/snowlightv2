@@ -48,7 +48,9 @@ export default function AudioPlayer({ userId }: AudioPlayerProps) {
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
+  const progressRef2 = useRef<HTMLDivElement>(null);
   const volumeRef = useRef<HTMLDivElement>(null);
+  const volumeRef2 = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -77,13 +79,17 @@ export default function AudioPlayer({ userId }: AudioPlayerProps) {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const updateTime = () => setCurrentTime(audio.currentTime);
-    const updateDuration = () =>
-      setAudioDuration(audio.duration || currentTrack?.duration || 0);
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+    const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
+    const handleLoadedMetadata = () => {
+      setAudioDuration(audio.duration);
+      setIsPlaying(false);
+    };
     const handleEnded = () => {
       if (repeatMode === "one") {
         audio.currentTime = 0;
-        audio.play();
+        audio.play().catch(console.error);
       } else if (repeatMode === "all" || currentIndex < playlist.length - 1) {
         handleNext();
       } else {
@@ -91,20 +97,20 @@ export default function AudioPlayer({ userId }: AudioPlayerProps) {
       }
     };
 
-    audio.addEventListener("timeupdate", updateTime);
-    audio.addEventListener("loadedmetadata", updateDuration);
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
     audio.addEventListener("ended", handleEnded);
-    audio.addEventListener("play", () => setIsPlaying(true));
-    audio.addEventListener("pause", () => setIsPlaying(false));
 
     return () => {
-      audio.removeEventListener("timeupdate", updateTime);
-      audio.removeEventListener("loadedmetadata", updateDuration);
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
       audio.removeEventListener("ended", handleEnded);
-      audio.removeEventListener("play", () => setIsPlaying(true));
-      audio.removeEventListener("pause", () => setIsPlaying(false));
     };
-  }, [repeatMode, currentIndex, playlist.length, currentTrack, handleNext]);
+  }, [repeatMode, currentIndex, playlist.length, handleNext]);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -131,13 +137,48 @@ export default function AudioPlayer({ userId }: AudioPlayerProps) {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
-  // Fix play/pause toggle to always reflect audio state
+  // Common function to handle seeking
+  const seekTo = (time: number) => {
+    if (!audioRef.current || !currentTrack?.duration) return;
+    const newTime = Math.min(Math.max(0, time), currentTrack.duration);
+    audioRef.current.currentTime = newTime;
+    setCurrentTime(newTime);
+  };
+
+  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Get the clicked element's ref
+    const clickedRef =
+      e.currentTarget === progressRef.current ? progressRef : progressRef2;
+
+    if (!clickedRef.current || !currentTrack?.duration) return;
+
+    const rect = clickedRef.current.getBoundingClientRect();
+    const percentage = (e.clientX - rect.left) / rect.width;
+    const newTime = percentage * currentTrack.duration;
+
+    if (audioRef.current) {
+      const clampedTime = Math.min(Math.max(0, newTime), currentTrack.duration);
+      audioRef.current.currentTime = clampedTime;
+      setCurrentTime(clampedTime);
+    }
+  };
+
+  // Fix play/pause toggle to ensure sync between player states
   const togglePlay = () => {
     if (!audioRef.current) return;
-    if (audioRef.current.paused) {
-      audioRef.current.play();
-    } else {
+
+    if (isPlaying) {
       audioRef.current.pause();
+    } else {
+      audioRef.current
+        .play()
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch((error) => {
+          console.error("Error playing audio:", error);
+          setIsPlaying(false);
+        });
     }
   };
 
@@ -155,31 +196,20 @@ export default function AudioPlayer({ userId }: AudioPlayerProps) {
     }
   };
 
-  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (progressRef.current && audioDuration > 0) {
-      const rect = progressRef.current.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const newTime = (clickX / rect.width) * audioDuration;
-      seekTo(newTime);
-    }
-  };
-
   const handleVolumeClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (volumeRef.current) {
-      const rect = volumeRef.current.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const newVolume = Math.max(0, Math.min(1, clickX / rect.width));
-      setVolume(newVolume);
-      if (newVolume > 0) {
-        setIsMuted(false);
-      }
-    }
-  };
+    // Get the clicked element's ref
+    const clickedRef =
+      e.currentTarget === volumeRef.current ? volumeRef : volumeRef2;
 
-  const seekTo = (time: number) => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = time;
-      setCurrentTime(time);
+    if (!clickedRef.current) return;
+
+    const rect = clickedRef.current.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const newVolume = Math.max(0, Math.min(1, clickX / rect.width));
+
+    setVolume(newVolume);
+    if (newVolume > 0) {
+      setIsMuted(false);
     }
   };
 
@@ -258,8 +288,8 @@ export default function AudioPlayer({ userId }: AudioPlayerProps) {
       >
         {/* Progress Bar */}
         <div
-          ref={progressRef}
-          className="w-full h-1 bg-gray-200 cursor-pointer hover:h-2 transition-all duration-200"
+          ref={progressRef2}
+          className="w-full h-2 bg-gray-200 rounded-full cursor-pointer mb-2"
           onClick={handleProgressClick}
           role="slider"
           tabIndex={0}
@@ -272,11 +302,6 @@ export default function AudioPlayer({ userId }: AudioPlayerProps) {
               seekTo(Math.max(0, currentTime - 5));
             } else if (e.key === "ArrowRight") {
               seekTo(Math.min(currentTrack?.duration || 0, currentTime + 5));
-            } else if (e.key === "Enter" || e.key === " ") {
-              // Simulate click on progress bar for accessibility
-              handleProgressClick(
-                e as unknown as React.MouseEvent<HTMLDivElement>
-              );
             }
           }}
         >
@@ -290,10 +315,10 @@ export default function AudioPlayer({ userId }: AudioPlayerProps) {
             }}
           />
         </div>
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between py-3">
+        <div className="mx-auto px-4">
+          <div className="grid grid-cols-3 max-sm:grid-cols-1 max-sm:grid-rows-2 max-sm:items-center max-sm:justify-center items-center justify-between py-3">
             {/* Track Info */}
-            <div className="flex items-center space-x-3 flex-1 min-w-0">
+            <div className="flex items-center space-x-3 flex-1 min-w-0 max-sm:justify-between">
               <img
                 src={currentTrack?.coverImage || "https://placehold.co/600x400"}
                 alt={currentTrack?.title}
@@ -314,7 +339,7 @@ export default function AudioPlayer({ userId }: AudioPlayerProps) {
               </button>
             </div>
             {/* Player Controls */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4 max-sm:flex-1 max-sm:justify-center">
               <button
                 onClick={toggleShuffle}
                 className={`p-2 rounded-md transition-colors ${
@@ -359,7 +384,7 @@ export default function AudioPlayer({ userId }: AudioPlayerProps) {
               </button>
             </div>
             {/* Time and Volume */}
-            <div className="flex items-center space-x-4 flex-1 justify-end">
+            <div className="flex items-center space-x-4 flex-1 justify-end max-sm:justify-between">
               <span className="text-xs text-gray-600 tabular-nums">
                 {formatTime(currentTime)} /{" "}
                 {formatTime(currentTrack?.duration || 0)}
@@ -376,7 +401,7 @@ export default function AudioPlayer({ userId }: AudioPlayerProps) {
                   )}
                 </button>
                 <div
-                  ref={volumeRef}
+                  ref={volumeRef2}
                   className="w-24 h-1 bg-gray-200 rounded-full cursor-pointer"
                   onClick={handleVolumeClick}
                   role="slider"
@@ -437,7 +462,7 @@ export default function AudioPlayer({ userId }: AudioPlayerProps) {
 
       {/* Playlist Sidebar */}
       {showPlaylist && (
-        <div className="fixed right-0 bottom-20 top-0 w-80 bg-white border-l border-gray-200 shadow-lg z-[12001] overflow-y-auto">
+        <div className="fixed right-0 bottom-20 top-0 w-80 bg-slate-200 border-l border-gray-200 shadow-lg z-[12001] overflow-y-auto">
           <div className="p-4 border-b border-gray-200">
             <div className="flex items-center justify-between">
               <h3 className="font-semibold text-gray-900">재생목록</h3>
@@ -554,7 +579,7 @@ export default function AudioPlayer({ userId }: AudioPlayerProps) {
           >
             {/* Playlist Sidebar (left column, only if open) */}
             {showPlaylist && (
-              <div className="w-80 h-full bg-white border-r border-gray-200 shadow-lg overflow-y-auto flex-shrink-0">
+              <div className="w-80 h-full bg-white border-r border-gray-200 shadow-lg overflow-y-auto flex-shrink-0 max-sm:fixed max-sm:top-0 max-sm:left-0">
                 <div className="p-4 border-b border-gray-200">
                   <div className="flex items-center justify-between">
                     <h3 className="font-semibold text-gray-900">재생목록</h3>

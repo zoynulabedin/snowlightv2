@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import { downloadMedia } from "../lib/utils";
+import { EllipsisVertical } from "lucide-react";
 
 // Define Video type for clarity
 interface Video {
@@ -62,7 +63,9 @@ export default function VideoMenuDropdown({
         onClick={() => setOpen((v) => !v)}
         aria-label="메뉴 열기"
       >
-        <span className="w-5 h-5">⋮</span>
+        <span className="w-5 h-5">
+          <EllipsisVertical />
+        </span>
       </button>
       {open &&
         ReactDOM.createPortal(

@@ -279,7 +279,7 @@ export default function Chart() {
               {/* Album Cover */}
               <div className="col-span-1 flex items-center">
                 <img
-                  src={`https://via.placeholder.com/60x60/ff1493/ffffff?text=${track.rank}`}
+                  src={`https://placehold.co/60x60/ff1493/ffffff?text=${track.rank}`}
                   alt={track.title}
                   className="w-12 h-12 rounded-md object-cover"
                 />

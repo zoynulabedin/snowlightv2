@@ -61,8 +61,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
   // Mock artist data
   const artist = {
     name: decodeURIComponent(params.name || ""),
-    profileImage:
-      "https://via.placeholder.com/300x300/ff1493/ffffff?text=Artist",
+    profileImage: "https://placehold.co/300x300/ff1493/ffffff?text=Artist",
     genre: ["인디록", "얼터너티브"],
     debutDate: "2020.03.15",
     agency: "사우스 카니발 레코즈",
@@ -103,35 +102,35 @@ export async function loader({ params }: LoaderFunctionArgs) {
         title: "서우젯소리",
         type: "싱글",
         releaseDate: "2025.08.08",
-        coverUrl: "https://via.placeholder.com/150x150/ff1493/ffffff?text=1",
+        coverUrl: "https://placehold.co/150x150/ff1493/ffffff?text=1",
       },
       {
         id: "2",
         title: "Urban Nights",
         type: "EP",
         releaseDate: "2024.12.15",
-        coverUrl: "https://via.placeholder.com/150x150/ff1493/ffffff?text=2",
+        coverUrl: "https://placehold.co/150x150/ff1493/ffffff?text=2",
       },
       {
         id: "3",
         title: "First Steps",
         type: "정규",
         releaseDate: "2023.06.20",
-        coverUrl: "https://via.placeholder.com/150x150/ff1493/ffffff?text=3",
+        coverUrl: "https://placehold.co/150x150/ff1493/ffffff?text=3",
       },
     ],
     videos: [
       {
         id: "1",
         title: "서우젯소리 (Official MV)",
-        thumbnail: "https://via.placeholder.com/200x120/ff1493/ffffff?text=MV1",
+        thumbnail: "https://placehold.co/200x120/ff1493/ffffff?text=MV1",
         duration: "4:32",
         views: 2100000,
       },
       {
         id: "2",
         title: "도시의 밤 (Live Performance)",
-        thumbnail: "https://via.placeholder.com/200x120/ff1493/ffffff?text=MV2",
+        thumbnail: "https://placehold.co/200x120/ff1493/ffffff?text=MV2",
         duration: "3:45",
         views: 850000,
       },
