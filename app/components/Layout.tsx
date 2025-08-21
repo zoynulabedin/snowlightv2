@@ -156,7 +156,7 @@ export default function Layout({ children }: LayoutProps) {
       />
       {/* Mobile Menu */}{" "}
       <div
-        className={`md:hidden fixed top-[73px] right-0 w-[280px] h-[calc(100vh-73px)] bg-slate-100 shadow-xl transition-transform duration-300 ease-in-out transform ${
+        className={`md:hidden fixed top-[73px] max-sm:bottom-0 max-sm:top-auto right-0 w-[280px] h-[calc(100vh-73px)] bg-slate-100 shadow-xl transition-transform duration-300 ease-in-out transform ${
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
         } z-[99998] overflow-y-auto`}
       >
@@ -233,7 +233,7 @@ export default function Layout({ children }: LayoutProps) {
       <div className=" w-full mx-auto  py-4 z-[9999]">
         <div className="flex w-full">
           {/* Left Sidebar */}
-          <div className="z-[9999] sticky max-sm:fixed top-[75px] max-sm:top:90px h-[calc(100vh-90px)] border-r-2 border-r-gray-200 w-auto flex-shrink-0 bg-slate-200">
+          <div className="z-[9999] sticky max-sm:fixed max-sm:min-h-screen top-[70px] max-sm:top:70px h-[calc(100vh-70px)] border-r-2 max-sm:bottom-0 max-sm:top-auto border-r-gray-200 w-auto flex-shrink-0 bg-slate-200">
             <button
               className={`absolute top-4 max-sm:bottom-10 max-sm:top-auto max-sm:right-0 max-sm:fixed max-sm:left-auto text-Snowlight-red z-[9999] left-[100%] py-5 border border-l-0 bg-slate-200 transition-all duration-300 hover:w-[4.5rem] w-8 rounded-tr-md rounded-br-md group md:block sm:block  cursor-pointer max-sm:rounded-tl-md max-sm:rounded-bl-md max-sm:rounded-tr-none max-sm:rounded-br-none`}
               id="gnbHandleBtn"
@@ -274,8 +274,8 @@ export default function Layout({ children }: LayoutProps) {
           <main
             className="z-0 flex-1  overflow-y-auto relative"
             style={{
-              height: "calc(100vh - 75px)",
-              maxHeight: "calc(100vh - 75px)",
+              height: "calc(100vh - 70px)",
+              maxHeight: "calc(100vh - 70px)",
             }}
           >
             <div className="w-full">{children}</div>

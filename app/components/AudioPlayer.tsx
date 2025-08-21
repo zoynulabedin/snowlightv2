@@ -339,7 +339,7 @@ export default function AudioPlayer({ userId }: AudioPlayerProps) {
               </button>
             </div>
             {/* Player Controls */}
-            <div className="flex items-center space-x-4 max-sm:flex-1 max-sm:justify-center">
+            <div className="flex items-center space-x-4 flex-1 mx-auto max-sm:justify-center">
               <button
                 onClick={toggleShuffle}
                 className={`p-2 rounded-md transition-colors ${
