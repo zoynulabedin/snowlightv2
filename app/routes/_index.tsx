@@ -1112,7 +1112,7 @@ overflow-x-auto "
                         <Link
                           to={`/album/${album?.id}`}
                           key={album?.id}
-                          className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+                          className="bg-slate-200 border  border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
                         >
                           <div className=" aspect-[4/3] relative w-full overflow-hidden">
                             <img
