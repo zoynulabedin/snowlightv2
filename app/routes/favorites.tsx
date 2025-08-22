@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { usePlayer } from "~/contexts/PlayerContext";
 import { useLanguage } from "~/contexts/LanguageContext";
+import Layout from "../components/Layout";
 
 export const meta: MetaFunction = () => {
   return [
@@ -98,7 +99,7 @@ export default function Favorite() {
   ];
 
   return (
-    <div className="space-y-8">
+    <Layout>
       {/* Header */}
       <div className="bg-gradient-to-r from-Snowlight-pink to-purple-600 rounded-lg p-8 text-white">
         <h1 className="text-3xl font-bold mb-2">Favorite</h1>
@@ -336,6 +337,6 @@ export default function Favorite() {
           </Link>
         </div>
       )}
-    </div>
+    </Layout>
   );
 }

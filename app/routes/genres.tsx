@@ -2,6 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { Play, TrendingUp, Music } from "lucide-react";
 import { useLanguage } from "~/contexts/LanguageContext";
+import Layout from "../components/Layout";
 
 export const meta: MetaFunction = () => {
   return [
@@ -119,7 +120,7 @@ export default function Genres() {
   const allGenres = genres;
 
   return (
-    <div className="space-y-8">
+    <Layout>
       {/* Header */}
       <div className="bg-gradient-to-r from-Snowlight-pink to-purple-600 rounded-lg p-8 text-white">
         <h1 className="text-3xl font-bold mb-2">장르</h1>
@@ -226,6 +227,6 @@ export default function Genres() {
           </div>
         </div>
       </section>
-    </div>
+    </Layout>
   );
 }

@@ -167,7 +167,7 @@ export async function action({ request }: ActionFunctionArgs) {
     const formData = await request.formData();
     const intent = formData.get("intent") as string;
     const songId = formData.get("songId") as string;
-
+    console.log(intent);
     switch (intent) {
       // In your action function, update both cases:
 
@@ -326,16 +326,55 @@ export async function action({ request }: ActionFunctionArgs) {
         return { success: "Song status updated successfully" };
       }
 
-      case "delete": {
-        if (!songId) {
-          return { error: "Song ID is required" };
-        }
-        await db.song.delete({
-          where: { id: songId },
-        });
+      case "delete-main-audio": {
+        try {
+          const songId = formData.get("songId") as string;
+          console.log(songId);
+          if (!songId) {
+            return { error: "Song ID is required" };
+          }
+          console.log(songId);
+          // First get the song details to get the URLs
+          const song = await db.song.findUnique({
+            where: { id: songId },
+            select: {
+              audioUrl: true,
+              coverImage: true,
+            },
+          });
 
-        return { success: "Song deleted successfully" };
+          if (!song) {
+            return { error: "Song not found" };
+          }
+
+          // Delete audio file from Cloudinary if exists
+          if (song.audioUrl) {
+            const audioPublicId = getPublicIdFromUrl(song.audioUrl);
+            if (audioPublicId) {
+              await deleteFromCloudinary(audioPublicId);
+            }
+          }
+
+          // Delete cover image from Cloudinary if exists
+          if (song.coverImage) {
+            const imagePublicId = getPublicIdFromUrl(song.coverImage);
+            if (imagePublicId) {
+              await deleteFromCloudinary(imagePublicId);
+            }
+          }
+
+          // Finally delete the song record from database
+          await db.song.delete({
+            where: { id: songId },
+          });
+
+          return { success: "Song and associated files deleted successfully" };
+        } catch (error) {
+          console.error("Error deleting song:", error);
+          return { error: "Failed to delete song and associated files" };
+        }
       }
+
       // Add to the switch statement in the action function
       case "update-status": {
         const songId = formData.get("songId") as string;
@@ -462,6 +501,38 @@ export default function AudioDashboard() {
     lyrics: "",
   });
   const [isEditing, setIsEditing] = useState(false);
+  type DeleteMediaConfirmType = {
+    isOpen: boolean;
+    mediaType: "audio" | "image" | "main-audio" | null;
+    songId: string;
+    songTitle: string;
+    isDeleting?: boolean; // Add this to track deletion state
+  };
+
+  // Update the state initialization
+  const [deleteMediaConfirm, setDeleteMediaConfirm] =
+    useState<DeleteMediaConfirmType>({
+      isOpen: false,
+      mediaType: null,
+      songId: "",
+      songTitle: "",
+      isDeleting: false,
+    });
+  const [isSearching, setIsSearching] = useState(false);
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsSearching(true);
+    const searchValue = e.target.value;
+    const newSearchParams = new URLSearchParams(searchParams);
+
+    if (searchValue.trim()) {
+      newSearchParams.set("search", searchValue);
+    } else {
+      newSearchParams.delete("search");
+    }
+
+    newSearchParams.set("page", "1");
+    setSearchParams(newSearchParams);
+  };
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -490,8 +561,7 @@ export default function AudioDashboard() {
   const [showDeleteMediaConfirm, setShowDeleteMediaConfirm] = useState<
     "audio" | "image" | null
   >(null);
-  const [newAudioFile, setNewAudioFile] = useState<File | null>(null);
-  const [newImageFile, setNewImageFile] = useState<File | null>(null);
+
   const [editingSong, setEditingSong] = useState<SongType | null>(null);
   const [editFormData, setEditFormData] = useState({
     title: "",
@@ -507,27 +577,41 @@ export default function AudioDashboard() {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
   const { songs, albums, artists, totalPages } = loaderData;
-
-  // Update the useEffect hook to handle both success and error cases
+  // Add useEffect to handle search completion
+  useEffect(() => {
+    setIsSearching(false);
+  }, [songs]);
   useEffect(() => {
     if (actionData?.success || actionData?.error) {
-      // Reset editing state regardless of success or error
       setIsEditing(false);
       setIsUploading(false);
       setIsDeletingMedia(null);
 
-      // If it's a deletion action, update the editing song state
+      // Close both confirmation modals
+      setShowDeleteMediaConfirm(null);
+      setDeleteMediaConfirm({
+        isOpen: false,
+        mediaType: null,
+        songId: "",
+        songTitle: "",
+        isDeleting: false,
+      });
+
+      // Handle specific success cases for audio/image deletion
       if (actionData.success?.includes("Cover image removed")) {
         setEditingSong((prev) => (prev ? { ...prev, coverImage: null } : null));
-      } else if (actionData.success?.includes("Audio file removed")) {
-        setEditingSong((prev) => (prev ? { ...prev, audioUrl: null } : null));
+        // Keep edit modal open after media deletion
+        return;
       }
 
-      // Reset the delete confirmation modal
-      setShowDeleteMediaConfirm(null);
+      if (actionData.success?.includes("Audio file removed")) {
+        setEditingSong((prev) => (prev ? { ...prev, audioUrl: null } : null));
+        // Keep edit modal open after media deletion
+        return;
+      }
 
-      // If it's a regular edit success, reset all edit-related states
-      if (actionData.success) {
+      // Only close edit modal and reset form for non-media deletions
+      if (!actionData.success?.includes("removed")) {
         setIsEditModalOpen(false);
         setEditingSong(null);
         setEditFormData({
@@ -575,17 +659,6 @@ export default function AudioDashboard() {
       </div>
     );
   }
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newSearchParams = new URLSearchParams(searchParams);
-    if (e.target.value) {
-      newSearchParams.set("search", e.target.value);
-    } else {
-      newSearchParams.delete("search");
-    }
-    newSearchParams.set("page", "1"); // Reset to first page when searching
-    setSearchParams(newSearchParams);
-  };
 
   // Add these state declarations after existing useState hooks
 
@@ -639,24 +712,48 @@ export default function AudioDashboard() {
                 <div className="relative">
                   <input
                     type="text"
-                    placeholder="Search songs, artists, or uploaders..."
+                    placeholder="Search songs, artists..."
                     value={searchParams.get("search") || ""}
                     onChange={handleSearchChange}
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    disabled={isSearching}
                   />
-                  <svg
-                    className="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
+                  {isSearching ? (
+                    <svg
+                      className="animate-spin absolute left-3 top-2.5 h-5 w-5 text-gray-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                      />
+                    </svg>
+                  )}
                 </div>
               </div>
               <div className="ml-4 text-sm text-gray-500">
@@ -823,7 +920,7 @@ export default function AudioDashboard() {
                               </div>
                             )}
                             <div>
-                              <div className="text-sm font-medium text-gray-900">
+                              <div className="w-32 truncate text-sm font-medium text-gray-900">
                                 {song.title}
                               </div>
                               <div className="text-sm text-gray-500">
@@ -1052,105 +1149,33 @@ export default function AudioDashboard() {
                                 </svg>
                               </button>
                             </Form>
-                            {/* Toggle Publish Button */}
-                            <Form method="post" className="inline">
-                              <input
-                                type="hidden"
-                                name="songId"
-                                value={song.id}
-                              />
-                              <input
-                                type="hidden"
-                                name="intent"
-                                value="toggle-publish"
-                              />
-                              <button
-                                type="submit"
-                                className={`inline-flex items-center px-2 py-1 text-xs rounded transition-colors ${
-                                  song.isPublished
-                                    ? "text-yellow-600 hover:text-yellow-900"
-                                    : "text-green-600 hover:text-green-900"
-                                }`}
-                                title={
-                                  song.isPublished ? "Unpublish" : "Publish"
-                                }
-                              >
-                                {song.isPublished ? (
-                                  <svg
-                                    className="w-4 h-4"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
-                                    />
-                                  </svg>
-                                ) : (
-                                  <svg
-                                    className="w-4 h-4"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    />
-                                  </svg>
-                                )}
-                              </button>
-                            </Form>
 
-                            {/* Delete Button */}
-                            <Form
-                              method="post"
-                              className="inline"
-                              onSubmit={(e) => {
-                                if (
-                                  !confirm(
-                                    `Are you sure you want to delete "${song.title}"? This action cannot be undone.`
-                                  )
-                                ) {
-                                  e.preventDefault();
-                                }
-                              }}
+                            <button
+                              onClick={() =>
+                                setDeleteMediaConfirm({
+                                  isOpen: true,
+                                  mediaType: "main-audio",
+                                  songId: song.id,
+                                  songTitle: song.title,
+                                })
+                              }
+                              className="text-red-600 hover:text-red-900 inline-flex items-center px-2 py-1 text-xs rounded transition-colors"
+                              title="Delete Song"
                             >
-                              <input
-                                type="hidden"
-                                name="songId"
-                                value={song.id}
-                              />
-                              <input
-                                type="hidden"
-                                name="intent"
-                                value="delete"
-                              />
-                              <button
-                                type="submit"
-                                className="text-red-600 hover:text-red-900 inline-flex items-center px-2 py-1 text-xs rounded transition-colors"
-                                title="Delete Song"
+                              <svg
+                                className="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
                               >
-                                <svg
-                                  className="w-4 h-4"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                  />
-                                </svg>
-                              </button>
-                            </Form>
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                />
+                              </svg>
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -1867,9 +1892,6 @@ export default function AudioDashboard() {
                     id="edit-audio"
                     name="audioFile"
                     accept="audio/*"
-                    onChange={(e) =>
-                      setNewAudioFile(e.target.files?.[0] || null)
-                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                   <p className="text-xs text-gray-500">
@@ -1911,9 +1933,6 @@ export default function AudioDashboard() {
                     id="edit-image"
                     name="coverImage"
                     accept="image/*"
-                    onChange={(e) =>
-                      setNewImageFile(e.target.files?.[0] || null)
-                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                   <p className="text-xs text-gray-500">
@@ -2055,6 +2074,112 @@ export default function AudioDashboard() {
       )}
 
       {/* Delete Media Confirmation Modal */}
+      {deleteMediaConfirm.isOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
+            <div className="p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                Delete Song
+              </h3>
+              <p className="text-gray-600 mb-2">
+                Are you sure you want to delete &quot;
+                {deleteMediaConfirm.songTitle}&quot;? This will remove the song
+                and all associated files.
+              </p>
+              <p className="text-red-600 text-sm mb-6">
+                This action cannot be undone.
+              </p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDeleteMediaConfirm({
+                      isOpen: false,
+                      mediaType: null,
+                      songId: "",
+                      songTitle: "",
+                    });
+                    setIsDeletingMedia(null);
+                  }}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 transition-colors"
+                  disabled={!!isDeletingMedia}
+                >
+                  Cancel
+                </button>
+                <Form
+                  method="post"
+                  onSubmit={() =>
+                    setIsDeletingMedia(
+                      deleteMediaConfirm.mediaType === "main-audio"
+                        ? null
+                        : deleteMediaConfirm.mediaType
+                    )
+                  }
+                >
+                  <input
+                    type="hidden"
+                    name="intent"
+                    value="delete-main-audio"
+                  />
+                  <input
+                    type="hidden"
+                    name="songId"
+                    value={deleteMediaConfirm.songId}
+                  />
+                  <button
+                    type="submit"
+                    disabled={!!isDeletingMedia}
+                    className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+                  >
+                    {isDeletingMedia ? (
+                      <>
+                        <svg
+                          className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          />
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          />
+                        </svg>
+                        <span>Deleting...</span>
+                      </>
+                    ) : (
+                      <>
+                        <svg
+                          className="w-4 h-4 mr-2"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          />
+                        </svg>
+                        <span>Delete Song</span>
+                      </>
+                    )}
+                  </button>
+                </Form>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Delete Media Confirmation Modal */}
       {showDeleteMediaConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

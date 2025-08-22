@@ -1,6 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { Play, Heart, MoreHorizontal, Filter } from "lucide-react";
+import Layout from "../components/Layout";
 
 export const meta: MetaFunction = () => {
   return [
@@ -194,7 +195,7 @@ const categories = [
 
 export default function Newest() {
   return (
-    <div className="space-y-6">
+    <Layout>
       {/* Page Header */}
       <div className="flex items-center space-x-2 text-sm text-gray-600">
         <span>최신 음악</span>
@@ -322,6 +323,6 @@ export default function Newest() {
           찾아보세요.
         </p>
       </div>
-    </div>
+    </Layout>
   );
 }

@@ -2,6 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { Play, Calendar, User, Star, Music } from "lucide-react";
 import { useLanguage } from "~/contexts/LanguageContext";
+import Layout from "../components/Layout";
 
 export const meta: MetaFunction = () => {
   return [
@@ -95,7 +96,7 @@ export default function PDAlbums() {
   const regularAlbums = pdAlbums.filter((album) => !album.featured);
 
   return (
-    <div className="space-y-8">
+    <Layout>
       {/* Header */}
       <div className="bg-gradient-to-r from-Snowlight-pink to-purple-600 rounded-lg p-8 text-white">
         <h1 className="text-3xl font-bold mb-2">뮤직PD 앨범</h1>
@@ -273,6 +274,6 @@ export default function PDAlbums() {
           더 많은 PD 앨범 보기
         </button>
       </div>
-    </div>
+    </Layout>
   );
 }

@@ -6,6 +6,7 @@ import Layout from "../components/Layout";
 import AudioPlayer from "../components/AudioPlayer";
 import { getAlbumById, getSidebarAlbums } from "../lib/server";
 import { usePlayer } from "../contexts/PlayerContext";
+import { validateSession } from "../lib/auth";
 
 export const meta: MetaFunction = () => {
   return [
@@ -51,15 +52,28 @@ type Album = {
 };
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-  const albums = await getSidebarAlbums(15);
+  const cookieHeader = request.headers.get("Cookie") || "";
+  const token = cookieHeader
+    ?.split(";")
+    .find((c) => c.trim().startsWith("auth-token="))
+    ?.split("=")[1];
+
+  const user = await validateSession(token ?? "");
+  const albums = await getSidebarAlbums();
   const url = new URL(request.url);
   const pageParam = url.searchParams.get("page");
   const page = pageParam ? parseInt(pageParam, 10) : 1;
   const pageSize = 10;
-  const albumRaw = params.id ? await getAlbumById(params.id) : null;
+  let albumRaw = null;
+  try {
+    console.log(params.id);
+    albumRaw = params.id ? await getAlbumById(params.id) : null;
+  } catch (err) {
+    albumRaw = null;
+  }
 
   let album: Album | null = null;
-  if (albumRaw) {
+  if (albumRaw && albumRaw.id) {
     const totalSongs = Array.isArray(albumRaw.songs)
       ? albumRaw.songs.length
       : 0;
@@ -81,17 +95,17 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
       pageSize,
     } as Album & { totalSongs: number; currentPage: number; pageSize: number };
   }
-  return { albums, album };
+
+  return { albums, album, user };
 }
 
 export default function AlbumDetail() {
-  const { albums, album } = useLoaderData<typeof loader>();
+  const { albums, album, user } = useLoaderData<typeof loader>();
   const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState(false);
-  const [playingSongId, setPlayingSongId] = useState<string | null>(null);
-  const { playTrack } = usePlayer();
+  null;
+  const { playTrack, isAudioPlayerVisible } = usePlayer();
   const handlePlay = (song: Song) => {
-    setPlayingSongId(song?.id);
     playTrack({
       id: song.id,
       title: song.title,
@@ -167,7 +181,7 @@ export default function AlbumDetail() {
 
   return (
     <Layout sidebarAlbums={albums}>
-      <div className="space-y-8">
+      <div className="space-y-8 p-10">
         {/* Album Header */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Album Cover */}
@@ -210,14 +224,14 @@ export default function AlbumDetail() {
             </div>
 
             {/* Album Metadata */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 max-sm:grid-cols-2 gap-4 text-sm">
               <div className="space-y-2">
                 <div className="flex">
-                  <span className="w-20 text-gray-600">유형</span>
+                  <span className="min-w-max mr-2 text-gray-600">유형</span>
                   <span>{album.type || ""}</span>
                 </div>
                 <div className="flex">
-                  <span className="w-20 text-gray-600">장르</span>
+                  <span className="min-w-max mr-2 text-gray-600">장르</span>
                   <div className="flex space-x-2">
                     {Array.isArray(album.genre) ? (
                       album.genre.map((g: string) => (
@@ -235,7 +249,7 @@ export default function AlbumDetail() {
                   </div>
                 </div>
                 <div className="flex">
-                  <span className="w-20 text-gray-600">스타일</span>
+                  <span className="min-w-max mr-2 text-gray-600">스타일</span>
                   <div className="flex space-x-2">
                     {Array.isArray(album.style) ? (
                       album.style.map((s: string) => (
@@ -253,25 +267,27 @@ export default function AlbumDetail() {
                   </div>
                 </div>
                 <div className="flex">
-                  <span className="w-20 text-gray-600">발매일</span>
+                  <span className="min-w-max mr-2 text-gray-600">발매일</span>
                   <span>{releaseDateStr}</span>
                 </div>
               </div>
               <div className="space-y-2">
                 <div className="flex">
-                  <span className="w-20 text-gray-600">유통사</span>
+                  <span className="min-w-max mr-2 text-gray-600">유통사</span>
                   <span>{album.distributor || ""}</span>
                 </div>
                 <div className="flex">
-                  <span className="w-20 text-gray-600">기획사</span>
+                  <span className="min-w-max mr-2 text-gray-600">기획사</span>
                   <span>{album.label || ""}</span>
                 </div>
                 <div className="flex">
-                  <span className="w-20 text-gray-600">재생 시간</span>
+                  <span className="min-w-max mr-2 text-gray-600">
+                    재생 시간
+                  </span>
                   <span>{album.duration || ""}</span>
                 </div>
                 <div className="flex">
-                  <span className="w-20 text-gray-600">고음질</span>
+                  <span className="min-w-max mr-2 text-gray-600">고음질</span>
                   <span className="text-Snowlight-pink">
                     {album.quality || ""}
                   </span>
@@ -301,13 +317,14 @@ export default function AlbumDetail() {
         </div>
 
         {/* Track List */}
-        <section>
+
+        <section className=" overflow-x-auto">
           <h2 className="text-xl font-bold text-gray-900 mb-4">
             수록곡 ({songs.length})
           </h2>
 
           {/* Bulk Actions */}
-          <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg mb-4">
+          <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg mb-4 min-w-max">
             <label className="flex items-center space-x-2">
               <input
                 type="checkbox"
@@ -318,135 +335,135 @@ export default function AlbumDetail() {
               <span className="text-sm">곡 목록 전체</span>
             </label>
             <div className="flex space-x-2">
-              <button className="Snowlight-button Snowlight-button-secondary text-sm">
+              <button className=" shrink-0 Snowlight-button Snowlight-button-secondary text-sm">
                 선택된 곡 재생듣기
               </button>
-              <button className="Snowlight-button Snowlight-button-secondary text-sm">
+              <button className=" shrink-0 Snowlight-button Snowlight-button-secondary text-sm">
                 재생목록에 추가
               </button>
-              <button className="Snowlight-button Snowlight-button-secondary text-sm">
+              <button className=" shrink-0 Snowlight-button Snowlight-button-secondary text-sm">
                 내 앨범에 담기
               </button>
-              <button className="Snowlight-button Snowlight-button-secondary text-sm">
+              <button className=" shrink-0 Snowlight-button Snowlight-button-secondary text-sm">
                 다운로드
               </button>
             </div>
             <div className="flex space-x-2 ml-auto">
-              <button className="Snowlight-button Snowlight-button-primary text-sm">
+              <button className=" shrink-0 Snowlight-button Snowlight-button-primary text-sm">
                 전체 듣기(재생목록 추가)
               </button>
-              <button className="Snowlight-button Snowlight-button-secondary text-sm">
+              <button className=" shrink-0 Snowlight-button Snowlight-button-secondary text-sm">
                 전체 듣기(재생목록 교체)
               </button>
             </div>
           </div>
 
           {/* Track Table */}
-          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-            <div className="grid grid-cols-12 gap-4 p-4 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-700">
-              <div className="col-span-1">번호</div>
-              <div className="col-span-6">곡</div>
-              <div className="col-span-2">아티스트</div>
-              <div className="col-span-3">
-                듣기 재생목록 내앨범 다운 영상 기타
-              </div>
-            </div>
-
-            {songs.map((song: Song, idx: number) => (
-              <div
-                key={song.id}
-                className="grid grid-cols-12 gap-4 p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors"
-              >
-                {/* Track Number */}
-                <div className="col-span-1 flex items-center space-x-2">
-                  <label className="flex items-center">
-                    <span className="sr-only">곡 {idx + 1} 선택</span>
-                    <input
-                      type="checkbox"
-                      checked={selectedTracks.includes(song.id)}
-                      onChange={() => handleSelectTrack(song.id)}
-                      className="rounded border-gray-300 text-Snowlight-pink focus:ring-Snowlight-pink"
-                    />
-                  </label>
-                  <div className="text-center">
-                    <div className="text-lg font-bold">{idx + 1}</div>
-                    {song.isTitle && (
-                      <span className="text-xs text-Snowlight-pink font-bold">
-                        [타이틀곡]
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Track Info */}
-                <div className="col-span-6 flex items-center">
-                  <div>
-                    <h3 className="font-medium text-gray-900 hover:text-Snowlight-pink cursor-pointer">
-                      {song.title}
-                    </h3>
-                    <p className="text-sm text-gray-600">{song.duration}</p>
-                    {playingSongId === song.id && (
-                      <AudioPlayer
-                        src={song.audioUrl || ""}
-                        coverImage={album.coverImage || undefined}
-                        title={song.title}
-                        artist={
-                          song.artists?.map((a) => a.artist?.name).join(", ") ||
-                          ""
-                        }
-                        album={album.title}
-                        duration={
-                          typeof song.duration === "number"
-                            ? song.duration
-                            : undefined
-                        }
-                        id={song.id}
-                      />
-                    )}
-                  </div>
-                </div>
-
-                {/* Artist */}
-                <div className="col-span-2 flex items-center">
-                  <Link
-                    to={`/artist/${song.artists?.[0]?.artist?.name || ""}`}
-                    className="text-gray-900 hover:text-Snowlight-pink"
-                  >
-                    {song.artists
-                      ?.map(
-                        (a: { artist?: { name?: string } }) => a.artist?.name
-                      )
-                      .join(", ") || "No Artist"}
-                  </Link>
-                </div>
-
-                {/* Actions */}
-                <div className="col-span-3 flex items-center space-x-2">
-                  <button className="Snowlight-button-secondary text-xs px-2 py-1">
-                    곡정보
-                  </button>
-                  <button
-                    className="p-1 hover:bg-gray-200 rounded"
-                    title="듣기"
-                    onClick={() => handlePlay(song)}
-                  >
-                    <Play className="w-4 h-4 text-Snowlight-pink" />
-                  </button>
-                  <button className="text-xs text-gray-600 hover:text-Snowlight-pink">
-                    재생목록에 추가
-                  </button>
-                  <button className="text-xs text-gray-600 hover:text-Snowlight-pink">
-                    내 앨범에 담기
-                  </button>
-                  <button className="text-xs text-Snowlight-pink hover:text-pink-600">
-                    flac 다운로드
-                  </button>
-                  <button className="text-xs text-gray-600 hover:text-Snowlight-pink">
-                    기타 기능
-                  </button>
-                </div>
-              </div>
-            ))}
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden min-w-max">
+            <table className="min-w-full divide-y divide-gray-200 w-full">
+              <thead className="bg-gray-50 w-full">
+                <tr className="w-full">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 w-16"></th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 w-16">
+                    번호
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500">
+                    곡
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500">
+                    아티스트
+                  </th>
+                  <th className="px-4 py-3  text-xs font-medium text-gray-500 text-end">
+                    액션
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-100 w-full">
+                {songs?.length > 0 ? (
+                  songs.map((song: Song, idx: number) => (
+                    <tr
+                      key={song.id}
+                      className="hover:bg-gray-50 transition-colors w-full"
+                    >
+                      {/* Track Number */}
+                      <td className="px-4 py-3 align-top text-center">
+                        <label className="flex items-center justify-center mb-1">
+                          <span className="sr-only">곡 선택</span>
+                          <input
+                            type="checkbox"
+                            checked={selectedTracks.includes(song.id)}
+                            onChange={() => handleSelectTrack(song.id)}
+                            className="rounded border-gray-300 text-Snowlight-pink focus:ring-Snowlight-pink"
+                          />
+                        </label>
+                      </td>
+                      <td className="px-4 py-3 align-top text-center">
+                        <div className="text-lg font-bold">{idx + 1}</div>
+                      </td>
+                      {/* Track Info */}
+                      <td className="px-4 py-3 align-top">
+                        <h3 className="font-medium text-gray-900 hover:text-Snowlight-pink cursor-pointer">
+                          {song.title}
+                        </h3>
+                        <p className="text-sm text-gray-600">{song.duration}</p>
+                        {isAudioPlayerVisible && (
+                          <AudioPlayer userId={user?.id} />
+                        )}
+                      </td>
+                      {/* Artist */}
+                      <td className="px-4 py-3 align-top">
+                        <Link
+                          to={`/artist/${
+                            song.artists?.[0]?.artist?.name || ""
+                          }`}
+                          className="text-gray-900 hover:text-Snowlight-pink"
+                        >
+                          {song.artists
+                            ?.map(
+                              (a: { artist?: { name?: string } }) =>
+                                a.artist?.name
+                            )
+                            .join(", ") || "No Artist"}
+                        </Link>
+                      </td>
+                      {/* Actions */}
+                      <td className="px-4 py-3 align-top text-end">
+                        <div className="flex justify-end gap-2 ">
+                          <button className="Snowlight-button-secondary text-xs px-2 py-1">
+                            곡정보
+                          </button>
+                          <button
+                            className="p-1 hover:bg-gray-200 rounded"
+                            title="듣기"
+                            onClick={() => handlePlay(song)}
+                          >
+                            <Play className="w-4 h-4 text-Snowlight-pink" />
+                          </button>
+                          <button className="text-xs text-gray-600 hover:text-Snowlight-pink">
+                            재생목록
+                          </button>
+                          <button className="text-xs text-gray-600 hover:text-Snowlight-pink">
+                            내앨범
+                          </button>
+                          <button className="text-xs text-Snowlight-pink hover:text-pink-600">
+                            다운로드
+                          </button>
+                          <button className="text-xs text-gray-600 hover:text-Snowlight-pink">
+                            기타
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={5} className="text-center py-8 text-gray-500">
+                      앨범에 등록된 곡이 없습니다.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
 
           {totalSongs > pageSize && (

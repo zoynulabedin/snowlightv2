@@ -10,6 +10,7 @@ import {
   Users,
 } from "lucide-react";
 import { useLanguage } from "~/contexts/LanguageContext";
+import Layout from "../components/Layout";
 
 interface Mission {
   id: string;
@@ -244,7 +245,7 @@ export default function HeartStationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <Layout>
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-8">
@@ -585,6 +586,6 @@ export default function HeartStationPage() {
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }

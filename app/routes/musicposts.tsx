@@ -9,6 +9,7 @@ import {
   Share2,
 } from "lucide-react";
 import { useLanguage } from "~/contexts/LanguageContext";
+import Layout from "../components/Layout";
 
 export const meta: MetaFunction = () => {
   return [
@@ -96,7 +97,7 @@ export default function MusicPosts() {
   const regularPosts = posts.filter((post) => !post.featured);
 
   return (
-    <div className="space-y-8">
+    <Layout>
       {/* Header */}
       <div className="bg-gradient-to-r from-Snowlight-pink to-purple-600 rounded-lg p-8 text-white">
         <h1 className="text-3xl font-bold mb-2">뮤직포스트</h1>
@@ -252,6 +253,6 @@ export default function MusicPosts() {
           더 많은 포스트 보기
         </button>
       </div>
-    </div>
+    </Layout>
   );
 }

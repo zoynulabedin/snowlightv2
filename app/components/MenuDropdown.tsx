@@ -122,7 +122,7 @@ export default function MenuDropdown({
             </button>
             <button
               className={`flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap ${
-                loadingSongId === song.id && loadingType === "favorite"
+                loadingSongId === song?.id && loadingType === "favorite"
                   ? "cursor-wait"
                   : ""
               }`}
@@ -130,7 +130,9 @@ export default function MenuDropdown({
                 onToggleFavorite(song);
                 setOpen(false);
               }}
-              disabled={loadingSongId === song.id && loadingType === "favorite"}
+              disabled={
+                loadingSongId === song?.id && loadingType === "favorite"
+              }
             >
               you like
             </button>

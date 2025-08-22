@@ -25,17 +25,17 @@ export default function SidebarMenu() {
     },
     {
       label: "최신 음악",
-      link: "/newest",
+      link: "/latestmusic",
       icon: <Music2 className="w-4 h-4 mr-2" />,
     },
     {
       label: "뮤직포유",
-      link: "/music4u",
+      link: "/musicforyou",
       icon: <Disc className="w-4 h-4 mr-2" />,
     },
     {
       label: "장르",
-      link: "/genre",
+      link: "/genres",
       icon: <Guitar className="w-4 h-4 mr-2" />,
     },
     {
@@ -47,9 +47,9 @@ export default function SidebarMenu() {
       label: "테마",
       icon: <GalleryVerticalEnd className="w-4 h-4 mr-2" />,
       submenu: [
-        { label: "뮤직 PD 앨범", link: "/pd-albums" },
-        { label: "추천 앨범 리뷰", link: "/album-reviews" },
-        { label: "연도별", link: "/by-year" },
+        { label: "뮤직 PD 앨범", link: "/musicpdalbum" },
+        { label: "추천 앨범 리뷰", link: "/featuredalbumreviews" },
+        { label: "연도별", link: "/yearly" },
       ],
     },
     {
@@ -57,8 +57,8 @@ export default function SidebarMenu() {
       badge: "신규",
       icon: <Heart className="w-4 h-4 mr-2" />,
       submenu: [
-        { label: "즐겨찾기", link: "/favorite" },
-        { label: "하트 충전소", link: "/heart-station" },
+        { label: "즐겨찾기", link: "/favorites" },
+        { label: "하트 충전소", link: "/heartfillingstation" },
       ],
     },
     {
@@ -74,15 +74,15 @@ export default function SidebarMenu() {
     {
       label: "스노우라이트TV",
       icon: <Tv className="w-4 h-4 mr-2" />,
-      submenu: [{ label: "스페셜 라이브", link: "/Snowlighttv/special-live" }],
+      submenu: [{ label: "스페셜 라이브", link: "/speciallive" }],
     },
     {
       label: "내 음악",
       icon: <Music2 className="w-4 h-4 mr-2" />,
       submenu: [
-        { label: "최근 들은 곡", link: "/my/recent" },
-        { label: "가장 많이 들은 곡", link: "/my/most" },
-        { label: "구매한 음악", link: "/my/purchased" },
+        { label: "최근 들은 곡", link: "/recentlylistenedtosongs" },
+        { label: "가장 많이 들은 곡", link: "/mostlistenedtosongs" },
+        { label: "구매한 음악", link: "/purchasedmusic" },
       ],
     },
   ];

@@ -109,7 +109,7 @@ interface PdAlbum {
   id: string;
   title: string;
   curator: string;
-  coverUrl: string;
+  coverImage: string;
   trackCount: number;
   playCount: number;
   rating: number;
@@ -173,7 +173,7 @@ export async function loader({ request }: { request: Request }) {
       getChartSongs(),
       getLatestVideos(),
       getFeaturedArtists(),
-      getFeaturedSongs(),
+      getSidebarAlbums(),
       getSidebarAlbums(),
       findPlaylistItemsByUserId(user?.id ?? ""),
       findFavoritesByUserId(user?.id ?? ""),
@@ -273,7 +273,7 @@ export default function HomePage() {
   const data = useLoaderData<LoaderData>();
   const { playTrack, addToPlaylist, isAudioPlayerVisible } = usePlayer();
   const revalidator = useRevalidator();
-  console.log(data.playlists);
+  console.log(data.pdAlbums);
   // Use data from loader
   const latestAlbums = Array.isArray(data.latestAlbums)
     ? data.latestAlbums.filter(Boolean)
@@ -313,7 +313,7 @@ export default function HomePage() {
     // data.playlistItems is an array of playlist items, each with a .song property
     if (!Array.isArray(data.playlistItems)) return false;
     return data.playlistItems.some(
-      (item: any) => item.song && item.song.id === songId
+      (item: any) => item.song && item.song?.id === songId
     );
   };
   const isSongFavorite = (songId: string | number) => {
@@ -327,13 +327,13 @@ export default function HomePage() {
     song: (typeof chartSongs)[number] | null
   ) => {
     if (!song) return;
-    setLoadingSongId(song.id);
+    setLoadingSongId(song?.id);
     setLoadingType("playlist");
     await fetcher.submit(
       {
         actionType: "togglePlaylist",
         userId,
-        songId: song.id,
+        songId: song?.id,
       },
       { method: "post" }
     );
@@ -346,13 +346,13 @@ export default function HomePage() {
   // Toggle favorite
   const handleToggleFavorite = async (song: TrackWithCover) => {
     if (!song) return;
-    setLoadingSongId(song.id);
+    setLoadingSongId(song?.id);
     setLoadingType("favorite");
     await fetcher.submit(
       {
         actionType: "toggleFavorite",
         userId,
-        songId: song.id,
+        songId: song?.id,
       },
       { method: "post" }
     );
@@ -367,7 +367,7 @@ export default function HomePage() {
     fetcher.submit(
       {
         actionType: "download",
-        songId: song.id,
+        songId: song?.id,
       },
       { method: "post" }
     );
@@ -379,7 +379,7 @@ export default function HomePage() {
       {
         actionType: "More",
         userId,
-        songId: song.id,
+        songId: song?.id,
       },
       { method: "post" }
     );
@@ -412,7 +412,7 @@ export default function HomePage() {
         if (item.song) {
           // Map item.song to your Track type if needed
           addToPlaylist({
-            id: item.song.id,
+            id: item.song?.id,
             title: item.song.title,
             artist: item.song.artist,
             album: item.song.album,
@@ -466,7 +466,7 @@ export default function HomePage() {
                   {filteredChartSongs.map(
                     (song) =>
                       song && (
-                        <SwiperSlide key={song.id}>
+                        <SwiperSlide key={song?.id}>
                           <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow group relative  min-w-[150px] min-h-[250px] max-2xl:min-h-[250px]">
                             <div className="relative">
                               <div className=" aspect-[4/3] relative w-full overflow-hidden">
@@ -498,7 +498,7 @@ export default function HomePage() {
                             <div className="p-3 flex justify-between items-start">
                               <div>
                                 <Link
-                                  to={`/song/${song.id}`}
+                                  to={`/song/${song?.id}`}
                                   className="text-sm font-medium text-gray-900 hover:text-pink-600 w-32 hover:underline truncate block"
                                 >
                                   {song.title}
@@ -514,8 +514,8 @@ export default function HomePage() {
                               <div className="z-10">
                                 <MenuDropdown
                                   song={song}
-                                  isFavorite={isSongFavorite(song.id)}
-                                  isPlaylist={isSongInPlaylist(song.id)}
+                                  isFavorite={isSongFavorite(song?.id)}
+                                  isPlaylist={isSongInPlaylist(song?.id)}
                                   loadingSongId={loadingSongId}
                                   loadingType={loadingType}
                                   onToggleFavorite={handleToggleFavorite}
@@ -558,7 +558,7 @@ overflow-x-auto"
                 {filteredChartSongs.filter(Boolean).map((song, idx) =>
                   song ? (
                     <li
-                      key={song.id || idx}
+                      key={song?.id || idx}
                       className="flex items-center hover:bg-gray-50 px-4 py-4 justify-between"
                     >
                       <div className="w-12 text-sm font-medium text-gray-900">
@@ -576,8 +576,8 @@ overflow-x-auto"
                         />
                         <div className="truncate whitespace-pre-wrap">
                           <Link
-                            to={`/song/${song.id}`}
-                            className="text-sm truncate font-medium text-gray-900 hover:text-pink-600 hover:underline"
+                            to={`/song/${song?.id}`}
+                            className="text-sm w-32 truncate font-medium text-gray-900 hover:text-pink-600 hover:underline"
                           >
                             {song.title}
                           </Link>
@@ -600,26 +600,26 @@ overflow-x-auto"
                       <div className="w-32 flex items-center space-x-2">
                         <button
                           className={`text-gray-400 hover:text-pink-500 ${
-                            loadingSongId === song.id &&
+                            loadingSongId === song?.id &&
                             loadingType === "playlist"
                               ? "cursor-wait"
                               : ""
                           }`}
                           title={
-                            isSongInPlaylist(song.id)
+                            isSongInPlaylist(song?.id)
                               ? "플레이리스트에서 제거"
                               : "플레이리스트에 추가"
                           }
                           onClick={() => handleTogglePlaylist(song)}
                           disabled={
-                            loadingSongId === song.id &&
+                            loadingSongId === song?.id &&
                             loadingType === "playlist"
                           }
                         >
-                          {loadingSongId === song.id &&
+                          {loadingSongId === song?.id &&
                           loadingType === "playlist" ? (
                             <Loader2 className="w-4 h-4 animate-spin" />
-                          ) : isSongInPlaylist(song.id) ? (
+                          ) : isSongInPlaylist(song?.id) ? (
                             <Check className="w-4 h-4 text-green-500" />
                           ) : (
                             <Plus className="w-4 h-4" />
@@ -699,26 +699,26 @@ overflow-x-auto"
                         />
                         <button
                           className={`text-gray-400 hover:text-red-500 ${
-                            loadingSongId === song.id &&
+                            loadingSongId === song?.id &&
                             loadingType === "favorite"
                               ? "cursor-wait"
                               : ""
                           }`}
                           title={
-                            isSongFavorite(song.id)
+                            isSongFavorite(song?.id)
                               ? "즐겨찾기에서 제거"
                               : "즐겨찾기 추가"
                           }
                           onClick={() => handleToggleFavorite(song)}
                           disabled={
-                            loadingSongId === song.id &&
+                            loadingSongId === song?.id &&
                             loadingType === "favorite"
                           }
                         >
-                          {loadingSongId === song.id &&
+                          {loadingSongId === song?.id &&
                           loadingType === "favorite" ? (
                             <Loader2 className="w-4 h-4 animate-spin" />
-                          ) : isSongFavorite(song.id) ? (
+                          ) : isSongFavorite(song?.id) ? (
                             <HeartFilled className="w-4 h-4 text-red-500 fill-red-500" />
                           ) : (
                             <Heart className="w-4 h-4" />
@@ -726,8 +726,8 @@ overflow-x-auto"
                         </button>
                         <MenuDropdown
                           song={song}
-                          isFavorite={isSongFavorite(song.id)}
-                          isPlaylist={isSongInPlaylist(song.id)}
+                          isFavorite={isSongFavorite(song?.id)}
+                          isPlaylist={isSongInPlaylist(song?.id)}
                           loadingSongId={loadingSongId}
                           loadingType={loadingType}
                           onToggleFavorite={handleToggleFavorite}
@@ -746,7 +746,7 @@ overflow-x-auto"
                     onClick={() => {
                       // 전체 재생: play all filtered chart songs not already in playlist
                       const notInPlaylist = filteredChartSongs.filter(
-                        (song) => song && !isSongInPlaylist(song.id)
+                        (song) => song && !isSongInPlaylist(song?.id)
                       );
                       if (notInPlaylist.length > 0) {
                         // Ensure coverImage is never null for playTrack
@@ -772,7 +772,7 @@ overflow-x-auto"
                     onClick={() => {
                       // 전체 플레이리스트에 추가 (skip songs already in playlist)
                       filteredChartSongs.forEach((song) => {
-                        if (!isSongInPlaylist(song.id)) {
+                        if (!isSongInPlaylist(song?.id)) {
                           addToPlaylist(song);
                         }
                       });
@@ -814,41 +814,41 @@ overflow-x-auto "
 
             <div className="bg-white border border-gray-200 rounded-lg ">
               <ul className="divide-y divide-gray-200 ">
-                {filteredChartSongs.filter(Boolean).map((song, idx) =>
-                  song ? (
+                {pdAlbums.filter(Boolean).map((album, idx) =>
+                  album ? (
                     <li
-                      key={song.id || idx}
+                      key={album?.id || idx}
                       className="flex items-center py-4 hover:bg-gray-50"
                     >
                       <div className="flex- ml-4">
                         <img
                           src={
-                            song.coverImage ||
-                            song.album?.coverImage ||
+                            album.coverImage ||
+                            album?.coverImage ||
                             "https://placehold.co/50x50"
                           }
-                          alt={song.title}
+                          alt={album.title}
                           className="w-16 h-16 rounded object-cover"
                         />
                       </div>
                       <div className="flex-1 min-w-0 px-4">
                         <Link
-                          to={`/song/${song.id}`}
+                          to={`/album/${album?.id}`}
                           className="block text-base font-medium text-gray-900 hover:text-pink-600 hover:underline truncate"
                         >
-                          {song.title}
+                          {album.title}
                         </Link>
 
                         <span className="text-xs text-gray-500 mb-2">
-                          {song.album?.title || ""}
+                          {album?.title || ""}
                         </span>
                       </div>
                       <div className="flex flex-col items-end mr-4 min-w-[120px]">
                         <div className="flex items-center space-x-2">
                           <MenuDropdown
-                            song={song}
-                            isFavorite={isSongFavorite(song.id)}
-                            isPlaylist={isSongInPlaylist(song.id)}
+                            album={album}
+                            isFavorite={isSongFavorite(album?.id)}
+                            isPlaylist={isSongInPlaylist(album?.id)}
                             loadingSongId={loadingSongId}
                             loadingType={loadingType}
                             onToggleFavorite={handleToggleFavorite}
@@ -889,9 +889,9 @@ overflow-x-auto "
                     {latestVideos?.filter(Boolean).map(
                       (video) =>
                         video.videoUrl && (
-                          <SwiperSlide key={video.id}>
+                          <SwiperSlide key={video?.id}>
                             <div
-                              key={video.id}
+                              key={video?.id}
                               className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
                             >
                               <div className="relative">
@@ -976,9 +976,9 @@ overflow-x-auto "
                 {musicPosts?.filter(Boolean).map(
                   (post) =>
                     post && (
-                      <SwiperSlide key={post.id}>
+                      <SwiperSlide key={post?.id}>
                         <div
-                          key={post.id}
+                          key={post?.id}
                           className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow"
                         >
                           <h3 className="text-sm font-medium text-gray-900 mb-2">
@@ -1036,30 +1036,44 @@ overflow-x-auto "
                 {artistStories.filter(Boolean).map(
                   (story) =>
                     story && (
-                      <SwiperSlide key={story.id}>
+                      <SwiperSlide key={story?.id}>
                         <div
-                          key={story.id}
-                          className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow"
+                          key={story?.id}
+                          className="bg-white border border-gray-200 rounded-lg  hover:shadow-lg transition-shadow min-h-60 overflow-hidden"
                         >
-                          <div className="flex items-center justify-between mb-2">
-                            <h3 className="text-sm font-medium text-gray-900">
-                              {story.artist}
-                            </h3>
-                            <span className="text-xs text-gray-500">
-                              {story.timestamp}
-                            </span>
+                          <div className=" aspect-[4/3] relative w-full overflow-hidden">
+                            <img
+                              src={
+                                story?.coverImage ||
+                                "https://placeholder.co/500x500"
+                              }
+                              alt={story.title}
+                              className={`w-full h-full object-cover transition-all duration-300 `}
+                            />
                           </div>
-                          <p className="text-sm text-gray-600 mb-3">
-                            {story.content}
-                          </p>
-                          <div className="flex items-center space-x-4 text-xs text-gray-500">
-                            <div className="flex items-center space-x-1">
-                              <MessageCircle className="w-3 h-3" />
-                              <span>{story.comments}</span>
+                          <div className="p-4">
+                            <div className="flex items-start flex-col  justify-between mb-2">
+                              <Link to={`/artist/${story.artist}`}>
+                                <h3 className="text-sm font-medium text-gray-900 w-full truncate">
+                                  {story.artist}
+                                </h3>
+                              </Link>
+                              <span className="text-xs text-gray-500">
+                                {story.timestamp}
+                              </span>
                             </div>
-                            <div className="flex items-center space-x-1">
-                              <Eye className="w-3 h-3" />
-                              <span>{story.views}</span>
+                            <p className="text-sm w-full truncate text-gray-600 mb-3">
+                              {story.content}
+                            </p>
+                            <div className="flex items-center space-x-4 text-xs text-gray-500">
+                              <div className="flex items-center space-x-1">
+                                <MessageCircle className="w-3 h-3" />
+                                <span>{story.comments}</span>
+                              </div>
+                              <div className="flex items-center space-x-1">
+                                <Eye className="w-3 h-3" />
+                                <span>{story.views}</span>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -1094,15 +1108,18 @@ overflow-x-auto "
                 {pdAlbums.filter(Boolean).map(
                   (album) =>
                     album && (
-                      <SwiperSlide key={album.id}>
+                      <SwiperSlide key={album?.id}>
                         <Link
                           to={`/album/${album?.id}`}
-                          key={album.id}
+                          key={album?.id}
                           className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
                         >
                           <div className=" aspect-[4/3] relative w-full overflow-hidden">
                             <img
-                              src={album.imageUrl}
+                              src={
+                                album.coverImage ||
+                                "https://placeholder.co/500x500"
+                              }
                               alt={album.title}
                               className={`w-full h-full object-cover transition-all duration-300 `}
                             />

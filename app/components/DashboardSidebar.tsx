@@ -44,12 +44,12 @@ export default function DashboardSidebar({
       label: "Video Management",
     },
     {
-      to: "/dashboard/album",
+      to: "/dashboard/albums",
       icon: Disc,
       label: "Album Management",
     },
     {
-      to: "/dashboard/artist",
+      to: "/dashboard/artists",
       icon: Users,
       label: "Artist Management",
     },

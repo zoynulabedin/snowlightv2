@@ -9,6 +9,7 @@ import {
   Search,
 } from "lucide-react";
 import { useLanguage } from "~/contexts/LanguageContext";
+import Layout from "../components/Layout";
 
 interface Review {
   id: string;
@@ -185,7 +186,7 @@ export default function ReviewsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <Layout>
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
@@ -372,6 +373,6 @@ export default function ReviewsPage() {
           </div>
         )}
       </div>
-    </div>
+    </Layout>
   );
 }

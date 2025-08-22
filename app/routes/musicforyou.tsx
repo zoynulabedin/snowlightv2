@@ -12,6 +12,7 @@ import {
   Clock,
 } from "lucide-react";
 import { usePlayer } from "~/contexts/PlayerContext";
+import Layout from "../components/Layout";
 // import mockTracks from the correct location or define it here if needed
 // Define mockTracks locally since '~/mock/mockTracks' cannot be found
 const mockTracks = [
@@ -135,7 +136,7 @@ export default function Music4U() {
   ];
 
   return (
-    <div className="space-y-8">
+    <Layout>
       {/* Header */}
       <div className="bg-gradient-to-r from-Snowlight-pink to-purple-600 rounded-lg p-8 text-white">
         <h1 className="text-3xl font-bold mb-2">뮤직4U</h1>
@@ -345,6 +346,6 @@ export default function Music4U() {
           </div>
         </div>
       </section>
-    </div>
+    </Layout>
   );
 }

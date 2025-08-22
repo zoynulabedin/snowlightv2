@@ -12,6 +12,7 @@ import {
   Plus,
 } from "lucide-react";
 import { usePlayer } from "~/contexts/PlayerContext";
+import Layout from "../components/Layout";
 
 // Local mockTracks array for demonstration
 const mockTracks = [
@@ -168,7 +169,7 @@ export default function ArtistDetail() {
   ];
 
   return (
-    <div className="space-y-8">
+    <Layout>
       {/* Artist Header */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
         <div className="flex flex-col lg:flex-row gap-8">
@@ -446,6 +447,6 @@ export default function ArtistDetail() {
           </div>
         </div>
       )}
-    </div>
+    </Layout>
   );
 }

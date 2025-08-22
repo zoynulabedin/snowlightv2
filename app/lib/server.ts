@@ -1,5 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import type { PlaylistItem, Song } from "@prisma/client";
+import type { ActionFunctionArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { deleteFromCloudinary, getPublicIdFromUrl } from "./cloudinary";
 
 const prisma = new PrismaClient();
 
@@ -202,6 +205,7 @@ export async function getFeaturedArtists() {
         artist.bio ||
         `${artist.stageName || artist.name}의 특별한 이야기를 만나보세요.`,
       timestamp: `${index + 1}시간 전`,
+      coverImage: artist.coverImage,
       comments: Math.floor(Math.random() * 50) + 10,
       views: Math.floor(Math.random() * 1000) + 100,
     }));
@@ -295,7 +299,6 @@ export async function getSidebarAlbums() {
 // Add song to playlist
 export async function addSongToPlaylist({
   userId,
-  playlistId,
   songId,
 }: {
   userId: string;
@@ -305,13 +308,13 @@ export async function addSongToPlaylist({
   try {
     // Check if already exists
     const exists = await prisma.playlistItem.findFirst({
-      where: { playlistId, songId },
+      where: { userId, songId },
     });
     if (exists) return { error: "이미 플레이리스트에 있습니다." };
     // Add to playlist
     await prisma.playlistItem.create({
       data: {
-        playlistId,
+        userId,
         songId,
         position: 0, // You may want to set position properly
       },
@@ -326,7 +329,6 @@ export async function addSongToPlaylist({
 // Toggle song in playlist (add/remove)
 export async function toggleSongInPlaylist({
   userId,
-  playlistId,
   songId,
 }: {
   userId: string;
@@ -335,14 +337,14 @@ export async function toggleSongInPlaylist({
 }) {
   try {
     const exists = await prisma.playlistItem.findFirst({
-      where: { playlistId, songId },
+      where: { userId, songId },
     });
     if (exists) {
       await prisma.playlistItem.delete({ where: { id: exists.id } });
       return { removed: true };
     } else {
       await prisma.playlistItem.create({
-        data: { playlistId, songId, userId, position: 0 },
+        data: { songId, userId, position: 0 },
       });
       return { added: true };
     }
@@ -427,13 +429,7 @@ export async function findFavoritesByUserId(userId: string) {
 }
 
 // More actions placeholder (extend as needed)
-export async function songMoreActions({
-  songId,
-  userId,
-}: {
-  songId: string;
-  userId: string;
-}) {
+export async function songMoreActions() {
   // Implement custom logic for 'more' actions
   return { success: true, message: "더보기 기능은 곧 제공됩니다." };
 }
@@ -509,5 +505,291 @@ export async function getAllPlaylistItems(): Promise<
   } catch (error) {
     console.error("Error fetching all playlists:", error);
     return [];
+  }
+}
+
+// Create a new video
+export async function createVideo({
+  title,
+  description,
+  videoUrl,
+  thumbnailUrl,
+  genre,
+  artistId,
+  songId,
+}: {
+  title: string;
+  description?: string;
+  videoUrl: string;
+  thumbnailUrl?: string;
+  genre?: string;
+  artistId: string;
+  songId: string;
+}) {
+  try {
+    const video = await prisma.video.create({
+      data: {
+        title,
+        description,
+        videoUrl,
+        thumbnailUrl,
+        genre,
+        songId,
+        artists: {
+          create: [
+            {
+              artist: {
+                connect: { id: artistId },
+              },
+            },
+          ],
+        },
+      },
+    });
+    return { success: true, video };
+  } catch (error) {
+    console.error("Error creating video:", error);
+    return { error: "Failed to create video" };
+  }
+}
+
+// Update an existing video
+export async function updateVideo({
+  id,
+  ...data
+}: {
+  id: string;
+  title?: string;
+  description?: string;
+  videoUrl?: string;
+  thumbnailUrl?: string;
+  genre?: string;
+  artistId?: string;
+  songId?: string;
+}) {
+  try {
+    // Prepare update data without artistId
+    const updateData: any = {};
+
+    if (data.title) updateData.title = data.title;
+    if (data.description !== undefined)
+      updateData.description = data.description;
+    if (data.videoUrl !== undefined) updateData.videoUrl = data.videoUrl;
+    if (data.thumbnailUrl !== undefined)
+      updateData.thumbnailUrl = data.thumbnailUrl;
+    if (data.genre !== undefined) updateData.genre = data.genre;
+
+    // Handle song relationship
+    if (data.songId !== undefined) {
+      updateData.song = data.songId
+        ? { connect: { id: data.songId } }
+        : { disconnect: true };
+    }
+
+    // Handle artist relationship through VideoArtist
+    if (data.artistId) {
+      updateData.artists = {
+        deleteMany: {}, // Remove existing artist relationships
+        create: [
+          {
+            artist: {
+              connect: { id: data.artistId },
+            },
+          },
+        ],
+      };
+    }
+
+    const video = await prisma.video.update({
+      where: { id },
+      data: updateData,
+      include: {
+        artists: {
+          include: {
+            artist: true,
+          },
+        },
+        song: true,
+      },
+    });
+
+    return { video };
+  } catch (error) {
+    console.error("Error updating video:", error);
+    return { error: "Failed to update video" };
+  }
+}
+
+// Delete a video
+export async function deleteVideo(id: string) {
+  try {
+    const video = await prisma.video.findUnique({
+      where: { id },
+      select: { videoUrl: true, thumbnailUrl: true },
+    });
+
+    if (!video) {
+      return { error: "Video not found" };
+    }
+
+    await prisma.video.delete({ where: { id } });
+
+    return {
+      success: true,
+      deletedUrls: {
+        video: video.videoUrl,
+        thumbnail: video.thumbnailUrl,
+      },
+    };
+  } catch (error) {
+    console.error("Error deleting video:", error);
+    return { error: "Failed to delete video" };
+  }
+}
+
+// Toggle video publish status
+export async function toggleVideoPublish(id: string) {
+  try {
+    const video = await prisma.video.findUnique({
+      where: { id },
+      select: { isPublished: true },
+    });
+
+    if (!video) {
+      return { error: "Video not found" };
+    }
+
+    const updatedVideo = await prisma.video.update({
+      where: { id },
+      data: { isPublished: !video.isPublished },
+    });
+
+    return { success: true, isPublished: updatedVideo.isPublished };
+  } catch (error) {
+    console.error("Error toggling video publish status:", error);
+    return { error: "Failed to update video status" };
+  }
+}
+
+// Define ActionResponse type at the top of the file or import it if available
+type ActionResponse = {
+  success?: string;
+  error?: string;
+};
+
+export async function action({
+  request,
+}: ActionFunctionArgs): Promise<Response> {
+  const formData = await request.formData();
+  const intent = formData.get("intent") as string;
+  const videoId = formData.get("videoId") as string;
+
+  if (!videoId) {
+    return json<ActionResponse>(
+      { error: "Video ID is required" },
+      { status: 400 }
+    );
+  }
+
+  switch (intent) {
+    case "create": {
+      const title = formData.get("title") as string;
+      const artistId = formData.get("artistId") as string;
+      const genre = (formData.get("genre") as string) || undefined;
+      const description = (formData.get("description") as string) || undefined;
+      const videoUrl = formData.get("videoUrl") as string;
+      const thumbnailUrl = formData.get("thumbnailUrl") as string;
+      const songId = formData.get("songId") as string;
+
+      if (!title || !artistId || !videoUrl || !songId) {
+        return json<ActionResponse>(
+          { error: "Required fields are missing" },
+          { status: 400 }
+        );
+      }
+
+      const result = await createVideo({
+        title,
+        description,
+        videoUrl,
+        thumbnailUrl,
+        genre,
+        artistId,
+        songId,
+      });
+
+      if ("error" in result) {
+        return json<ActionResponse>({ error: result.error }, { status: 500 });
+      }
+
+      return json<ActionResponse>({ success: "Video created successfully" });
+    }
+
+    case "edit": {
+      const title = formData.get("title") as string;
+      const artistId = formData.get("artistId") as string;
+      const songId = (formData.get("songId") as string) || undefined;
+      const genre = (formData.get("genre") as string) || undefined;
+      const description = (formData.get("description") as string) || undefined;
+      const videoUrl = formData.get("videoUrl") as string;
+      const thumbnailUrl = formData.get("thumbnailUrl") as string;
+
+      const result = await updateVideo({
+        id: videoId,
+        title,
+        description,
+        videoUrl,
+        thumbnailUrl,
+        genre,
+        artistId,
+        songId,
+      });
+
+      if ("error" in result) {
+        return json<ActionResponse>({ error: result.error }, { status: 500 });
+      }
+
+      return json<ActionResponse>({ success: "Video updated successfully" });
+    }
+
+    case "toggle-publish": {
+      const result = await toggleVideoPublish(videoId);
+
+      if ("error" in result) {
+        return json<ActionResponse>({ error: result.error }, { status: 404 });
+      }
+
+      return json<ActionResponse>({
+        success: "Video status updated successfully",
+      });
+    }
+
+    case "delete": {
+      const result = await deleteVideo(videoId);
+
+      if ("error" in result) {
+        return json<ActionResponse>({ error: result.error }, { status: 404 });
+      }
+
+      // Delete files from Cloudinary if URLs exist
+      if (result.deletedUrls.video) {
+        const videoId = getPublicIdFromUrl(result.deletedUrls.video);
+        if (videoId) {
+          await deleteFromCloudinary(videoId);
+        }
+      }
+
+      if (result.deletedUrls.thumbnail) {
+        const thumbnailId = getPublicIdFromUrl(result.deletedUrls.thumbnail);
+        if (thumbnailId) {
+          await deleteFromCloudinary(thumbnailId);
+        }
+      }
+
+      return json<ActionResponse>({ success: "Video deleted successfully" });
+    }
+
+    default:
+      return json<ActionResponse>({ error: "Invalid intent" }, { status: 400 });
   }
 }

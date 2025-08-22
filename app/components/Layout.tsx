@@ -230,12 +230,12 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </div>
       {/* Main Content with Sidebar */}
-      <div className=" w-full mx-auto  py-4 z-[9999]">
+      <div className=" w-full mx-auto   z-[9999]">
         <div className="flex w-full">
           {/* Left Sidebar */}
-          <div className="z-[9999] sticky max-sm:fixed max-sm:min-h-screen top-[70px] max-sm:top:70px h-[calc(100vh-70px)] border-r-2 max-sm:bottom-0 max-sm:top-auto border-r-gray-200 w-auto flex-shrink-0 bg-slate-200">
+          <div className="z-[9999] sticky max-sm:fixed max-sm:min-h-screen top-[70px] max-sm:top:70px h-[calc(100vh-70px)] border-r-2 max-sm:bottom-0 max-sm:top-auto border-r-slate-300 w-auto flex-shrink-0 bg-slate-200 ">
             <button
-              className={`absolute top-4 max-sm:bottom-10 max-sm:top-auto max-sm:right-0 max-sm:fixed max-sm:left-auto text-Snowlight-red z-[9999] left-[100%] py-5 border border-l-0 bg-slate-200 transition-all duration-300 hover:w-[4.5rem] w-8 rounded-tr-md rounded-br-md group md:block sm:block  cursor-pointer max-sm:rounded-tl-md max-sm:rounded-bl-md max-sm:rounded-tr-none max-sm:rounded-br-none`}
+              className={`absolute top-4 max-sm:bottom-10 max-sm:top-auto max-sm:right-0 max-sm:fixed max-sm:left-auto text-Snowlight-red z-[9999] left-[100%] py-5 border-2 border-l-0 bg-slate-200 transition-all duration-300 hover:w-[4.5rem] w-8 rounded-tr-md rounded-br-md group md:block sm:block  cursor-pointer max-sm:rounded-tl-md max-sm:rounded-bl-md max-sm:rounded-tr-none max-sm:rounded-br-none `}
               id="gnbHandleBtn"
               onClick={() => setSidebarOpen((open) => !open)}
               onKeyDown={(e) => {
